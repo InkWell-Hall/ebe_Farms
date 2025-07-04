@@ -1,10 +1,11 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router";
+import Home from "./pages/Home";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello World</div>,
+    element: <Home />,
   },
 ]);
 
