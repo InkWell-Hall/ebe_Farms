@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Search, Filter, ShoppingCart, Star, MapPin, Clock, Truck } from "lucide-react";
 import Navbar from "../components/Navbar";
+import Support from "../components/Support";
 
 const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -8,12 +9,13 @@ const Products = () => {
   const [selectedLocation, setSelectedLocation] = useState("all");
   const [sortBy, setSortBy] = useState("newest");
   const [cartItems, setCartItems] = useState([]);
+  const [fundProject, setFundProject] = useState(null);
 
   // Sample products data
   const products = [
     {
-     id:1,
-      name: "Fresh Organic Tomatoes",
+      id: 1,
+      name: "Organic Tomatoes",
       category: "vegetables",
       price: 45.00,
       unit: "per basket",
@@ -28,7 +30,7 @@ const Products = () => {
     },
     {
       id: 2,
-      name: "Sweet Corn",
+      name: "Corn",
       category: "vegetables",
       price: 25.00,
       unit: "per dozen",
@@ -73,7 +75,7 @@ const Products = () => {
     },
     {
       id: 5,
-      name: "Fresh Pineapples",
+      name: "Pineapples",
       category: "fruits",
       price: 20.00,
       unit: "per piece",
@@ -129,10 +131,7 @@ const Products = () => {
     return matchesSearch && matchesCategory && matchesLocation;
   });
 
-  const addToCart = (product) => {
-    setCartItems([...cartItems, product]);
-  };
-
+  
   const getFreshnessColor = (freshness) => {
     if (freshness.includes("today")) return "text-green-600";
     if (freshness.includes("yesterday")) return "text-yellow-600";
@@ -141,82 +140,99 @@ const Products = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <div className="sticky top-0 z-50">
+        <Navbar />
+      </div>
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Fresh Farm Products</h1>
+              <h1 className="text-3xl font-bold text-gray-900">Farm Products</h1>
               <p className="text-gray-600 mt-2">Connecting you directly with local farmers through EBE-FARMS</p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="relative">
-                <ShoppingCart className="w-6 h-6 text-gray-600" />
-                {cartItems.length > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {cartItems.length}
-                  </span>
-                )}
-              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Filters */}
+      {/* Main Content with Sidebar */}
       <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {/* Search */}
-            <div className="relative">
-              <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search products or farmers..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Sidebar Filters */}
+          <div className="w-full lg:w-80">
+            <div className="bg-white rounded-lg shadow-sm p-6 sticky top-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Filter & Search</h3>
+              
+              {/* Search */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Search</label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search products or farmers..."
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              {/* Category Filter */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                >
+                  {categories.map(cat => (
+                    <option key={cat.value} value={cat.value}>{cat.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Location Filter */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Region</label>
+                <select
+                  value={selectedLocation}
+                  onChange={(e) => setSelectedLocation(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                >
+                  {locations.map(loc => (
+                    <option key={loc.value} value={loc.value}>{loc.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Sort */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                >
+                  <option value="newest">Newest First</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                  <option value="rating">Highest Rated</option>
+                </select>
+              </div>
+
+              {/* Results Summary */}
+              <div className="pt-4 border-t">
+                <p className="text-sm text-gray-600">
+                  Showing {filteredProducts.length} of {products.length} products
+                </p>
+              </div>
             </div>
-
-            {/* Category Filter */}
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-            >
-              {categories.map(cat => (
-                <option key={cat.value} value={cat.value}>{cat.label}</option>
-              ))}
-            </select>
-
-            {/* Location Filter */}
-            <select
-              value={selectedLocation}
-              onChange={(e) => setSelectedLocation(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-            >
-              {locations.map(loc => (
-                <option key={loc.value} value={loc.value}>{loc.label}</option>
-              ))}
-            </select>
-
-            {/* Sort */}
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-            >
-              <option value="newest">Newest First</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-              <option value="rating">Highest Rated</option>
-            </select>
           </div>
-        </div>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Products Grid */}
+          <div className="flex-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {filteredProducts.map(product => (
             <div key={product.id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden">
               <div className="relative">
@@ -226,7 +242,7 @@ const Products = () => {
                   className="w-full h-48 object-cover"
                 />
                 <div className="absolute top-3 left-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
-                  Fresh
+                  Available
                 </div>
               </div>
               
@@ -271,11 +287,10 @@ const Products = () => {
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-500">{product.unit}</span>
                   <button
-                    onClick={() => addToCart(product)}
-                    className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2"
+                    onClick={() => fundProject(product)}
+                    className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors"
                   >
-                    <ShoppingCart className="w-4 h-4" />
-                    <span>Add to Cart</span>
+                    <span>Fund Project</span>
                   </button>
                 </div>
               </div>
@@ -283,45 +298,17 @@ const Products = () => {
           ))}
         </div>
 
-        {filteredProducts.length === 0 && (
-          <div className="text-center py-12">
-            <div className="text-gray-500 text-lg">No products found matching your criteria</div>
-            <p className="text-gray-400 mt-2">Try adjusting your search or filters</p>
-          </div>
-        )}
-      </div>
-
-      {/* Trust Banner */}
-      <div className="bg-green-50 border-t">
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          <div className="text-center">
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Why Choose EBE-FARMS?</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-              <div className="text-center">
-                <div className="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Star className="w-6 h-6 text-green-600" />
-                </div>
-                <h4 className="font-medium text-gray-900">Quality Guaranteed</h4>
-                <p className="text-sm text-gray-600">All farmers vetted and products quality-checked</p>
+            {filteredProducts.length === 0 && (
+              <div className="text-center py-12">
+                <div className="text-gray-500 text-lg">No products found matching your criteria</div>
+                <p className="text-gray-400 mt-2">Try adjusting your search or filters</p>
               </div>
-              <div className="text-center">
-                <div className="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Truck className="w-6 h-6 text-green-600" />
-                </div>
-                <h4 className="font-medium text-gray-900">Fast Delivery</h4>
-                <p className="text-sm text-gray-600">Fresh produce delivered directly to your door</p>
-              </div>
-              <div className="text-center">
-                <div className="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <MapPin className="w-6 h-6 text-green-600" />
-                </div>
-                <h4 className="font-medium text-gray-900">Support Local</h4>
-                <p className="text-sm text-gray-600">Directly supporting local farmers and communities</p>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
+
+<Support />
     </div>
   );
 };
