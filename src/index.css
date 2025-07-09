@@ -1,10 +1,25 @@
 @import "tailwindcss";
 
+html {
+  scrollbar-width: none;
+}
 @keyframes slideRight {
   0% {
     transform: translateX(0%);
   }
   100% {
     transform: translateX(-700%);
+  }
+}
+
+.move {
+  animation: move 0.4s linear;
+}
+@keyframes move {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
