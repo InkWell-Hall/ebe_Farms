@@ -18,31 +18,45 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <div className="pt-19">
-        <section className="">
+      <div>
+        <section className=" ">
           <Swiper
             modules={[Autoplay]}
             autoplay={{
               delay: 2500,
-              disableOnInteraction: false,
+              // disableOnInteraction: false,
             }}
             loop={true}
             spaceBetween={0}
-            className="w-full mt-0  h-[100vh] relative"
+            className="w-full mt-0 h-[100vh] relative"
           >
-            <SwiperSlide className="w-screen h-[70vh] bg-[url('./assets/landpic2.jpeg')] bg-no-repeat bg-cover bg-center flex items-center justify-center"></SwiperSlide>
+            <SwiperSlide className="w-screen h-[70vh] bg-[url('./assets/landpic2.jpeg')] bg-no-repeat bg-cover bg-center flex items-center justify-center">
+              <div className="bg-black/40 backdrop:blur-2xl absolute w-screen h-[100vh]"></div>
+               <h1 className="text-8xl flex justify-center py-45 text-white items-center font-bold italic">Welcome to EBE Farms</h1>
+            </SwiperSlide>
 
-            <SwiperSlide className="w-screen h-[70vh] bg-[url('./assets/farmpic.jpeg')] bg-no-repeat bg-cover bg-center flex items-center justify-center"></SwiperSlide>
+            <SwiperSlide className="w-screen h-[70vh] bg-[url('./assets/landpic3.jpeg')] bg-no-repeat bg-cover bg-center flex items-center justify-center">
+              <div className="bg-black/40 backdrop:blur-2xl absolute w-screen h-[100vh]"></div>
+              <h1 className="text-4xl flex justify-center py-40 text-white items-center font-bold italic"> "Investing in Agriculture, Securing Tomorrow" </h1>
+            </SwiperSlide>
 
-            <SwiperSlide className="w-screen h-[70vh] bg-[url('./assets/landpic1.jpeg')] bg-no-repeat bg-cover bg-center flex items-center justify-center"></SwiperSlide>
+            <SwiperSlide className="w-screen h-[70vh] bg-[url('./assets/landpic1.jpeg')] bg-no-repeat bg-cover bg-center flex items-center justify-center">
+              {" "}
+              <div className="bg-black/40 backdrop:blur-2xl absolute w-screen h-[100vh]"></div>
+             <h1 className="text-4xl flex justify-center py-40 text-white items-center font-bold italic">" Empowering Farmers, Growing Communities"</h1>
+            </SwiperSlide>
 
-            <SwiperSlide className="w-screen h-[50vh] bg-[url('./assets/farmpic1.jpeg')] bg-no-repeat bg-cover bg-center flex items-center justify-center"></SwiperSlide>
+            <SwiperSlide className="w-screen h-[50vh] bg-[url('./assets/farmpic1.jpeg')] bg-no-repeat bg-cover bg-center flex items-center justify-center">
+              {" "}
+              <div className="bg-black/40 backdrop:blur-2xl absolute w-screen h-[100vh]"></div>
+              <h1 className="text-4xl flex justify-center py-40 text-white items-center font-bold italic">"Green Returns: Profits with Purpose"</h1>
+            </SwiperSlide>
           </Swiper>
         </section>
         <section className="py-20 bg-gradient-to-br from-yellow-50 to-green-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
+              <h2 className="text-8xl swatson md:text-4xl font-bold text-black mb-4">
                 Our Sustainable Farms
               </h2>
               <p className="text-lg text-gray-700 max-w-2xl mx-auto">
