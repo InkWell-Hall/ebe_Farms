@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Support from "../components/Support";
+import Title from "../components/Title";
+import { Link } from "react-router";
 
 const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -163,12 +165,12 @@ const Products = () => {
         <Navbar />
       </div>
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="bg-white shadow-sm border-b mt-20">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
-                Farm Products
+                <Title text1={"Farm"} text2={"Projects"} />
               </h1>
               <p className="text-gray-600 mt-2">
                 Connecting you directly with local farmers through EBE-FARMS
@@ -339,7 +341,9 @@ const Products = () => {
                         onClick={() => fundProject(product)}
                         className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors"
                       >
-                        <span>Fund Project</span>
+                        <Link to={"/newinvestment"}>
+                          <span>Fund Project</span>
+                        </Link>
                       </button>
                     </div>
                   </div>

@@ -1,12 +1,15 @@
 import React from "react";
 import logo1 from "../assets/images/logo1.png";
 
-export default function ForgotPassword() {
+export default function ForgotReset() {
   return (
-    <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-center">
-      <img src="./assets/agric-bg.png" alt="EBE FARMS" class="w-full rounded-lg shadow-md"></img>
-    
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-center">
+      <img
+        src="./assets/agric-bg.png"
+        alt="EBE FARMS"
+        class="w-full rounded-lg shadow-md"
+      ></img>
+
       <div className="bg-white bg-opacity-80 rounded-lg shadow-lg flex w-full max-w-5xl overflow-hidden">
         {/* Left Side */}
         <div className="w-1/2 bg-black text-white p-10 flex flex-col justify-center items-center rounded-l-lg">

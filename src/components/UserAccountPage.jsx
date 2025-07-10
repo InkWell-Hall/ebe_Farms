@@ -1,10 +1,15 @@
 import React from "react";
 import logo1 from "../assets/images/logo1.png";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router";
 
 // ... existing components (ForgotPassword, OTPVerification, Login, SignUp)
 
-function UserAccount() {
+const UserAccountPage = () => {
   return (
     <div
       className="min-h-screen bg-cover bg-center flex items-center justify-center p-10"
@@ -22,9 +27,13 @@ function UserAccount() {
           <p className="text-sm text-gray-600 mb-4">Agricultural Analyst</p>
         </div>
         <div className="md:w-1/2">
-          <h3 className="text-xl font-semibold text-green-800 mb-4">Account Details</h3>
+          <h3 className="text-xl font-semibold text-green-800 mb-4">
+            Account Details
+          </h3>
           <div className="mb-3">
-            <label className="block text-sm font-medium text-gray-700">Full Name</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Full Name
+            </label>
             <input
               type="text"
               defaultValue="Sandra Sarkodie"
@@ -32,7 +41,9 @@ function UserAccount() {
             />
           </div>
           <div className="mb-3">
-            <label className="block text-sm font-medium text-gray-700">Email</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
             <input
               type="email"
               defaultValue="john.doe@example.com"
@@ -40,7 +51,9 @@ function UserAccount() {
             />
           </div>
           <div className="mb-3">
-            <label className="block text-sm font-medium text-gray-700">Role</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Role
+            </label>
             <input
               type="text"
               defaultValue="Agricultural Analyst"
@@ -54,18 +67,20 @@ function UserAccount() {
       </div>
     </div>
   );
-}
+};
 
-export default function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<ForgotPassword />} />
-        <Route path="/otp" element={<OTPVerification />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/account" element={<UserAccount />} />
-      </Routes>
-    </Router>
-  );
-}
+export default UserAccountPage;
+
+// export default function App() {
+//   return (
+//     <Router>
+//       <Routes>
+//         <Route path="/" element={<ForgotPassword />} />
+//         <Route path="/otp" element={<OTPVerification />} />
+//         <Route path="/login" element={<Login />} />
+//         <Route path="/signup" element={<SignUp />} />
+//         <Route path="/account" element={<UserAccount />} />
+//       </Routes>
+//     </Router>
+//   );
+// }

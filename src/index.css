@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=BIZ+UDPMincho&family=Outfit:wght@100..900&display=swap");
 @import "tailwindcss";
 
 html {
@@ -12,6 +13,17 @@ html {
   }
 }
 
+/* .active {
+  border-bottom: 5px solid #1f1e17;
+} */
+
+.swatson {
+  font-family: "BIZ+UDPMincho";
+}
+
+.out {
+  font-family: "Outfit";
+}
 .move {
   animation: move 0.4s linear;
 }

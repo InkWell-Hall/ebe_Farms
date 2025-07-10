@@ -4,6 +4,10 @@ import Home from "./pages/Home";
 import Products from "./pages/Products";
 import Dashboard from "./pages/Dashboard";
 import NewInvestment from "./components/NewInvestment";
+import Login from "./components/Login";
+import Otp from "./components/Otp";
+import UserAccountPage from "./components/UserAccountPage";
+import ForgotReset from "./components/ForgotReset";
 
 const router = createBrowserRouter([
   {
@@ -20,26 +24,25 @@ const router = createBrowserRouter([
   },
   {
     path: "/newinvestment",
-    element: <NewInvestment/>,
+    element: <NewInvestment />,
   },
   {
-    path: "/loginsignup",
-    element: <LoginSignup/>
+    path: "/login",
+    element: <Login />,
   },
-   
-{
-      path: "/otp",
-    element: <Otp/>
-},
-{
-      path: "/useraccount",
-    element: <UserAccount/>
-},
-{
-      path: "/forgetreset",
-    element: <ForgotReset/>
-},
-  
+
+  {
+    path: "/otp",
+    element: <Otp />,
+  },
+  {
+    path: "/useraccount",
+    element: <UserAccountPage />,
+  },
+  {
+    path: "/forgetreset",
+    element: <ForgotReset />,
+  },
 ]);
 
 const App = () => {

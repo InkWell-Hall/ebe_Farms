@@ -28,28 +28,39 @@ const Home = () => {
             }}
             loop={true}
             spaceBetween={0}
-            className="w-full mt-0 h-[100vh] relative"
+            className="w-full mt-20 h-[100vh] relative"
           >
             <SwiperSlide className="w-screen h-[70vh] bg-[url('./assets/landpic2.jpeg')] bg-no-repeat bg-cover bg-center flex items-center justify-center">
               <div className="bg-black/40 backdrop:blur-2xl absolute w-screen h-[100vh]"></div>
-               <h1 className="text-8xl flex justify-center py-45 text-white items-center font-bold italic">Welcome to EBE Farms</h1>
+              <h1 className="text-4xl text-center out absolute top-70 left-70 text-white font-bold italic">
+                {/* Welcome to EBE Farms — <br /> */}
+                "your go-to destination for wholesome <br /> produce and
+                growth-driven farm investments."
+              </h1>
             </SwiperSlide>
 
             <SwiperSlide className="w-screen h-[70vh] bg-[url('./assets/landpic3.jpeg')] bg-no-repeat bg-cover bg-center flex items-center justify-center">
               <div className="bg-black/40 backdrop:blur-2xl absolute w-screen h-[100vh]"></div>
-              <h1 className="text-4xl flex justify-center py-40 text-white items-center font-bold italic"> "Investing in Agriculture, Securing Tomorrow" </h1>
+              <h1 className="text-4xl absolute top-80 left-70 text-white font-bold out italic">
+                {" "}
+                "Investing in Agriculture, Securing Tomorrow"{" "}
+              </h1>
             </SwiperSlide>
 
             <SwiperSlide className="w-screen h-[70vh] bg-[url('./assets/landpic1.jpeg')] bg-no-repeat bg-cover bg-center flex items-center justify-center">
               {" "}
               <div className="bg-black/40 backdrop:blur-2xl absolute w-screen h-[100vh]"></div>
-             <h1 className="text-4xl flex justify-center py-40 text-white items-center font-bold italic">" Empowering Farmers, Growing Communities"</h1>
+              <h1 className="text-4xl absolute top-90 left-70 text-white out font-bold italic">
+                "Empowering Farmers, Growing Communities"
+              </h1>
             </SwiperSlide>
 
             <SwiperSlide className="w-screen h-[50vh] bg-[url('./assets/farmpic1.jpeg')] bg-no-repeat bg-cover bg-center flex items-center justify-center">
               {" "}
               <div className="bg-black/40 backdrop:blur-2xl absolute w-screen h-[100vh]"></div>
-              <h1 className="text-4xl flex justify-center py-40 text-white items-center font-bold italic">"Green Returns: Profits with Purpose"</h1>
+              <h1 className="text-4xl absolute top-90 left-90 text-white out font-bold italic">
+                "Green Returns: Profits with Purpose"
+              </h1>
             </SwiperSlide>
           </Swiper>
         </section>
