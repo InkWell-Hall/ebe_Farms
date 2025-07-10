@@ -12,6 +12,24 @@ const router = createBrowserRouter([
     path: "/products",
     element: <Products />,
   },
+  {
+    path: "/loginsignup",
+    element: <LoginSignup/>
+  },
+   
+{
+      path: "/otp",
+    element: <Otp/>
+},
+{
+      path: "/useraccount",
+    element: <UserAccount/>
+},
+{
+      path: "/forgetreset",
+    element: <ForgotReset/>
+},
+  
 ]);
 
 const App = () => {
