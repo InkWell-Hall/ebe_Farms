@@ -5,55 +5,61 @@ import mea from "../assets/images/meadow.mp4";
 import vanto from "../assets/images/envato.mp4";
 import fileds from "../assets/images/fileds.mp4";
 import { useNavigate } from "react-router";
+import Footer from "./Footer";
+import Navbar from "./Navbar";
 
 function Login() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen relative flex items-center justify-center bg-cover bg-center bg-[url(./assets/images/meadow.mp4)]">
-      {/* <img
+    <>
+      <Navbar />
+      <div className="min-h-screen relative flex items-center justify-center bg-cover bg-center bg-[url(./assets/images/meadow.mp4)]">
+        {/* <img
         src={agricbg}
         alt="EBE FARMS"
         class="w-full rounded-lg shadow-md"
       ></img> */}
-      <video
-        src={mea}
-        autoPlay
-        loop
-        className="bg-cover bg-center w-full"
-      ></video>
-      {/* <div className="bg-black/40 backdrop:blur-2xl absolute w-screen h-[100vh]"></div> */}
-      <div className="bg-white bg-opacity-90 rounded-lg shadow-lg flex w-full h-[70vh] max-w-4xl overflow-hidden absolute">
-        <div className="w-1/2 bg-green-800 text-white p-10 flex flex-col justify-center items-center">
-          <h1 className="text-3xl font-bold mb-6">
-            Welcome Back! Let's grow togther.
-          </h1>
-          <p className="text-center">Login to nurture your land.</p>
-        </div>
-        <div className="w-1/2 bg-white p-10 flex flex-col justify-center items-center">
-          <h2 className="text-2xl font-semibold mb-4">Login</h2>
-          <input
-            type="text"
-            placeholder="Username"
-            className="w-full mb-4 px-4 py-2 border rounded-md"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full mb-4 px-4 py-2 border rounded-md"
-          />
-          <button className="w-full py-2 bg-green-800 text-white rounded-md hover:bg-green-700 transition">
-            LOGIN
-          </button>
-          <button
-            onClick={() => navigate("/signup")}
-            className="mt-4 text-sm text-green-800 hover:underline"
-          >
-            Don't have an account? Sign up
-          </button>
+        <video
+          src={mea}
+          autoPlay
+          loop
+          className="bg-cover bg-center w-full"
+        ></video>
+        {/* <div className="bg-black/40 backdrop:blur-2xl absolute w-screen h-[100vh]"></div> */}
+        <div className="bg-white bg-opacity-90 rounded-lg shadow-lg flex w-full h-[70vh] max-w-4xl overflow-hidden absolute">
+          <div className="w-1/2 bg-green-800 text-white p-10 flex flex-col justify-center items-center">
+            <h1 className="text-3xl font-bold mb-6">
+              Welcome Back! Let's grow togther.
+            </h1>
+            <p className="text-center">Login to nurture your land.</p>
+          </div>
+          <div className="w-1/2 bg-white p-10 flex flex-col justify-center items-center">
+            <h2 className="text-2xl font-semibold mb-4">Login</h2>
+            <input
+              type="text"
+              placeholder="Username"
+              className="w-full mb-4 px-4 py-2 border rounded-md"
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              className="w-full mb-4 px-4 py-2 border rounded-md"
+            />
+            <button className="w-full py-2 bg-green-800 text-white rounded-md hover:bg-green-700 transition">
+              LOGIN
+            </button>
+            <button
+              onClick={() => navigate("/signup")}
+              className="mt-4 text-sm text-green-800 hover:underline"
+            >
+              Don't have an account? Sign up
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }
 export default Login;

@@ -18,7 +18,7 @@ const Footer = () => {
       <footer className="bg-[#1F1E17] text-white py-8 px-2">
         <div className="container mx-auto grid md:grid-cols-4 gap-8">
           <div>
-            <h4 className="font-bold text-lg">GECA</h4>
+            <h4 className="font-bold text-lg">Ebe_Farms</h4>
             <p className="mt-2 flex flex-col">
               3rd Floor Marble <br />
               Greater Accra, <br />
