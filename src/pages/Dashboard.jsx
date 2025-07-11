@@ -12,6 +12,7 @@ import land from "../assets/landpic1.jpeg";
 import ChartBox from "../components/ChartBox";
 import Table from "../components/Table";
 import { Link } from "react-router";
+import Footer from "../components/Footer";
 
 const Dashboard = () => {
   const columns = [
@@ -42,7 +43,7 @@ const Dashboard = () => {
       <Navbar />
       <div className="flex overflow-x-hidden">
         {/* ...........the left side of dashboard................. */}
-        <div className="bg-[#1F1E17] p-8 min-h-auto text-white mt-20 flex-1">
+        <div className="bg-[#1F1E17] p-8 min-h-auto text-white md:mt-20 flex-1 mt-40">
           <div className="flex justify-between w-full mb-0">
             <h1 className="font-bold text-white">
               {" "}
@@ -133,6 +134,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      {/* <Footer /> */}
     </div>
   );
 };

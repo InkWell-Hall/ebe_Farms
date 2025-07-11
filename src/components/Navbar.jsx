@@ -41,7 +41,7 @@ const Navbar = () => {
           </div>
 
           <div>
-            <ul className="flex gap-5">
+            <ul className=" gap-5 hidden md:flex">
               <li className="flex">
                 <NavLink to={"/"} className="flex gap-2">
                   <Home color="black" />
@@ -49,10 +49,10 @@ const Navbar = () => {
                 </NavLink>
               </li>
               <li>
-                <Link to={"/products"} className="flex gap-2">
+                <NavLink to={"/products"} className="flex gap-2">
                   <img src={money} alt="" className="w-7" />
                   Invest
-                </Link>
+                </NavLink>
               </li>
               <li>
                 <Link to={"/products"} className="flex gap-2">
@@ -61,7 +61,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link to={"/"} className="flex gap-2">
+                <Link to={"/contact"} className="flex gap-2">
                   <img src={contact} alt="" className="w-7" />
                   Contact{" "}
                 </Link>
@@ -77,7 +77,7 @@ const Navbar = () => {
                   onClick={() => setShow(!show)}
                 />
                 {show ? (
-                  <div className="w-30 h-27 bg-gray-300 absolute -right-14 rounded mt-2">
+                  <div className="w-30 h-27 bg-gray-300 absolute -right-14 rounded mt-2 z-90">
                     <ul className="flex flex-col justify-center  gap-3 p-1 text-sm">
                       <li className="hover:bg-black cursor-pointer px-2 whitespace-nowrap w-full">
                         Verify Account
@@ -107,6 +107,35 @@ const Navbar = () => {
               </div>
             )}
           </div>
+        </div>
+        {/* navlinks for mobile screens */}
+        <div className="bg-black/40 bg-opacity-10 backdrop-blur-md border border-white/20 p-6 md:hidden">
+          <ul className="gap-3 text-white text-sm flex justify-center items-center">
+            <li className="flex">
+              <NavLink to={"/"} className="flex gap-2">
+                <Home color="black" />
+                <h1 className="mb-2"> Home</h1>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={"/products"} className="flex gap-2">
+                <img src={money} alt="" className="w-7" />
+                Invest
+              </NavLink>
+            </li>
+            <li>
+              <Link to={"/products"} className="flex gap-2">
+                <ShoppingCart color="black" />
+                Marketplace
+              </Link>
+            </li>
+            <li>
+              <Link to={"/contact"} className="flex gap-2">
+                <img src={contact} alt="" className="w-7" />
+                Contact{" "}
+              </Link>
+            </li>
+          </ul>
         </div>
       </nav>
     </>

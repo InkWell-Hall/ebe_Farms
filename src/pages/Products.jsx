@@ -12,6 +12,7 @@ import Navbar from "../components/Navbar";
 import Support from "../components/Support";
 import Title from "../components/Title";
 import { Link } from "react-router";
+import Footer from "../components/Footer";
 
 const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -160,213 +161,218 @@ const Products = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="sticky top-0 z-50">
-        <Navbar />
-      </div>
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b mt-20">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                <Title text1={"Farm"} text2={"Projects"} />
-              </h1>
-              <p className="text-gray-600 mt-2">
-                Connecting you directly with local farmers through EBE-FARMS
-              </p>
-            </div>
-          </div>
+    <>
+      <div className="min-h-screen bg-gray-50">
+        <div className="sticky top-0 z-50">
+          <Navbar />
         </div>
-      </div>
-
-      {/* Main Content with Sidebar */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="flex flex-col lg:flex-row gap-6">
-          {/* Sidebar Filters */}
-          <div className="w-full lg:w-80">
-            <div className="bg-white rounded-lg shadow-sm p-6 sticky top-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                Filter & Search
-              </h3>
-
-              {/* Search */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Search
-                </label>
-                <div className="relative">
-                  <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
-                  <input
-                    type="text"
-                    placeholder="Search products or farmers..."
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              {/* Category Filter */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Category
-                </label>
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                >
-                  {categories.map((cat) => (
-                    <option key={cat.value} value={cat.value}>
-                      {cat.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Location Filter */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Region
-                </label>
-                <select
-                  value={selectedLocation}
-                  onChange={(e) => setSelectedLocation(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                >
-                  {locations.map((loc) => (
-                    <option key={loc.value} value={loc.value}>
-                      {loc.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Sort */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Sort By
-                </label>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                >
-                  <option value="newest">Newest First</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="rating">Highest Rated</option>
-                </select>
-              </div>
-
-              {/* Results Summary */}
-              <div className="pt-4 border-t">
-                <p className="text-sm text-gray-600">
-                  Showing {filteredProducts.length} of {products.length}{" "}
-                  products
+        {/* Header */}
+        <div className="bg-white shadow-sm border-b mt-40 md:mt-20">
+          <div className="max-w-7xl mx-auto px-4 py-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900">
+                  <Title text1={"Farm"} text2={"Projects"} />
+                </h1>
+                <p className="text-gray-600 mt-2">
+                  Connecting you directly with local farmers through EBE-FARMS
                 </p>
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Products Grid */}
-          <div className="flex-1">
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {filteredProducts.map((product) => (
-                <div
-                  key={product.id}
-                  className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden"
-                >
+        {/* Main Content with Sidebar */}
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <div className="flex flex-col lg:flex-row gap-6">
+            {/* Sidebar Filters */}
+            <div className="w-full lg:w-80">
+              <div className="bg-white rounded-lg shadow-sm p-6 sticky top-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  Filter & Search
+                </h3>
+
+                {/* Search */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Search
+                  </label>
                   <div className="relative">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-48 object-cover"
+                    <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+                    <input
+                      type="text"
+                      placeholder="Search products or farmers..."
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
                     />
-                    <div className="absolute top-3 left-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
-                      Available
-                    </div>
                   </div>
+                </div>
 
-                  <div className="p-5">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900">
-                        {product.name}
-                      </h3>
-                      <span className="text-xl font-bold text-green-600">
-                        ₵{product.price.toFixed(2)}
-                      </span>
+                {/* Category Filter */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Category
+                  </label>
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  >
+                    {categories.map((cat) => (
+                      <option key={cat.value} value={cat.value}>
+                        {cat.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Location Filter */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Region
+                  </label>
+                  <select
+                    value={selectedLocation}
+                    onChange={(e) => setSelectedLocation(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  >
+                    {locations.map((loc) => (
+                      <option key={loc.value} value={loc.value}>
+                        {loc.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Sort */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Sort By
+                  </label>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  >
+                    <option value="newest">Newest First</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="rating">Highest Rated</option>
+                  </select>
+                </div>
+
+                {/* Results Summary */}
+                <div className="pt-4 border-t">
+                  <p className="text-sm text-gray-600">
+                    Showing {filteredProducts.length} of {products.length}{" "}
+                    products
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Products Grid */}
+            <div className="flex-1">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {filteredProducts.map((product) => (
+                  <div
+                    key={product.id}
+                    className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden"
+                  >
+                    <div className="relative">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-48 object-cover"
+                      />
+                      <div className="absolute top-3 left-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                        Available
+                      </div>
                     </div>
 
-                    <p className="text-gray-600 text-sm mb-3">
-                      {product.description}
-                    </p>
-
-                    <div className="space-y-2 mb-4">
-                      <div className="flex items-center text-sm text-gray-600">
-                        <MapPin className="w-4 h-4 mr-1" />
-                        <span>
-                          {product.farmer} • {product.location}
+                    <div className="p-5">
+                      <div className="flex justify-between items-start mb-2">
+                        <h3 className="text-lg font-semibold text-gray-900">
+                          {product.name}
+                        </h3>
+                        <span className="text-xl font-bold text-green-600">
+                          ₵{product.price.toFixed(2)}
                         </span>
                       </div>
 
-                      <div className="flex items-center text-sm">
-                        <Clock className="w-4 h-4 mr-1" />
-                        <span className={getFreshnessColor(product.freshness)}>
-                          {product.freshness}
-                        </span>
-                      </div>
+                      <p className="text-gray-600 text-sm mb-3">
+                        {product.description}
+                      </p>
 
-                      <div className="flex items-center text-sm text-gray-600">
-                        <Truck className="w-4 h-4 mr-1" />
-                        <span>{product.quantity}</span>
-                      </div>
-
-                      <div className="flex items-center">
-                        <div className="flex items-center">
-                          <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                          <span className="ml-1 text-sm text-gray-600">
-                            {product.rating} ({product.reviews} reviews)
+                      <div className="space-y-2 mb-4">
+                        <div className="flex items-center text-sm text-gray-600">
+                          <MapPin className="w-4 h-4 mr-1" />
+                          <span>
+                            {product.farmer} • {product.location}
                           </span>
                         </div>
+
+                        <div className="flex items-center text-sm">
+                          <Clock className="w-4 h-4 mr-1" />
+                          <span
+                            className={getFreshnessColor(product.freshness)}
+                          >
+                            {product.freshness}
+                          </span>
+                        </div>
+
+                        <div className="flex items-center text-sm text-gray-600">
+                          <Truck className="w-4 h-4 mr-1" />
+                          <span>{product.quantity}</span>
+                        </div>
+
+                        <div className="flex items-center">
+                          <div className="flex items-center">
+                            <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                            <span className="ml-1 text-sm text-gray-600">
+                              {product.rating} ({product.reviews} reviews)
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-gray-500">
+                          {product.unit}
+                        </span>
+                        <button
+                          onClick={() => fundProject(product)}
+                          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors"
+                        >
+                          <Link to={"/newinvestment"}>
+                            <span>Fund Project</span>
+                          </Link>
+                        </button>
                       </div>
                     </div>
-
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-500">
-                        {product.unit}
-                      </span>
-                      <button
-                        onClick={() => fundProject(product)}
-                        className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors"
-                      >
-                        <Link to={"/newinvestment"}>
-                          <span>Fund Project</span>
-                        </Link>
-                      </button>
-                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-
-            {filteredProducts.length === 0 && (
-              <div className="text-center py-12">
-                <div className="text-gray-500 text-lg">
-                  No products found matching your criteria
-                </div>
-                <p className="text-gray-400 mt-2">
-                  Try adjusting your search or filters
-                </p>
+                ))}
               </div>
-            )}
+
+              {filteredProducts.length === 0 && (
+                <div className="text-center py-12">
+                  <div className="text-gray-500 text-lg">
+                    No products found matching your criteria
+                  </div>
+                  <p className="text-gray-400 mt-2">
+                    Try adjusting your search or filters
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
-      <Support />
-    </div>
+        <Support />
+      </div>
+      <Footer />
+    </>
   );
 };
 

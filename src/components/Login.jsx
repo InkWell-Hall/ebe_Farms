@@ -1,19 +1,28 @@
 import React from "react";
 import logo1 from "../assets/images/logo1.png";
 import agricbg from "../assets/soikl.jpeg";
+import mea from "../assets/images/meadow.mp4";
+import vanto from "../assets/images/envato.mp4";
+import fileds from "../assets/images/fileds.mp4";
 import { useNavigate } from "react-router";
 
 function Login() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen relative flex items-center justify-center bg-cover bg-center bg-[url(./assets/sun.jpeg)]">
+    <div className="min-h-screen relative flex items-center justify-center bg-cover bg-center bg-[url(./assets/images/meadow.mp4)]">
       {/* <img
         src={agricbg}
         alt="EBE FARMS"
         class="w-full rounded-lg shadow-md"
       ></img> */}
-      <div className="bg-black/40 backdrop:blur-2xl absolute w-screen h-[100vh]"></div>
+      <video
+        src={mea}
+        autoPlay
+        loop
+        className="bg-cover bg-center w-full"
+      ></video>
+      {/* <div className="bg-black/40 backdrop:blur-2xl absolute w-screen h-[100vh]"></div> */}
       <div className="bg-white bg-opacity-90 rounded-lg shadow-lg flex w-full h-[70vh] max-w-4xl overflow-hidden absolute">
         <div className="w-1/2 bg-green-800 text-white p-10 flex flex-col justify-center items-center">
           <h1 className="text-3xl font-bold mb-6">

@@ -13,6 +13,7 @@ import sustain from "../assets/sustain.jpeg";
 import tech from "../assets/tech.jpeg";
 import farmpic from "../assets/farmpic.jpeg";
 import farmpic1 from "../assets/farmpic.jpeg";
+import Footer from "../components/Footer";
 
 const Home = () => {
   return (
@@ -67,7 +68,7 @@ const Home = () => {
         <section className="py-20 bg-gradient-to-br from-yellow-50 to-green-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-8xl swatson md:text-4xl font-bold text-black mb-4">
+              <h2 className="text-5xl swatson md:text-4xl font-bold text-black mb-4">
                 Our Sustainable Farms
               </h2>
               <p className="text-lg text-gray-700 max-w-2xl mx-auto">
@@ -222,6 +223,7 @@ const Home = () => {
           </div>
         </section>
       </div>
+      <Footer />
     </>
   );
 };

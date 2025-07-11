@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import Otp from "./components/Otp";
 import UserAccountPage from "./components/UserAccountPage";
 import ForgotReset from "./components/ForgotReset";
+import ContactPage from "./components/Contact";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: "/forgetreset",
     element: <ForgotReset />,
+  },
+  {
+    path: "/contact",
+    element: <ContactPage />,
   },
 ]);
 
