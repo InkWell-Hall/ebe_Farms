@@ -1,118 +1,135 @@
-import React from "react";
-import logo1 from "../assets/images/logo1.png";
-import agricbg from "../assets/soikl.jpeg";
-import mea from "../assets/images/meadow.mp4";
-import vanto from "../assets/images/envato.mp4";
-import fileds from "../assets/images/fileds.mp4";
-import { useNavigate } from "react-router";
-import Footer from "./Footer";
+import React, { useState } from "react";
+import { Eye, EyeOff, Mail, Lock, Leaf } from "lucide-react";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
+import mea from "../assets/images/meadow.mp4";
+import { Link } from "react-router";
 
-function Login() {
-  const navigate = useNavigate();
+const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <>
       <Navbar />
-      <div className="min-h-screen relative flex items-center justify-center bg-cover bg-center bg-[url(./assets/images/meadow.mp4)]">
-        {/* <img
-        src={agricbg}
-        alt="EBE FARMS"
-        class="w-full rounded-lg shadow-md"
-      ></img> */}
+      <div className="min-h-screen flex items-center justify-center p-4 pt-30">
         <video
-          src={mea}
           autoPlay
           loop
-          className="bg-cover bg-center w-full"
+          src={mea}
+          className="absolute bg-cover bg-center w-full -z-10"
         ></video>
-        {/* <div className="bg-black/40 backdrop:blur-2xl absolute w-screen h-[100vh]"></div> */}
-        <div className="bg-white bg-opacity-90 rounded-lg shadow-lg flex w-full h-[70vh] max-w-4xl overflow-hidden absolute">
-          <div className="w-1/2 bg-green-800 text-white p-10 flex flex-col justify-center items-center">
-            <h1 className="text-3xl font-bold mb-6">
-              Welcome Back! Let's grow togther.
-            </h1>
-            <p className="text-center">Login to nurture your land.</p>
+        <div className="max-w-md w-full bg-black/50 rounded-2xl shadow-xl p-6 md:p-8">
+          <div className="text-center mb-6 md:mb-8">
+            <div className="flex items-center justify-center space-x-2 mb-4">
+              <Leaf className="h-6 w-6 md:h-8 md:w-8 text-green-600" />
+              <h1 className="text-xl md:text-2xl font-bold text-green-800">
+                EBE FARMS
+              </h1>
+            </div>
+            <h2 className="text-xl md:text-2xl font-bold text-white">
+              Welcome Back
+            </h2>
+            <p className="text-white mt-2 text-sm md:text-base">
+              Sign in to your account
+            </p>
           </div>
-          <div className="w-1/2 bg-white p-10 flex flex-col justify-center items-center">
-            <h2 className="text-2xl font-semibold mb-4">Login</h2>
-            <input
-              type="text"
-              placeholder="Username"
-              className="w-full mb-4 px-4 py-2 border rounded-md"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full mb-4 px-4 py-2 border rounded-md"
-            />
-            <button className="w-full py-2 bg-green-800 text-white rounded-md hover:bg-green-700 transition">
-              LOGIN
-            </button>
+
+          <form
+            onSubmit={(e) => handleSubmit(e, "login")}
+            className="space-y-4 md:space-y-6"
+          >
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">
+                Email
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white" />
+                <input
+                  type="email"
+                  name="email"
+                  className="w-full pl-10 pr-4 py-2 md:py-3 border text-white border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors text-sm md:text-base"
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">
+                Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  className="w-full pl-10 pr-12 py-2 md:py-3 text-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors text-sm md:text-base"
+                  placeholder="Enter your password"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-600"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between text-sm">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 text-green-600 rounded border-gray-300 focus:ring-green-500"
+                />
+                <span className="ml-2 text-gray-600">Remember me</span>
+              </label>
+              <button
+                type="button"
+                onClick={() => setCurrentPage("forgot-password")}
+                className="text-green-600 hover:text-green-700 font-medium"
+              >
+                Forgot password?
+              </button>
+            </div>
+
             <button
-              onClick={() => navigate("/signup")}
-              className="mt-4 text-sm text-green-800 hover:underline"
+              type="submit"
+              className="w-full bg-green-600 cursor-pointer text-white py-2 md:py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors text-sm md:text-base"
             >
-              Don't have an account? Sign up
+              Sign In
             </button>
+          </form>
+
+          <div className="mt-4 md:mt-6 text-center">
+            <p className="text-gray-600 text-sm md:text-base">
+              Don't have an account?{" "}
+              <button
+                onClick={() => setCurrentPage("signup")}
+                className="text-green-600 hover:text-green-700 font-medium cursor-pointer"
+              >
+                Sign up
+              </button>
+            </p>
           </div>
+
+          <button
+            onClick={() => setCurrentPage("home")}
+            className="mt-4 w-full text-gray-500 hover:text-gray-700 transition-colors text-sm md:text-base cursor-pointer"
+          >
+            <Link to={"/"}>← Back to Home</Link>
+          </button>
         </div>
       </div>
+
       <Footer />
     </>
   );
-}
+};
+
 export default Login;
-
-// function SignUp() {
-//   const navigate = useNavigate();
-
-//   return (
-//     <div className="min-h-screen flex items-center justify-center bg-cover bg-center">
-//       <img
-//         src="./assets/agric-bg.png"
-//         alt="EBE FARMS"
-//         class="w-full rounded-lg shadow-md"
-//       ></img>
-//       <div className="bg-white bg-opacity-90 rounded-lg shadow-lg flex w-full max-w-4xl overflow-hidden">
-//         <div className="w-1/2 bg-green-800 text-white p-10 flex flex-col justify-center items-center">
-//           <h1 className="text-3xl font-bold mb-6">Join EBE FARMS</h1>
-//           <p className="text-center">Create your account to access EBE FARMS</p>
-//         </div>
-//         <div className="w-1/2 bg-white p-10 flex flex-col justify-center items-center">
-//           <h2 className="text-2xl font-semibold mb-4">Sign Up</h2>
-//           <input
-//             type="text"
-//             placeholder="Full Name"
-//             className="w-full mb-4 px-4 py-2 border rounded-md"
-//           />
-//           <input
-//             type="text"
-//             placeholder="Username"
-//             className="w-full mb-4 px-4 py-2 border rounded-md"
-//           />
-//           <input
-//             type="email"
-//             placeholder="Email"
-//             className="w-full mb-4 px-4 py-2 border rounded-md"
-//           />
-//           <input
-//             type="password"
-//             placeholder="Password"
-//             className="w-full mb-4 px-4 py-2 border rounded-md"
-//           />
-//           <button className="w-full py-2 bg-green-800 text-white rounded-md hover:bg-green-700 transition">
-//             SIGN UP
-//           </button>
-//           <button
-//             onClick={() => navigate("/login")}
-//             className="mt-4 text-sm text-green-800 hover:underline"
-//           >
-//             Already have an account? Login
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-// export default SignUp;

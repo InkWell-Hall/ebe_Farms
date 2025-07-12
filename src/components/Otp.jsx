@@ -1,62 +1,159 @@
-import React from "react";
-import logo1 from "../assets/images/logo1.png";
-import { useNavigate } from "react-router";
+import React, { useState } from "react";
+import mea from "../assets/images/meadow.mp4";
 
-const Otp = () => {
-  const navigate = useNavigate();
+export default function OTP() {
+  const [step, setStep] = useState(1);
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [otp, setOtp] = useState(["", "", "", ""]);
+
+  const handleSendOTP = () => {
+    if (email || phone) {
+      setStep(2);
+    }
+  };
+
+  const handleOtpChange = (value, index) => {
+    if (!/^\d?$/.test(value)) return;
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
+    if (value && index < 3) {
+      document.getElementById(`otp-${index + 1}`)?.focus();
+    }
+  };
+
+  const handleConfirmOTP = () => {
+    if (otp.join("").length === 4) {
+      setStep(3);
+      setTimeout(() => {
+        setStep(4);
+      }, 1500); // Show success before final screen
+    }
+  };
+
+  const handleFinalContinue = () => {
+    setStep(1);
+    setEmail("");
+    setPhone("");
+    setOtp(["", "", "", ""]);
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cover bg-center">
-      <img
-        src="./assets/agric-bg.png"
-        alt="EBE FARMS"
-        class="w-full rounded-lg shadow-md"
-      ></img>
-      <div className="bg-white bg-opacity-80 rounded-lg shadow-lg flex w-full max-w-5xl overflow-hidden">
-        <div className="w-1/2 bg-white p-10 flex flex-col justify-center items-center">
-          <img
-            src="assets/images/logo1.png"
-            alt="EBE FARMS"
-            className="h-14 mb-4"
-          />
-          <h2 className="text-2xl font-semibold mb-2">Check your Mailbox</h2>
-          <p className="mb-6 text-sm text-gray-600">
-            Please enter the OTP to proceed
-          </p>
+    <>
+      <div className="flex items-center justify-center min-h-screen bg-black/50 backdrop-blur-2xl  text-white px-4">
+        <video
+          autoPlay
+          loop
+          src={mea}
+          className="absolute bg-cover bg-center w-full -z-10"
+        ></video>
+        <div className=" text-white rounded-xl shadow-lg w-full max-w-sm p-8 bg-black/50">
+          {step === 1 && (
+            <>
+              <div className="flex justify-center mb-6">
+                {/* <img
+                  src="https://cdn-icons-png.flaticon.com/512/10283/10283373.png"
+                  alt="Secure"
+                  className="w-20 h-20"
+                /> */}
+              </div>
+              <h2 className="text-xl font-semibold mb-2 text-center">
+                OTP Verification
+              </h2>
+              <p className="text-sm text-white mb-6 text-center">
+                We will send you a one-time password on your email or mobile
+                number
+              </p>
+              <input
+                type="email"
+                placeholder="demo@gmails.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="border border-gray-300 rounded w-full p-2 mb-4 text-white"
+              />
+              <input
+                type="tel"
+                placeholder="+233 ***"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="border border-gray-300 rounded w-full p-2 mb-6 text-white"
+              />
+              <button
+                onClick={handleSendOTP}
+                className="bg-orange-500 hover:bg-orange-600 text-white w-full py-2 rounded"
+              >
+                Continue
+              </button>
+            </>
+          )}
 
-          <input
-            type="text"
-            placeholder="OTP"
-            className="w-full mb-4 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#3a2e26]"
-          />
+          {step === 2 && (
+            <>
+              <h2 className="text-xl font-semibold mb-2 text-center text-white">
+                Verification Code
+              </h2>
+              <p className="text-sm mb-6 text-center text-white">
+                Please enter the OTP sent to your number
+              </p>
+              <div className="flex justify-center gap-2 mb-6">
+                {otp.map((digit, idx) => (
+                  <input
+                    key={idx}
+                    id={`otp-${idx}`}
+                    type="text"
+                    maxLength="1"
+                    value={digit}
+                    onChange={(e) => handleOtpChange(e.target.value, idx)}
+                    className="w-12 h-12 text-center border border-gray-300 rounded text-lg text-white"
+                  />
+                ))}
+              </div>
+              <button
+                onClick={handleConfirmOTP}
+                className="bg-green-500 cursor-pointer hover:bg-orange-600 text-white w-full py-2 rounded"
+              >
+                Confirm
+              </button>
+            </>
+          )}
 
-          <button className="w-full py-2 bg-black text-white rounded-md font-semibold hover:bg-[#3a2e26] transition">
-            VERIFY
-          </button>
+          {step === 3 && (
+            <>
+              <div className="flex justify-center mb-6">
+                <div className="text-5xl text-white">✔️</div>
+              </div>
+              <h2 className="text-xl font-semibold text-center mb-2 text-white">
+                Success!
+              </h2>
+              <p className="text-white text-center mb-4">
+                Congratulations! Your number has been successfully verified.
+              </p>
+            </>
+          )}
 
-          <button
-            onClick={() => navigate("/")}
-            className="mt-4 text-sm text-[#3a2e26] hover:underline"
-          >
-            BACK
-          </button>
-        </div>
-
-        <div className="w-1/2 bg-black text-white p-10 flex flex-col justify-center items-center rounded-r-lg">
-          <img
-            src="/images/ebefarms-logo1.png"
-            alt="EBE FARMS"
-            className="h-20 mb-6"
-          />
-          <h1 className="text-3xl font-bold mb-2">EBE FARMS</h1>
-          <p className="text-sm tracking-wide uppercase mb-8">Farms</p>
-          <p className="text-center text-base">
-            "Nurturing the land, growing with you."
-          </p>
+          {step === 4 && (
+            <>
+              <div className="flex justify-center mb-6">
+                <div className="text-5xl text-green-500">✔️</div>
+              </div>
+              <h2 className="text-xl font-semibold text-center mb-2">
+                Success!
+              </h2>
+              <p className="text-whitetext-center mb-4">
+                Your number is verified. You can now continue.
+              </p>
+              <button
+                onClick={handleFinalContinue}
+                className="bg-orange-500 hover:bg-orange-600 text-white w-full py-2 rounded"
+              >
+                Continue
+              </button>
+            </>
+          )}
         </div>
       </div>
-    </div>
+    </>
   );
-};
-
-export default Otp;
+}
