@@ -4,6 +4,15 @@
 html {
   scrollbar-width: none;
 }
+/* global.css or styles.css */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 @keyframes slideRight {
   0% {
     transform: translateX(0%);

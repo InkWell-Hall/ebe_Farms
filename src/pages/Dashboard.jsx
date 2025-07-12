@@ -43,7 +43,7 @@ const Dashboard = () => {
       <Navbar />
       <div className="flex overflow-x-hidden">
         {/* ...........the left side of dashboard................. */}
-        <div className="bg-[#1F1E17] p-8 min-h-auto text-white md:mt-20 flex-1 mt-40">
+        <div className="bg-white p-8 min-h-auto text-[#1F1E17] md:mt-20 flex-1 mt-40">
           <div className="flex justify-between w-full mb-0">
             <h1 className="font-bold text-white">
               {" "}
@@ -56,7 +56,7 @@ const Dashboard = () => {
               <input
                 type="text"
                 placeholder="Search"
-                className="w-80 h-10 bg-white rounded-full text-black px-3 font-bold border border-gray-500 outline-none"
+                className="w-80 h-10 bg-white rounded-full text-[#1F1E17] px-3 font-bold border border-gray-500 outline-none"
               />
               <Search className="absolute top-1.5 right-5" color="black" />
             </div>
@@ -89,7 +89,7 @@ const Dashboard = () => {
               />
               <Tile
                 title={"Current Investment"}
-                icon={<Wallet />}
+                icon={<Wallet color="text-green-500" />}
                 amount={"$10,000"}
               />
             </div>
@@ -104,7 +104,7 @@ const Dashboard = () => {
         </div>
         {/*  */}
         {/* ........the right side of the dashboard.............. */}
-        <div className="bg-[#1F1E17] w-90 h-auto flex mt-20 flex-col">
+        <div className="bg-white w-90 h-auto flex mt-20 flex-col">
           <div className="bg-white w-70 h-20 mt-7 rounded-2xl flex items-center justify-around">
             <img src={land} alt="" className="w-15 rounded-4xl h-15" />
             <div>
@@ -114,9 +114,9 @@ const Dashboard = () => {
             <Bell className="mb-3" />
           </div>
           {/*  */}
-          <div className="bg-white w-70 h-auto mt-10 p-4 flex flex-col gap-4 rounded">
+          <div className="bg-white w-70 h-auto mt-10 p-4 flex flex-col gap-4 rounded text-[#1F1E17]">
             <div className="flex gap-3 items-center">
-              <h1 className="w-[50%]">Withdrawals</h1>
+              <h1 className="w-[50%] ">Withdrawals</h1>
               <span className="bg-blue-300 w-30 h-10 rounded-xl"></span>
             </div>
             <div className="flex gap-3 items-center">

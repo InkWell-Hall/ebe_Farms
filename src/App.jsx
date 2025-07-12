@@ -9,6 +9,8 @@ import Otp from "./components/Otp";
 import UserAccountPage from "./components/UserAccountPage";
 import ForgotReset from "./components/ForgotReset";
 import ContactPage from "./components/Contact";
+import Dash from "./pages/Dash";
+import UserDashboard from "./pages/UserDashboard";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +45,14 @@ const router = createBrowserRouter([
   {
     path: "/forgetreset",
     element: <ForgotReset />,
+  },
+  {
+    path: "/go",
+    element: <Dash />,
+  },
+  {
+    path: "/board",
+    element: <UserDashboard />,
   },
   {
     path: "/contact",
