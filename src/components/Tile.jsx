@@ -35,7 +35,12 @@ const Tile = ({ title, amount, icon, icon2, showEye }) => {
       </div>
       <div className="flex gap-4 items-center">
         <h1 className="font-bold text-2xl text-black">{amount || "$35,000"}</h1>
-        <RefreshCcw size={20} className="cursor-pointer" ref={refreshRef} />
+        <RefreshCcw
+          size={20}
+          className="cursor-pointer"
+          ref={refreshRef}
+          color="green"
+        />
       </div>
     </div>
   );

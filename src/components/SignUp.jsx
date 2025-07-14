@@ -1,13 +1,36 @@
 import React, { useState } from "react";
-import { Eye, EyeOff, Mail, Lock, Leaf } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  Leaf,
+  User,
+  LockIcon,
+  Phone,
+} from "lucide-react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import mea from "../assets/images/meadow.mp4";
 import { Link, useNavigate } from "react-router";
+import { apiClient } from "../api/client";
 
-const Login = () => {
+const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
+  const signUpUser = async (data) => {
+    try {
+      const response = await apiClient.post("/api/V1/user/signUp", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response);
+      localStorage.setItem("TOKEN", response.data.token);
+      navigate("/otp");
+    } catch (error) {}
+  };
 
   return (
     <>
@@ -18,7 +41,7 @@ const Login = () => {
           loop
           muted
           src={mea}
-          className="absolute bg-cover bg-center w-full -z-10"
+          className="fixed inset-0 w-full h-full object-cover -z-10"
         ></video>
         <div className="max-w-md w-full bg-black/50 rounded-2xl shadow-xl p-6 md:p-8">
           <div className="text-center mb-6 md:mb-8">
@@ -36,10 +59,22 @@ const Login = () => {
             </p>
           </div>
 
-          <form
-            onSubmit={(e) => handleSubmit(e, "login")}
-            className="space-y-4 md:space-y-6"
-          >
+          <form action={signUpUser} className="space-y-4 md:space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">
+                Username
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white" />
+                <input
+                  type="text"
+                  name="userName"
+                  className="w-full pl-10 pr-4 py-2 md:py-3 border text-white border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors text-sm md:text-base"
+                  placeholder="Enter your username"
+                  required
+                />
+              </div>
+            </div>
             <div>
               <label className="block text-sm font-medium text-white mb-2">
                 Email
@@ -55,13 +90,28 @@ const Login = () => {
                 />
               </div>
             </div>
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">
+                Phone
+              </label>
+              <div className="relative">
+                <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white" />
+                <input
+                  type="text"
+                  name="phoneNumber"
+                  className="w-full pl-10 pr-4 py-2 md:py-3 border text-white border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors text-sm md:text-base"
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
+            </div>
 
             <div>
               <label className="block text-sm font-medium text-white mb-2">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white" />
+                <LockIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white" />
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
@@ -94,7 +144,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setCurrentPage("forgot-password")}
-                className="text-blue-700 hover:text-green-700 font-bold"
+                className="text-green-600 hover:text-green-700 font-medium"
               >
                 Forgot password?
               </button>
@@ -112,28 +162,24 @@ const Login = () => {
             <p className="text-white text-sm md:text-base">
               Don't have an account?{" "}
               <button
-                onClick={() => navigate("/sign-up")}
-                className="text-white hover:text-green-700 font-medium cursor-pointer"
+                onClick={() => setCurrentPage("signup")}
+                className="text-green-600 font-bold hover:text-green-700 cursor-pointer"
               >
                 Sign up
               </button>
             </p>
           </div>
 
-          <button
-            onClick={() => setCurrentPage("home")}
-            className="mt-4 w-full text-gray-500 hover:text-gray-700 transition-colors text-sm md:text-base cursor-pointer"
-          >
-            <Link to={"/"} className="text-white">
-              ← Back to Home
-            </Link>
+          <button className="mt-4 w-full text-white hover:text-gray-700 transition-colors text-sm md:text-base cursor-pointer">
+            <Link to={"/"}>← Back to</Link>
           </button>
         </div>
       </div>
-
-      <Footer />
+      <div className="mt-auto">
+        <Footer />
+      </div>
     </>
   );
 };
 
-export default Login;
+export default SignUp;

@@ -10,13 +10,14 @@ import {
   Search,
   User,
 } from "lucide-react";
+import { NavLink } from "react-router";
 
 // Reusable Sidebar Component
 const Sidebar = ({ isOpen, onClose, className = "" }) => {
   const menuItems = [
-    { icon: Home, label: "Dashboard", href: "#" },
-    { icon: Users, label: "Users", href: "#" },
-    { icon: BarChart3, label: "Analytics", href: "#" },
+    { icon: Home, label: "Investment", href: "/board" },
+    { icon: Users, label: "Rental", href: "#" },
+    // { icon: BarChart3, label: "Analytics", href: "#" },
     { icon: Settings, label: "Settings", href: "#" },
   ];
 
@@ -51,14 +52,14 @@ const Sidebar = ({ isOpen, onClose, className = "" }) => {
 
         <nav className="mt-8">
           {menuItems.map((item, index) => (
-            <a
+            <NavLink
               key={index}
-              href={item.href}
+              to={item.href}
               className="flex items-center px-6 py-3 text-green-100 hover:bg-green-700 hover:text-white transition-colors duration-200"
             >
               <item.icon size={20} className="mr-3" />
               {item.label}
-            </a>
+            </NavLink>
           ))}
         </nav>
       </div>

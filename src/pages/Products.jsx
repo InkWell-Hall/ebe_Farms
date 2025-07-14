@@ -13,6 +13,13 @@ import Support from "../components/Support";
 import Title from "../components/Title";
 import { Link } from "react-router";
 import Footer from "../components/Footer";
+import maize from "../assets/maize.jpg";
+import plantain from "../assets/plantain.jpg";
+import plant2 from "../assets/plant2.jpg";
+import cassava from "../assets/cassava.jpg";
+import maize2 from "../assets/maize2.jpg";
+// import maize from "../assets/maize.jpg"
+// import maize from "../assets/maize.jpg"
 
 const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -30,8 +37,7 @@ const Products = () => {
       category: "vegetables",
       price: 45.0,
       unit: "per basket",
-      image:
-        "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400&h=300&fit=crop",
+      image: maize,
       farmer: "Kofi Farms",
       location: "Ashanti Region",
       rating: 4.8,
@@ -47,8 +53,7 @@ const Products = () => {
       category: "vegetables",
       price: 25.0,
       unit: "per dozen",
-      image:
-        "https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=400&h=300&fit=crop",
+      image: maize2,
       farmer: "Ama's Garden",
       location: "Greater Accra",
       rating: 4.9,
@@ -64,8 +69,7 @@ const Products = () => {
       category: "vegetables",
       price: 15.0,
       unit: "per head",
-      image:
-        "https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=400&h=300&fit=crop",
+      image: maize,
       farmer: "Green Valley Farm",
       location: "Eastern Region",
       rating: 4.7,
@@ -80,8 +84,7 @@ const Products = () => {
       category: "fruits",
       price: 35.0,
       unit: "per bunch",
-      image:
-        "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=300&fit=crop",
+      image: plantain,
       farmer: "Tropical Farms",
       location: "Western Region",
       rating: 4.6,
@@ -96,8 +99,7 @@ const Products = () => {
       category: "fruits",
       price: 20.0,
       unit: "per piece",
-      image:
-        "https://images.unsplash.com/photo-1589820296156-2454bb8a6ad1?w=400&h=300&fit=crop",
+      image: plant2,
       farmer: "Sunshine Plantation",
       location: "Central Region",
       rating: 4.9,

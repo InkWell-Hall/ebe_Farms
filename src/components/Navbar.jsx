@@ -5,7 +5,7 @@ import cart from "../assets/images/Bag.svg.svg";
 import profit from "../assets/profit.png";
 import money from "../assets/save-money.png";
 import contact from "../assets/customer-service.png";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import {
   ChevronDown,
   DollarSign,
@@ -19,6 +19,11 @@ const Navbar = () => {
   const [show, setShow] = useState(false);
   const dropdownRef = useRef(null); // reference to the profile dropdown
   const token = localStorage.getItem("TOKEN");
+  const navigate = useNavigate();
+  const signOut = () => {
+    localStorage.removeItem("TOKEN");
+    navigate("/login");
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -83,9 +88,12 @@ const Navbar = () => {
                         Verify Account
                       </li>
                       <li className="hover:bg-black cursor-pointer px-2 whitespace-nowrap w-full">
-                        <Link to={"/dashboard"}>Dashboard</Link>
+                        <Link to={"/board"}>Dashboard</Link>
                       </li>
-                      <li className="hover:bg-black cursor-pointer px-2 whitespace-nowrap w-full">
+                      <li
+                        onClick={signOut}
+                        className="hover:bg-black cursor-pointer px-2 whitespace-nowrap w-full"
+                      >
                         SignOut
                       </li>
                     </ul>
