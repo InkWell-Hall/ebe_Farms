@@ -49,7 +49,9 @@ const UserNavbar = ({ onToggleSidebar, className = "" }) => {
             <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
               <User size={16} />
             </div>
-            <span className="text-sm font-medium text-gray-700">John Doe</span>
+            <span className="text-sm font-medium text-gray-700">
+              Swatson_Jnr
+            </span>
           </div>
         </div>
       </div>
