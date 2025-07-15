@@ -14,10 +14,10 @@ import {
 // Reusable Sidebar Component
 const Sidebar = ({ isOpen, onClose, className = "" }) => {
   const menuItems = [
-    { icon: Home, label: "Dashboard", href: "#" },
+    { icon: Home, label: "Dashboard", href: "/admindashboard" },
     { icon: Users, label: "Farmers", href: "#" },
     { icon: Users, label: "Farm Projects", href: "#" },
-    { icon: Users, label: "Add Farm Projects", href: "#" },
+    { icon: Users, label: "Add Farm Projects", href: "/adproject" },
     { icon: BarChart3, label: "Investors", href: "#" },
     { icon: Settings, label: "Settings", href: "#" },
   ];
@@ -27,7 +27,7 @@ const Sidebar = ({ isOpen, onClose, className = "" }) => {
       {/* Overlay for mobile */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/40 bg-opacity-50 z-40 lg:hidden"
           onClick={onClose}
         />
       )}
@@ -41,11 +41,11 @@ const Sidebar = ({ isOpen, onClose, className = "" }) => {
         ${className}
       `}
       >
-        <div className="flex items-center justify-between p-4 border-b border-green-600">
-          <h1 className="text-xl font-bold">Ebefarms</h1>
+        <div className="flex items-center justify-between p-4 border-b border-white">
+          <h1 className="text-4xl font-bold out">Ebe_Farms</h1>
           <button
             onClick={onClose}
-            className="lg:hidden text-gray-400 hover:text-white"
+            className="lg:hidden text-gray-400 hover:text-white cursor-pointer"
           >
             <X size={24} />
           </button>

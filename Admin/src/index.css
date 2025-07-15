@@ -1,1 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=BIZ+UDPMincho&family=Outfit:wght@100..900&display=swap");
 @import "tailwindcss";
+
+html {
+  scrollbar-width: none;
+}
+/* global.css or styles.css */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+@keyframes slideRight {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-700%);
+  }
+}
+
+/* .active {
+  border-bottom: 5px solid #1f1e17;
+} */
+
+.swatson {
+  font-family: "BIZ+UDPMincho";
+}
+
+.out {
+  font-family: "Outfit";
+}
+.move {
+  animation: move 0.4s linear;
+}
+@keyframes move {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

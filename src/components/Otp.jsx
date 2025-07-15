@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import mea from "../assets/images/meadow.mp4";
+import { apiClient } from "../api/client";
+import { useNavigate } from "react-router";
 
 export default function OTP() {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState(["", "", "", ""]);
+  const navigate = useNavigate();
 
-  const handleSendOTP = () => {
-    if (email || phone) {
-      setStep(2);
-    }
-  };
+  // const handleSendOTP = () => {
+  //   if (email || phone) {
+  //     setStep(2);
+  //   }
+  // };
 
   const handleOtpChange = (value, index) => {
     if (!/^\d?$/.test(value)) return;
@@ -24,21 +27,44 @@ export default function OTP() {
     }
   };
 
-  const handleConfirmOTP = () => {
-    if (otp.join("").length === 4) {
-      setStep(3);
-      setTimeout(() => {
-        setStep(4);
-      }, 1500); // Show success before final screen
-    }
+  // const handleConfirmOTP = () => {
+  //   if (otp.join("").length === 4) {
+  //     setStep(3);
+  //     setTimeout(() => {
+  //       setStep(4);
+  //     }, 1500); // Show success before final screen
+  //   }
+  // };
+  const handleOtp = async (data) => {
+    try {
+      const response = await apiClient.post("/api/V1/user/verifyOtp", data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+        },
+      });
+      console.log(response);
+      navigate("/");
+    } catch (error) {}
   };
 
-  const handleFinalContinue = () => {
-    setStep(1);
-    setEmail("");
-    setPhone("");
-    setOtp(["", "", "", ""]);
+  const handleResendOtp = async () => {
+    try {
+      const response = await apiClient.post("/api/V1/user/resendOtp", {
+        headers: {
+          // "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+        },
+      });
+    } catch (error) {}
   };
+
+  // const handleFinalContinue = () => {
+  //   setStep(1);
+  //   setEmail("");
+  //   setPhone("");
+  //   setOtp(["", "", "", ""]);
+  // };
 
   return (
     <>
@@ -46,26 +72,21 @@ export default function OTP() {
         <video
           autoPlay
           loop
+          muted
           src={mea}
           className="absolute bg-cover bg-center w-full -z-10"
         ></video>
         <div className=" text-white rounded-xl shadow-lg w-full max-w-sm p-8 bg-black/50">
-          {step === 1 && (
-            <>
-              <div className="flex justify-center mb-6">
-                {/* <img
-                  src="https://cdn-icons-png.flaticon.com/512/10283/10283373.png"
-                  alt="Secure"
-                  className="w-20 h-20"
-                /> */}
-              </div>
-              <h2 className="text-xl font-semibold mb-2 text-center">
-                OTP Verification
-              </h2>
-              <p className="text-sm text-white mb-6 text-center">
-                We will send you a one-time password on your email or mobile
-                number
-              </p>
+          {/* {step === 1 && ( */}
+          <>
+            {/* <div className="flex justify-center mb-6"></div> */}
+            <h2 className="text-xl font-semibold mb-2 text-center">
+              OTP Verification
+            </h2>
+            <p className="text-sm text-white mb-6 text-center">
+              We will send you a one-time password on your email
+            </p>
+            {/* <form action="">
               <input
                 type="email"
                 placeholder="demo@gmails.com"
@@ -82,14 +103,16 @@ export default function OTP() {
               />
               <button
                 onClick={handleSendOTP}
+                type="submit"
                 className="bg-orange-500 hover:bg-orange-600 text-white w-full py-2 rounded"
               >
                 Continue
               </button>
-            </>
-          )}
+            </form> */}
+          </>
+          {/* )} */}
 
-          {step === 2 && (
+          {/* {step === 2 && (
             <>
               <h2 className="text-xl font-semibold mb-2 text-center text-white">
                 Verification Code
@@ -117,9 +140,9 @@ export default function OTP() {
                 Confirm
               </button>
             </>
-          )}
+          )} */}
 
-          {step === 3 && (
+          {/* {step === 3 && (
             <>
               <div className="flex justify-center mb-6">
                 <div className="text-5xl text-white">✔️</div>
@@ -131,9 +154,9 @@ export default function OTP() {
                 Congratulations! Your number has been successfully verified.
               </p>
             </>
-          )}
+          )} */}
 
-          {step === 4 && (
+          {/* {step === 4 && (
             <>
               <div className="flex justify-center mb-6">
                 <div className="text-5xl text-green-500">✔️</div>
@@ -151,7 +174,51 @@ export default function OTP() {
                 Continue
               </button>
             </>
-          )}
+          )} */}
+          <>
+            <form action={handleOtp}>
+              <h2 className="text-xl font-semibold mb-2 text-center text-white">
+                Verification Code
+              </h2>
+              <p className="text-sm mb-6 text-center text-white">
+                Please enter the OTP sent to your number
+              </p>
+              {/* <div className="flex justify-center gap-2 mb-6">
+                {otp.map((digit, idx) => (
+                  <input
+                    key={idx}
+                    id={`otp-${idx}`}
+                    type="text"
+                    maxLength="1"
+                    name="otp"
+                    value={digit}
+                    onChange={(e) => handleOtpChange(e.target.value, idx)}
+                    className="w-12 h-12 text-center border border-gray-300 rounded text-lg text-white"
+                  />
+                ))}
+              </div> */}
+              <input
+                type="text"
+                name="otp"
+                className="border border-white flex w-[70%] mx-auto mb-7"
+              />
+              <div className="flex justify-center items-center mb-5">
+                <h1
+                  className="text-blue-600 cursor-pointer"
+                  onClick={handleResendOtp}
+                >
+                  Resend Otp
+                </h1>
+              </div>
+              <button
+                // onClick={handleConfirmOTP}
+                type="submit"
+                className="bg-green-500 cursor-pointer hover:bg-orange-600 text-white w-full py-2 rounded"
+              >
+                Verify Otp
+              </button>
+            </form>
+          </>
         </div>
       </div>
     </>
