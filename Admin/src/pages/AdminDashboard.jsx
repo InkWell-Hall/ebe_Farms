@@ -9,6 +9,7 @@ const AdminDashboard = () => {
   const closeSidebar = () => {
     setSidebarOpen(false);
   };
+  
   const stats = [
     {
       title: "Total Farm Projects",

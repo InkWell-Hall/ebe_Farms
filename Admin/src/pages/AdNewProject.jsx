@@ -28,6 +28,19 @@ const AdNewProject = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // const postproject = async (data) => {
+  //   try {
+  //     const response = await apiclient.post("/api/V1/farmProjects", data, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+
+  //       }
+  //     });
+
+      
+    // } catch (error) {
+      
+    // }
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar on the left */}
