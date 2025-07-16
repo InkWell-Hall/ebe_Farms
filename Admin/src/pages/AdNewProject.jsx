@@ -3,6 +3,8 @@ import Sidebar from "../components/SideBar";
 import { useNavigate } from "react-router";
 import { Leaf } from "lucide-react";
 import Navbar from "../components/Navbar";
+import { apiClient } from "../api/client";
+import { toast } from "react-toastify";
 
 const AdNewProject = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -21,26 +23,31 @@ const AdNewProject = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("Men");
-  const [subCategory, setSubCategory] = useState("topwear");
+  const [location, setLocation] = useState("Men");
+  const [reFunding, setReFunding] = useState("topwear");
   const [isActive, setIsActive] = useState(false);
   const [size, setSize] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // const postproject = async (data) => {
-  //   try {
-  //     const response = await apiclient.post("/api/V1/farmProjects", data, {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
-
-  //       }
-  //     });
-
-      
-    // } catch (error) {
-      
-    // }
+  const postproject = async (data) => {
+    try {
+      const response = await apiClient.post("/api/V1/farmProjects", data, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+        },
+      });
+      console.log(response);
+      toast.success(response.data.message);
+      setName("");
+      setDescription("");
+      setReFunding("");
+      // let FormData = " ";
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar on the left */}
@@ -59,7 +66,7 @@ const AdNewProject = () => {
 
           <form
             className="max-w-4xl mx-auto bg-white rounded-2xl shadow-md p-6 space-y-6 px-10 mt-27"
-            // onSubmit={postAd}
+            action={postproject}
           >
             <h1 className="text-3xl font-bold text-center text-[#0F123F] mb-4 ">
               Post New Farm Project
@@ -152,7 +159,7 @@ const AdNewProject = () => {
                 </label>
                 <input
                   type="number"
-                  value={price}
+                  value={reFunding}
                   name="totalRequiredFunding"
                   onChange={(e) => setPrice(e.target.value)}
                   className="w-full border border-gray-300 rounded px-4 py-2 outline-none"
@@ -188,7 +195,7 @@ const AdNewProject = () => {
                 </label>
                 <input
                   type="number"
-                  value={price}
+                  // value={price}
                   name="durationInMonths"
                   // onChange={(e) => setPrice(e.target.value)}
                   className="w-full border border-gray-300 rounded px-4 py-2 outline-none"
@@ -230,6 +237,7 @@ const AdNewProject = () => {
                 type="checkbox"
                 id="isActive"
                 name="isActive"
+                value={isActive}
                 checked={isActive}
                 onChange={() => setIsActive(!isActive)}
               />

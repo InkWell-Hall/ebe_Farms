@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import logo1 from "../assets/images/logo1.png";
-import logo2 from "../assets/images/logo2.jpeg";
-import cart from "../assets/images/Bag.svg.svg";
-import profit from "../assets/profit.png";
+import logo1 from "../assets/logo1.png";
+// import logo2 from "../assets/logo2.jpeg";
+// import cart from "../assets/images/Bag.svg.svg";
+// import profit from "../assets/profit.png";
 import money from "../assets/save-money.png";
 import contact from "../assets/customer-service.png";
 import { Link, NavLink, useNavigate } from "react-router";
@@ -15,7 +15,7 @@ import {
   ShoppingCart,
   User,
 } from "lucide-react";
-const Navbar = () => {
+const AdminNavbar = () => {
   const [show, setShow] = useState(false);
   const dropdownRef = useRef(null); // reference to the profile dropdown
   const token = localStorage.getItem("TOKEN");
@@ -39,12 +39,10 @@ const Navbar = () => {
   }, []);
   return (
     <>
-      <nav className="bg-green-500 fixed w-full z-10 top-0">
+      <nav className=" bg-[#EECE38] fixed w-full z-10 top-0">
         <div className="flex w-[90%] mx-auto justify-between items-center  text-white font-bold">
           <div>
-            <Link to={"/"}>
-              <img src={logo1} alt="" className="w-30 h-25" />
-            </Link>
+            <img src={logo1} alt="" className="w-30 h-25" />
           </div>
 
           <div>
@@ -107,7 +105,7 @@ const Navbar = () => {
             </div>
             {token ? (
               <button className="bg-[#1F1E17] text-white px-2 py-3 rounded cursor-pointer">
-                <Link to={"/contact"}> Get In Touch</Link>
+                Get In Touch
               </button>
             ) : (
               <div>
@@ -152,4 +150,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default AdminNavbar;

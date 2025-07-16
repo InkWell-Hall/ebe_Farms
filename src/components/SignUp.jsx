@@ -51,11 +51,11 @@ const SignUp = () => {
                 EBE FARMS
               </h1>
             </div>
-            <h2 className="text-xl md:text-2xl font-bold text-white">
-              Welcome Back
+            <h2 className="text-xl md:text-2xl font-bold text-white out">
+              WELCOME
             </h2>
-            <p className="text-white mt-2 text-sm md:text-base">
-              Sign in to your account
+            <p className="text-white mt-2 text-sm md:text-base out">
+              Sign up to create an account
             </p>
           </div>
 
@@ -154,18 +154,18 @@ const SignUp = () => {
               type="submit"
               className="w-full bg-green-600 cursor-pointer text-white py-2 md:py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors text-sm md:text-base"
             >
-              Sign In
+              Sign Up
             </button>
           </form>
 
           <div className="mt-4 md:mt-6 text-center">
             <p className="text-white text-sm md:text-base">
-              Don't have an account?{" "}
+              Already have an account?{" "}
               <button
-                onClick={() => setCurrentPage("signup")}
+                // onClick={() => setCurrentPage("signup")}
                 className="text-green-600 font-bold hover:text-green-700 cursor-pointer"
               >
-                Sign up
+                <Link to={"/login"}>Login</Link>
               </button>
             </p>
           </div>

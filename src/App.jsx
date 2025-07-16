@@ -13,6 +13,11 @@ import Dash from "./pages/Dash";
 import UserDashboard from "./pages/UserDashboard";
 import SignUp from "./components/SignUp";
 import TotalInvestment from "./pages/TotalInvesment";
+import Rentals from "./pages/investment/Rentals";
+import TotalRentals from "./pages/TotalRentals";
+import FarmProjectCard from "./components/FarmProjectCard";
+import NewPassword from "./pages/NewPassword";
+import EbeContextProvider from "./context/EbeContext";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +62,10 @@ const router = createBrowserRouter([
     element: <ForgotReset />,
   },
   {
+    path: "/new-password",
+    element: <NewPassword />,
+  },
+  {
     path: "/go",
     element: <Dash />,
   },
@@ -68,12 +77,26 @@ const router = createBrowserRouter([
     path: "/contact",
     element: <ContactPage />,
   },
+  {
+    path: "/rentals",
+    element: <Rentals />,
+  },
+  {
+    path: "/total-rentals",
+    element: <TotalRentals />,
+  },
+  {
+    path: "/card",
+    element: <FarmProjectCard />,
+  },
 ]);
 
 const App = () => {
   return (
     <>
-      <RouterProvider router={router} />
+      <EbeContextProvider>
+        <RouterProvider router={router} />
+      </EbeContextProvider>
     </>
   );
 };

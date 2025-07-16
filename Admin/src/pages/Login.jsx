@@ -1,24 +1,38 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, Leaf } from "lucide-react";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+// import Navbar from "./Navbar";
+// import Footer from "./Footer";
 import mazie from "../assets/meadow.mp4";
 import { Link, useNavigate } from "react-router";
+import AdminNavbar from "../components/AdminNavbar";
+import Footer from "../components/Footer";
+import { apiClient } from "../api/client";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showAdminCode, setShowAdminCode] = useState(false);
   const navigate = useNavigate();
-
+  const loginUser = async (data) => {
+    try {
+      const response = await apiClient.post("/api/V1/user/login", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response);
+      navigate("/admindashboard");
+    } catch (error) {}
+  };
   return (
     <>
-      <Navbar />
+      <AdminNavbar />
       <div className="min-h-screen flex items-center justify-center p-4 pt-30">
         <video
           autoPlay
           loop
           muted
           src={mazie}
-          className="absolute bg-cover bg-center w-full -z-10"
+          className="fixed inset-0 w-full h-full object-cover -z-10"
         ></video>
         <div className="max-w-md w-full bg-black/50 rounded-2xl shadow-xl p-6 md:p-8">
           <div className="text-center mb-6 md:mb-8">
@@ -36,10 +50,7 @@ const Login = () => {
             </p>
           </div>
 
-          <form
-            onSubmit={(e) => handleSubmit(e, "login")}
-            className="space-y-4 md:space-y-6"
-          >
+          <form action={loginUser} className="space-y-4 md:space-y-6">
             <div>
               <label className="block text-sm font-medium text-white mb-2">
                 Email
@@ -75,9 +86,35 @@ const Login = () => {
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-600"
                 >
                   {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
-                  ) : (
                     <Eye className="h-5 w-5" />
+                  ) : (
+                    <EyeOff className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">
+                Admin Code
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white" />
+                <input
+                  type={showAdminCode ? "text" : "password"}
+                  name="confirmPassword"
+                  className="w-full pl-10 pr-12 py-2 md:py-3 text-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors text-sm md:text-base"
+                  placeholder="Enter your password"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowAdminCode(!showAdminCode)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-600"
+                >
+                  {showAdminCode ? (
+                    <Eye className="h-5 w-5" />
+                  ) : (
+                    <EyeOff className="h-5 w-5" />
                   )}
                 </button>
               </div>

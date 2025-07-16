@@ -9,14 +9,19 @@ import {
   LockIcon,
   Phone,
 } from "lucide-react";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+// import Navbar from "./Navbar";
+// import Footer from "./Footer";
 import mea from "../assets/meadow.mp4";
 import { Link, useNavigate } from "react-router";
+// import { apiClient } from "../api/client";
+import AdminNavbar from "../components/AdminNavbar";
+import Footer from "../components/Footer";
 import { apiClient } from "../api/client";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showAdminCode, setShowAdminCode] = useState(false);
+
   const navigate = useNavigate();
 
   const signUpUser = async (data) => {
@@ -34,7 +39,7 @@ const SignUp = () => {
 
   return (
     <>
-      <Navbar />
+      <AdminNavbar />
       <div className="min-h-screen flex items-center justify-center p-4 pt-30">
         <video
           autoPlay
@@ -51,11 +56,11 @@ const SignUp = () => {
                 EBE FARMS
               </h1>
             </div>
-            <h2 className="text-xl md:text-2xl font-bold text-white">
-              Welcome Back
+            <h2 className="text-xl md:text-2xl font-bold text-white out">
+              Welcome
             </h2>
-            <p className="text-white mt-2 text-sm md:text-base">
-              Sign in to your account
+            <p className="text-white mt-2 text-sm md:text-base out">
+              Sign up to create an account
             </p>
           </div>
 
@@ -125,14 +130,41 @@ const SignUp = () => {
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-600"
                 >
                   {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
-                  ) : (
                     <Eye className="h-5 w-5" />
+                  ) : (
+                    <EyeOff className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">
+                Admin Code
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white" />
+                <input
+                  type={showAdminCode ? "text" : "password"}
+                  name="confirmPassword"
+                  className="w-full pl-10 pr-12 py-2 md:py-3 text-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors text-sm md:text-base"
+                  placeholder="Enter your password"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowAdminCode(!showAdminCode)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-600"
+                >
+                  {showAdminCode ? (
+                    <Eye className="h-5 w-5" />
+                  ) : (
+                    <EyeOff className="h-5 w-5" />
                   )}
                 </button>
               </div>
             </div>
 
+            {/*  */}
             <div className="flex items-center justify-between text-sm">
               <label className="flex items-center">
                 <input
@@ -160,12 +192,12 @@ const SignUp = () => {
 
           <div className="mt-4 md:mt-6 text-center">
             <p className="text-white text-sm md:text-base">
-              Don't have an account?{" "}
+              Already have an account?{" "}
               <button
-                onClick={() => setCurrentPage("signup")}
+                // onClick={() => setCurrentPage("signup")}
                 className="text-green-600 font-bold hover:text-green-700 cursor-pointer"
               >
-                Sign up
+                <Link to={"/"}>Login</Link>
               </button>
             </p>
           </div>

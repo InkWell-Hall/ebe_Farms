@@ -5,11 +5,13 @@ import AdminDashboardCard from "./components/AdminDashboardCard";
 import AdNewProject from "./pages/AdNewProject";
 import Login from "./pages/Login";
 import Otp from "./pages/Otp";
+import SignUp from "./pages/SignUp";
+import { ToastContainer, toast } from "react-toastify";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello World</div>,
+    element: <Login />,
   },
   {
     path: "/admindashboard",
@@ -19,27 +21,28 @@ const router = createBrowserRouter([
     path: "/admindashboardcard",
     element: <AdminDashboardCard />,
   },
-   {
+  {
     path: "/adproject",
-    element: <AdNewProject/>,
+    element: <AdNewProject />,
   },
   {
     path: "/otp",
     element: <Otp />,
   },
+  // {
+  //   path: "login",
+  //   element: <Login/>,
+  // },
   {
-    path: "login",
-    element: <Login/>,
-  },
-  {
-    path: "signup",
-    element: <Signup />,
+    path: "sign-up",
+    element: <SignUp />,
   },
 ]);
 
 const App = () => {
   return (
     <>
+      <ToastContainer />
       <RouterProvider router={router} />
     </>
   );

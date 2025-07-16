@@ -16,7 +16,7 @@ import { NavLink } from "react-router";
 const Sidebar = ({ isOpen, onClose, className = "" }) => {
   const menuItems = [
     { icon: Home, label: "Investment", href: "/board" },
-    { icon: Users, label: "Rental", href: "#" },
+    { icon: Users, label: "Rental", href: "/rentals" },
     // { icon: BarChart3, label: "Analytics", href: "#" },
     { icon: Settings, label: "Settings", href: "#" },
   ];

@@ -4,11 +4,23 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import mea from "../assets/images/meadow.mp4";
 import { Link, useNavigate } from "react-router";
+import { apiClient } from "../api/client";
+// import { apiClient } from "../../Admin/src/api/client";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  const loginUser = async (data) => {
+    try {
+      const response = await apiClient.post("/api/V1/user/login", data, {
+        headers: {
+          "Content-Type": "application-json",
+        },
+      });
+      console.log(response);
+    } catch (error) {}
+  };
   return (
     <>
       <Navbar />
@@ -18,7 +30,7 @@ const Login = () => {
           loop
           muted
           src={mea}
-          className="absolute bg-cover bg-center w-full -z-10"
+          className="fixed inset-0 w-full h-full object-cover -z-10"
         ></video>
         <div className="max-w-md w-full bg-black/50 rounded-2xl shadow-xl p-6 md:p-8">
           <div className="text-center mb-6 md:mb-8">
@@ -36,10 +48,7 @@ const Login = () => {
             </p>
           </div>
 
-          <form
-            onSubmit={(e) => handleSubmit(e, "login")}
-            className="space-y-4 md:space-y-6"
-          >
+          <form action={loginUser} className="space-y-4 md:space-y-6">
             <div>
               <label className="block text-sm font-medium text-white mb-2">
                 Email
@@ -96,7 +105,7 @@ const Login = () => {
                 onClick={() => setCurrentPage("forgot-password")}
                 className="text-blue-700 hover:text-green-700 font-bold"
               >
-                Forgot password?
+                <Link to={"/forgetreset"}>Forgot password?</Link>
               </button>
             </div>
 
