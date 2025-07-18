@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Otp from "./pages/Otp";
 import SignUp from "./pages/SignUp";
 import { ToastContainer, toast } from "react-toastify";
+import FarmProjects from "./pages/FarmProjects";
 
 const router = createBrowserRouter([
   {
@@ -29,10 +30,10 @@ const router = createBrowserRouter([
     path: "/otp",
     element: <Otp />,
   },
-  // {
-  //   path: "login",
-  //   element: <Login/>,
-  // },
+  {
+    path: "/farm-projects",
+    element: <FarmProjects />,
+  },
   {
     path: "sign-up",
     element: <SignUp />,

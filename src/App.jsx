@@ -18,6 +18,9 @@ import TotalRentals from "./pages/TotalRentals";
 import FarmProjectCard from "./components/FarmProjectCard";
 import NewPassword from "./pages/NewPassword";
 import EbeContextProvider from "./context/EbeContext";
+import Investor from "./pages/Investor";
+import { ToastContainer, toast } from "react-toastify";
+import SingleProjectPage from "./pages/SingleProjectPage";
 
 const router = createBrowserRouter([
   {
@@ -33,7 +36,7 @@ const router = createBrowserRouter([
     element: <Dashboard />,
   },
   {
-    path: "/newinvestment",
+    path: "/newinvestment/:id",
     element: <NewInvestment />,
   },
   {
@@ -86,6 +89,18 @@ const router = createBrowserRouter([
     element: <TotalRentals />,
   },
   {
+    path: "/farm-project",
+    element: <Products />,
+  },
+  {
+    path: "/investor",
+    element: <Investor />,
+  },
+  {
+    path: "/single/:id",
+    element: <SingleProjectPage />,
+  },
+  {
     path: "/card",
     element: <FarmProjectCard />,
   },
@@ -95,6 +110,7 @@ const App = () => {
   return (
     <>
       <EbeContextProvider>
+        <ToastContainer />
         <RouterProvider router={router} />
       </EbeContextProvider>
     </>

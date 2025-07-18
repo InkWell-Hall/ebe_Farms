@@ -7,6 +7,7 @@ import Navbar from "./Navbar";
 const ForgotReset = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  
   const passwordReset = async (event, data) => {
     event.preventDefault();
     setLoading(true);

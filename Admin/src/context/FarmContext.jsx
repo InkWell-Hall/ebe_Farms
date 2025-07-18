@@ -26,6 +26,12 @@ const FarmContextProvider = (props) => {
     }
   };
 
+  const getAllInvestors = async () => {
+    try {
+      const response = await apiClient.post("/");
+    } catch (error) {}
+  };
+
   useEffect(() => {
     getAllFarmProject();
     getAllUsers();

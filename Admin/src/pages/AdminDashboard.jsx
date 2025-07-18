@@ -1,15 +1,22 @@
-import React, { useState } from "react";
-import { Tractor, Users, PackageCheck, Activity } from "lucide-react";
+import React, { useContext, useState } from "react";
+import {
+  Tractor,
+  Users,
+  PackageCheck,
+  Activity,
+  Menu,
+  User,
+} from "lucide-react";
 import AdminDashboardCard from "../components/AdminDashboardCard";
 import BarChart from "../components/BarChart";
 import Sidebar from "../components/SideBar";
+import { FarmContext } from "../context/FarmContext";
+import Navbar from "../components/Navbar";
 
 const AdminDashboard = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const closeSidebar = () => {
-    setSidebarOpen(false);
-  };
-  
+  const [sidebarOpen, setSidebarOpen] = useState(true); // Sidebar is open by default
+  const { allFarmProjects } = useContext(FarmContext);
+
   const stats = [
     {
       title: "Total Farm Projects",
@@ -34,19 +41,35 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <>
-      <div className="h-screen flex overflow-hidden">
-        {/* Sidebar */}
-        <div className="w-64 bg-white shadow-md">
-          <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />
-        </div>
+    <div className="h-screen flex overflow-hidden">
+      {/* Sidebar wrapper with transition */}
+      <div
+        className={`${
+          sidebarOpen ? "w-64" : "w-0"
+        } bg-white shadow-md transition-all duration-300 overflow-hidden`}
+      >
+        {sidebarOpen && (
+          <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+        )}
+      </div>
 
-        {/* Main Content */}
-        <div className="flex-1 overflow-y-auto p-6 bg-gray-100">
+      {/* Main content */}
+      <div className="flex-1 overflow-y-auto bg-gray-100">
+        <Navbar />
+        {/* Sidebar toggle button */}
+        <button
+          className="mb-4 flex items-center gap-2 text-green-700 font-semibold"
+          onClick={() => setSidebarOpen((prev) => !prev)}
+        >
+          <Menu className="w-5 h-5 cursor-pointer" />
+          {sidebarOpen ? "Hide Sidebar" : "Show Sidebar"}
+        </button>
+        <div className="p-6">
           <h1 className="text-3xl font-bold text-green-700 mb-6">
             Admin Dashboard
           </h1>
 
+          {/* Stat cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
             {stats.map((stat, index) => (
               <AdminDashboardCard
@@ -58,10 +81,54 @@ const AdminDashboard = () => {
             ))}
           </div>
 
-          <div className="mb-6">
+          {/* Chart */}
+          <div className="mb-6 flex flex-col md:flex-row gap-4">
             <BarChart />
+            {/* Recent Activity */}
+            <div className="bg-white p-6 rounded-lg shadow-sm border border-green-200 md:w-[30%]">
+              <h2 className="text-lg font-semibold text-green-900 mb-4">
+                Recent Farm Activity
+              </h2>
+              <div className="space-y-4">
+                {[
+                  {
+                    user: "Farm Manager",
+                    action: "Updated crop schedule",
+                    time: "2 hours ago",
+                  },
+                  {
+                    user: "Field Worker",
+                    action: "Completed irrigation",
+                    time: "4 hours ago",
+                  },
+                  {
+                    user: "Harvest Team",
+                    action: "Collected wheat batch",
+                    time: "6 hours ago",
+                  },
+                ].map((activity, index) => (
+                  <div key={index} className="flex items-start space-x-3">
+                    <div className="w-8 h-8 bg-green-200 rounded-full flex items-center justify-center">
+                      <User size={14} className="text-green-700" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-green-900">
+                        {activity.user}
+                      </p>
+                      <p className="text-xs text-green-600">
+                        {activity.action}
+                      </p>
+                      <p className="text-xs text-green-500 mt-1">
+                        {activity.time}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
+          {/* Recent Activities */}
           <div className="bg-white shadow rounded-xl p-6">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">
               Recent Project Activities
@@ -99,7 +166,7 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

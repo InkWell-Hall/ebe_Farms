@@ -11,17 +11,22 @@ import {
 import Navbar from "../components/Navbar";
 import Support from "../components/Support";
 import Title from "../components/Title";
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
 import Footer from "../components/Footer";
 import maize from "../assets/maize.jpg";
 import plantain from "../assets/plantain.jpg";
 import plant2 from "../assets/plant2.jpg";
 import cassava from "../assets/cassava.jpg";
 import maize2 from "../assets/maize2.jpg";
+import { useContext } from "react";
+import { EbeContext } from "../context/EbeContext";
+import FarmProjectCard from "../components/FarmProjectCard";
 // import maize from "../assets/maize.jpg"
 // import maize from "../assets/maize.jpg"
 
 const Products = () => {
+  const { allFarmProject } = useContext(EbeContext);
+  const id = useParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedLocation, setSelectedLocation] = useState("all");
@@ -169,7 +174,7 @@ const Products = () => {
           <Navbar />
         </div>
         {/* Header */}
-        <div className="bg-white shadow-sm border-b mt-40 md:mt-20">
+        <div className="bg-white shadow-sm border-b">
           <div className="max-w-7xl mx-auto px-4 py-6">
             <div className="flex items-center justify-between">
               <div>
@@ -185,7 +190,7 @@ const Products = () => {
         </div>
 
         {/* Main Content with Sidebar */}
-        <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="max-w-8xl mx-auto px-2 py-6">
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Sidebar Filters */}
             <div className="w-full lg:w-80">
@@ -276,7 +281,7 @@ const Products = () => {
 
             {/* Products Grid */}
             <div className="flex-1">
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              {/* <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {filteredProducts.map((product) => (
                   <div
                     key={product.id}
@@ -355,6 +360,29 @@ const Products = () => {
                     </div>
                   </div>
                 ))}
+              </div> */}
+              <div className="flex-1 mt-10 overflow-x-hidden px-3 pb-6 no-scrollbar">
+                <h1 className="mb-7 out text-3xl">ALL FARM PROJECTS</h1>
+                {allFarmProject.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {allFarmProject.map((project, n) => {
+                      return (
+                        <div>
+                          <Link to={`/single/${project.id}`} key={n}>
+                            <FarmProjectCard
+                              project={project}
+                              id={project.id}
+                            />
+                          </Link>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="translate-x-90 translate-y-36 w-190">
+                    <h1 className="">FAILED TO LOAD FARM PROJECTS ):</h1>
+                  </div>
+                )}
               </div>
 
               {filteredProducts.length === 0 && (

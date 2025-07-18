@@ -41,7 +41,7 @@ const Sidebar = ({ isOpen, onClose, className = "" }) => {
       `}
       >
         <div className="flex items-center justify-between p-4 border-b border-green-600">
-          <h1 className="text-xl font-bold">AgriAdmin</h1>
+          <h1 className=" font-bold out text-4xl">EBE_FARMS</h1>
           <button
             onClick={onClose}
             className="lg:hidden text-gray-400 hover:text-white"

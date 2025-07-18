@@ -1,11 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import logo1 from "../assets/images/logo1.png";
-import logo2 from "../assets/images/logo2.jpeg";
-import cart from "../assets/images/Bag.svg.svg";
-import profit from "../assets/profit.png";
-import money from "../assets/save-money.png";
-import contact from "../assets/customer-service.png";
 import { Link, NavLink, useNavigate } from "react-router";
+import logo from "../assets/gogo.png";
 import {
   ChevronDown,
   DollarSign,
@@ -14,12 +9,26 @@ import {
   ShoppingBag,
   ShoppingCart,
   User,
+  Menu,
+  X,
+  TrendingUp,
+  Store,
+  Mail,
+  LogOut,
+  Shield,
+  BarChart3,
+  Sprout,
+  Wheat,
+  Leaf,
 } from "lucide-react";
+
 const Navbar = () => {
-  const [show, setShow] = useState(false);
-  const dropdownRef = useRef(null); // reference to the profile dropdown
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const profileDropdownRef = useRef(null);
   const token = localStorage.getItem("TOKEN");
   const navigate = useNavigate();
+
   const signOut = () => {
     localStorage.removeItem("TOKEN");
     navigate("/login");
@@ -27,8 +36,11 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setShow(false);
+      if (
+        profileDropdownRef.current &&
+        !profileDropdownRef.current.contains(event.target)
+      ) {
+        setShowProfileDropdown(false);
       }
     };
 
@@ -37,117 +49,214 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const navLinks = [
+    { to: "/", label: "Home", icon: Home },
+    { to: "/farm-project", label: "Invest", icon: TrendingUp },
+    { to: "/products", label: "Marketplace", icon: Store },
+    { to: "/contact", label: "Contact", icon: Mail },
+  ];
+
+  const NavLinkComponent = ({ to, label, icon: Icon, mobile = false }) => (
+    <NavLink
+      to={to}
+      className={({ isActive }) =>
+        `flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 ${
+          mobile
+            ? `w-full ${
+                isActive
+                  ? "bg-green-100 text-green-800 border-l-4 border-green-600"
+                  : "text-gray-700 hover:bg-green-50"
+              }`
+            : `relative ${
+                isActive
+                  ? "text-green-100 bg-[#1F1E17]"
+                  : "text-white hover:text-green-100 hover:bg-green-600/10"
+              }`
+        }`
+      }
+      onClick={() => mobile && setShowMobileMenu(false)}
+    >
+      <Icon size={18} />
+      <span className="font-medium">{label}</span>
+    </NavLink>
+  );
+
   return (
     <>
-      <nav className="bg-green-500 fixed w-full z-10 top-0">
-        <div className="flex w-[90%] mx-auto justify-between items-center  text-white font-bold">
-          <div>
-            <Link to={"/"}>
-              <img src={logo1} alt="" className="w-30 h-25" />
-            </Link>
-          </div>
-
-          <div>
-            <ul className=" gap-5 hidden md:flex">
-              <li className="flex">
-                <NavLink to={"/"} className="flex gap-2">
-                  <Home color="black" />
-                  <h1 className="mb-2"> Home</h1>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to={"/products"} className="flex gap-2">
-                  <img src={money} alt="" className="w-7" />
-                  Invest
-                </NavLink>
-              </li>
-              <li>
-                <Link to={"/products"} className="flex gap-2">
-                  <ShoppingCart color="black" />
-                  Marketplace
-                </Link>
-              </li>
-              <li>
-                <Link to={"/contact"} className="flex gap-2">
-                  <img src={contact} alt="" className="w-7" />
-                  Contact{" "}
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="flex gap-10 items-center">
-            <div className="flex gap-7 ">
-              <div className="relative" ref={dropdownRef}>
-                <User
-                  className="border rounded-full cursor-pointer"
-                  onClick={() => setShow(!show)}
-                />
-                {show ? (
-                  <div className="w-30 h-27 bg-gray-300 absolute -right-14 rounded mt-2 z-90">
-                    <ul className="flex flex-col justify-center  gap-3 p-1 text-sm">
-                      <li className="hover:bg-black cursor-pointer px-2 whitespace-nowrap w-full">
-                        Verify Account
-                      </li>
-                      <li className="hover:bg-black cursor-pointer px-2 whitespace-nowrap w-full">
-                        <Link to={"/board"}>Dashboard</Link>
-                      </li>
-                      <li
-                        onClick={signOut}
-                        className="hover:bg-black cursor-pointer px-2 whitespace-nowrap w-full"
-                      >
-                        SignOut
-                      </li>
-                    </ul>
-                  </div>
-                ) : null}
-              </div>
-              {/* <img src={cart} alt="" className="cursor-pointer" /> */}
-              <ShoppingBag className=" cursor-pointer" />
+      <nav className="bg-gradient-to-r from-green-600 to-green-700 shadow-lg fixed w-full z-50 top-0">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <div className="flex items-center">
+              <Link
+                to="/"
+                className="flex items-center gap-2 hover:opacity-90 transition-opacity"
+              >
+                <div className="bg-white p-2 rounded-lg">
+                  <Leaf className="w-6 h-6 text-green-600" />
+                  {/* <img src={logo} alt="" className="w-20" /> */}
+                </div>
+                <div className="text-white">
+                  <h1 className="text-xl font-bold out">Ebe_Farms</h1>
+                  <p className="text-xs text-green-100 out">
+                    Your Farm Investment Platform
+                  </p>
+                </div>
+              </Link>
             </div>
-            {token ? (
-              <button className="bg-[#1F1E17] text-white px-2 py-3 rounded cursor-pointer">
-                <Link to={"/contact"}> Get In Touch</Link>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-1">
+              {navLinks.map((link) => (
+                <NavLinkComponent
+                  key={link.to}
+                  to={link.to}
+                  label={link.label}
+                  icon={link.icon}
+                />
+              ))}
+            </div>
+
+            {/* Right Side Actions */}
+            <div className="flex items-center gap-4">
+              {/* Shopping Cart */}
+              <button className="relative text-white hover:text-green-100 transition-colors">
+                <ShoppingBag size={20} />
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  2
+                </span>
               </button>
-            ) : (
-              <div>
-                <button className="bg-[#1F1E17] text-white px-3 py-1 rounded cursor-pointer">
-                  <Link to={"/login"}>Login</Link>
-                </button>
-              </div>
-            )}
+
+              {token ? (
+                <>
+                  {/* Profile Dropdown */}
+                  <div className="relative" ref={profileDropdownRef}>
+                    <button
+                      onClick={() =>
+                        setShowProfileDropdown(!showProfileDropdown)
+                      }
+                      className="flex items-center gap-2 text-white hover:text-green-100 cursor-pointer transition-colors"
+                    >
+                      <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                        <User size={16} />
+                      </div>
+                      <ChevronDown
+                        size={16}
+                        className={`transition-transform ${
+                          showProfileDropdown ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+
+                    {showProfileDropdown && (
+                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-10">
+                        <div className="px-4 py-2 border-b border-gray-100">
+                          <p className="text-sm out font-medium text-gray-900">
+                            Account Menu
+                          </p>
+                        </div>
+                        <button className="w-full text-left out px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                          <Shield size={16} />
+                          Verify Account
+                        </button>
+                        <Link
+                          to="/investor"
+                          className="px-4 py-2 text-sm text-gray-700 out hover:bg-gray-50 flex items-center gap-2"
+                          onClick={() => setShowProfileDropdown(false)}
+                        >
+                          <TrendingUp size={16} />
+                          Become an Investor
+                        </Link>
+                        <Link
+                          to="/board"
+                          className="px-4 py-2 text-sm out text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                          onClick={() => setShowProfileDropdown(false)}
+                        >
+                          <BarChart3 size={16} />
+                          Dashboard
+                        </Link>
+                        <button
+                          onClick={signOut}
+                          className="w-full out text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+                        >
+                          <LogOut size={16} />
+                          Sign Out
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Get In Touch Button */}
+                  <Link to="/contact">
+                    <button className="bg-green-800 hover:bg-green-900 text-white px-4 py-2 rounded-lg transition-colors font-medium">
+                      Get In Touch
+                    </button>
+                  </Link>
+                </>
+              ) : (
+                <Link to="/login">
+                  <button className="bg-green-800 hover:bg-green-900 text-white px-4 py-2 rounded-lg transition-colors font-medium">
+                    Login
+                  </button>
+                </Link>
+              )}
+
+              {/* Mobile Menu Toggle */}
+              <button
+                onClick={() => setShowMobileMenu(!showMobileMenu)}
+                className="md:hidden text-white hover:text-green-100 transition-colors"
+              >
+                {showMobileMenu ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
         </div>
-        {/* navlinks for mobile screens */}
-        <div className="bg-black/40 bg-opacity-10 backdrop-blur-md border border-white/20 p-6 md:hidden">
-          <ul className="gap-3 text-white text-sm flex justify-center items-center">
-            <li className="flex">
-              <NavLink to={"/"} className="flex gap-2">
-                <Home color="black" />
-                <h1 className="mb-2"> Home</h1>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to={"/products"} className="flex gap-2">
-                <img src={money} alt="" className="w-7" />
-                Invest
-              </NavLink>
-            </li>
-            <li>
-              <Link to={"/products"} className="flex gap-2">
-                <ShoppingCart color="black" />
-                Marketplace
-              </Link>
-            </li>
-            <li>
-              <Link to={"/contact"} className="flex gap-2">
-                <img src={contact} alt="" className="w-7" />
-                Contact{" "}
-              </Link>
-            </li>
-          </ul>
-        </div>
+
+        {/* Mobile Menu */}
+        {showMobileMenu && (
+          <div className="md:hidden bg-white border-t border-green-200 shadow-lg">
+            <div className="px-4 py-6 space-y-2">
+              {navLinks.map((link) => (
+                <NavLinkComponent
+                  key={link.to}
+                  to={link.to}
+                  label={link.label}
+                  icon={link.icon}
+                  mobile={true}
+                />
+              ))}
+
+              {token && (
+                <div className="pt-4 border-t border-gray-200 space-y-2">
+                  <button className="w-full text-left flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg">
+                    <Shield size={18} />
+                    Verify Account
+                  </button>
+                  <Link
+                    to="/board"
+                    className="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg"
+                    onClick={() => setShowMobileMenu(false)}
+                  >
+                    <BarChart3 size={18} />
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={signOut}
+                    className="w-full text-left flex items-center gap-2 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg"
+                  >
+                    <LogOut size={18} />
+                    Sign Out
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </nav>
+
+      {/* Spacer to prevent content from being hidden behind fixed navbar */}
+      <div className="h-16"></div>
     </>
   );
 };

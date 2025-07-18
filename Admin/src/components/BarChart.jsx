@@ -64,7 +64,7 @@ const BarChart = () => {
   };
 
   return (
-    <div className="w-full max-w-4xl  bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div className="md:w-[80%] max-w-4xl  bg-white rounded-lg shadow-sm border border-gray-200 p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-lg font-medium text-gray-900">

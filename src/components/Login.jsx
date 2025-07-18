@@ -9,16 +9,24 @@ import { apiClient } from "../api/client";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const loginUser = async (data) => {
+  const loginUser = async (event, data) => {
+    event.preventDefault();
+    setLoading(true);
+    data = { email, password };
     try {
       const response = await apiClient.post("/api/V1/user/login", data, {
         headers: {
-          "Content-Type": "application-json",
+          "Content-Type": "application/json",
         },
       });
       console.log(response);
+      localStorage.setItem("TOKEN", response.data.token);
+      navigate("/");
     } catch (error) {}
   };
   return (
@@ -48,7 +56,7 @@ const Login = () => {
             </p>
           </div>
 
-          <form action={loginUser} className="space-y-4 md:space-y-6">
+          <form onSubmit={loginUser} className="space-y-4 md:space-y-6">
             <div>
               <label className="block text-sm font-medium text-white mb-2">
                 Email
@@ -58,6 +66,8 @@ const Login = () => {
                 <input
                   type="email"
                   name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 md:py-3 border text-white border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors text-sm md:text-base"
                   placeholder="Enter your email"
                   required
@@ -74,6 +84,8 @@ const Login = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-10 pr-12 py-2 md:py-3 text-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors text-sm md:text-base"
                   placeholder="Enter your password"
                   required

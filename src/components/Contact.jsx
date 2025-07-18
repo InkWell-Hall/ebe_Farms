@@ -10,7 +10,7 @@ export default function ContactPage() {
       <Navbar />
 
       {/* Map */}
-      <section className="my-6 container mx-auto mt-40 md:mt-23 pt-10">
+      <section className="my-6 container mx-auto">
         <h1 className="text-white text-2xl font-bold swatson bg-[#1F1E17] inline py-3 px-2 mb-10 rounded">
           Find Us
         </h1>

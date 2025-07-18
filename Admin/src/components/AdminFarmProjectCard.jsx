@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router";
 import {
   MapPin,
   Calendar,
@@ -7,9 +6,11 @@ import {
   DollarSign,
   Clock,
   Target,
+  Trash,
 } from "lucide-react";
+import { useLocation } from "react-router";
 
-const FarmProjectCard = ({ project, id }) => {
+const AdminFarmProjectCard = ({ project }) => {
   const {
     projectName,
     location,
@@ -43,6 +44,10 @@ const FarmProjectCard = ({ project, id }) => {
       day: "numeric",
     });
   };
+
+  const here = useLocation();
+  const farmProject = here.pathname === "/farm-projects";
+  console.log(isActive);
 
   return (
     <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group">
@@ -167,24 +172,36 @@ const FarmProjectCard = ({ project, id }) => {
         </div>
 
         {/* Action button */}
-        <div className="mt-6">
-          <button className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
-            <div>
-              <Link to={`/newinvestment/${id}`} className="flex items-center">
-                {/* <DollarSign className="w-4 h-4" /> */}
-                Invest Now
-              </Link>
-            </div>
-          </button>
-        </div>
+        {farmProject ? (
+          <div className="mt-6">
+            <button
+              disabled={!isActive}
+              className={`w-full font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 ${
+                isActive
+                  ? "bg-green-600 hover:bg-green-700 text-white cursor-pointer"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
+            >
+              <Trash className="w-4 h-4" />
+              Delete
+            </button>
+          </div>
+        ) : (
+          <div className="mt-6">
+            <button className="w-full cursor-pointer bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+              <DollarSign className="w-4 h-4" />
+              Invest Now
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default FarmProjectCard;
-
-// // Demo component with sample data
+export default AdminFarmProjectCard;
+//
+// Demo component with sample data
 // const Demo = () => {
 //   const sampleProject = {
 //     projectName: "Joi villa",

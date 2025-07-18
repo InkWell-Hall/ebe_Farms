@@ -29,7 +29,7 @@ const Home = () => {
             }}
             loop={true}
             spaceBetween={0}
-            className="w-full mt-20 h-[100vh] relative"
+            className="w-full h-[100vh] relative"
           >
             <SwiperSlide className="w-screen h-[70vh] bg-[url('./assets/landpic2.jpeg')] bg-no-repeat bg-cover bg-center flex items-center justify-center">
               <div className="bg-black/40 backdrop:blur-2xl absolute w-screen h-[100vh]"></div>
