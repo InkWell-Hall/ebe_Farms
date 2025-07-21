@@ -24,6 +24,8 @@ import SingleProjectPage from "./pages/SingleProjectPage";
 import Projects from "./pages/Projects";
 import SingleProduct from "./pages/SingleProduct";
 import UserProfile from "./pages/UserProfile";
+import Cart from "./pages/Cart";
+import PlaceOrder from "./pages/PlaceOrder";
 
 const router = createBrowserRouter([
   {
@@ -114,6 +116,14 @@ const router = createBrowserRouter([
   {
     path: "/card",
     element: <FarmProjectCard />,
+  },
+  {
+    path: "/cart",
+    element: <Cart />,
+  },
+  {
+    path: "/place-order",
+    element: <PlaceOrder />,
   },
 ]);
 
