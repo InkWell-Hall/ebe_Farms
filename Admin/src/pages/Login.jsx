@@ -14,12 +14,13 @@ const Login = () => {
   const navigate = useNavigate();
   const loginUser = async (data) => {
     try {
-      const response = await apiClient.post("/api/V1/user/login", data, {
+      const response = await apiClient.post("/api/V1/user/adminlogin", data, {
         headers: {
           "Content-Type": "application/json",
         },
       });
       console.log(response);
+      localStorage.setItem("TOKEN", response.data.token);
       navigate("/admindashboard");
     } catch (error) {}
   };
@@ -101,7 +102,7 @@ const Login = () => {
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white" />
                 <input
                   type={showAdminCode ? "text" : "password"}
-                  name="confirmPassword"
+                  name="adminCode"
                   className="w-full pl-10 pr-12 py-2 md:py-3 text-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors text-sm md:text-base"
                   placeholder="Enter your password"
                   required

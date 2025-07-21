@@ -9,7 +9,7 @@ import AdminFarmProjectCard from "../components/AdminFarmProjectCard";
 import { FarmContext } from "../context/FarmContext";
 
 const FarmProjects = () => {
-  const { allFarmProjects } = useContext(FarmContext);
+  const { allFarmProject } = useContext(FarmContext);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const closeSidebar = () => {
     setSidebarOpen(false);
@@ -83,10 +83,12 @@ const FarmProjects = () => {
           </div>
           <div className="flex-1 mt-[90px] overflow-x-hidden px-6 pb-6 no-scrollbar">
             <h1 className="mb-7 out text-3xl">ALL FARM PROJECTS</h1>
-            {allFarmProjects.length > 0 ? (
+            {allFarmProject.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {allFarmProjects.map((project, n) => {
-                  return <AdminFarmProjectCard project={project} />;
+                {allFarmProject.map((project, n) => {
+                  return (
+                    <AdminFarmProjectCard project={project} id={project.id} />
+                  );
                 })}
               </div>
             ) : (

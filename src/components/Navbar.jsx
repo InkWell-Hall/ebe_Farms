@@ -157,8 +157,10 @@ const Navbar = () => {
                           </p>
                         </div>
                         <button className="w-full text-left out px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
-                          <Shield size={16} />
-                          Verify Account
+                          <Link to={"/user-profile"} className="flex gap-2">
+                            <User size={16} />
+                            My Profile
+                          </Link>
                         </button>
                         <Link
                           to="/investor"
@@ -189,7 +191,7 @@ const Navbar = () => {
 
                   {/* Get In Touch Button */}
                   <Link to="/contact">
-                    <button className="bg-green-800 hover:bg-green-900 text-white px-4 py-2 rounded-lg transition-colors font-medium">
+                    <button className="bg-green-800 hover:bg-green-900 hidden lg:flex text-white px-4 py-2 rounded-lg transition-colors font-medium">
                       Get In Touch
                     </button>
                   </Link>

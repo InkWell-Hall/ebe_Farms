@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import mea from "../assets/images/meadow.mp4";
 import { Link, useNavigate } from "react-router";
 import { apiClient } from "../api/client";
+import { toast } from "react-toastify";
 // import { apiClient } from "../../Admin/src/api/client";
 
 const Login = () => {
@@ -26,8 +27,12 @@ const Login = () => {
       });
       console.log(response);
       localStorage.setItem("TOKEN", response.data.token);
+      toast.success("Login Successfull");
       navigate("/");
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
   };
   return (
     <>
@@ -40,12 +45,12 @@ const Login = () => {
           src={mea}
           className="fixed inset-0 w-full h-full object-cover -z-10"
         ></video>
-        <div className="max-w-md w-full bg-black/50 rounded-2xl shadow-xl p-6 md:p-8">
+        <div className="max-w-md w-full bg-black/70 rounded-2xl shadow-xl p-6 md:p-8">
           <div className="text-center mb-6 md:mb-8">
             <div className="flex items-center justify-center space-x-2 mb-4">
               <Leaf className="h-6 w-6 md:h-8 md:w-8 text-green-600" />
-              <h1 className="text-xl md:text-2xl font-bold text-green-800">
-                EBE FARMS
+              <h1 className="text-xl md:text-2xl font-bold text-white swatson italic">
+                EBE_FARMS
               </h1>
             </div>
             <h2 className="text-xl md:text-2xl font-bold text-white">
@@ -115,7 +120,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setCurrentPage("forgot-password")}
-                className="text-blue-700 hover:text-green-700 font-bold"
+                className="text-white underline hover:text-green-700 font-bold"
               >
                 <Link to={"/forgetreset"}>Forgot password?</Link>
               </button>

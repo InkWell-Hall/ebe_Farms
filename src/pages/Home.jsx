@@ -14,6 +14,7 @@ import tech from "../assets/tech.jpeg";
 import farmpic from "../assets/farmpic.jpeg";
 import farmpic1 from "../assets/farmpic.jpeg";
 import Footer from "../components/Footer";
+import { Link } from "react-router";
 
 const Home = () => {
   return (
@@ -210,12 +211,19 @@ const Home = () => {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <button className="bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition-colors font-bold flex items-center justify-center space-x-2">
-                    <TrendingUp className="h-5 w-5" />
-                    <span>Explore Investment Plans</span>
+                    <Link
+                      to={"/farm-project"}
+                      className="flex gap-2 items-center"
+                    >
+                      <TrendingUp className="h-5 w-5" />
+                      <span>Explore Investment Plans</span>
+                    </Link>
                   </button>
                   <button className="bg-yellow-500 text-black px-8 py-4 rounded-lg hover:bg-yellow-400 transition-colors font-bold flex items-center justify-center space-x-2">
-                    <Package className="h-5 w-5" />
-                    <span>Browse Bulk Products</span>
+                    <Link to={"/products"} className="flex gap-3 items-center">
+                      <Package className="h-5 w-5" />
+                      <span>Browse Bulk Products</span>
+                    </Link>
                   </button>
                 </div>
               </div>

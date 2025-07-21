@@ -168,14 +168,30 @@ const FarmProjectCard = ({ project, id }) => {
 
         {/* Action button */}
         <div className="mt-6">
-          <button className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+          {isActive === false ? (
             <div>
-              <Link to={`/newinvestment/${id}`} className="flex items-center">
-                {/* <DollarSign className="w-4 h-4" /> */}
-                Invest Now
+              <button
+                disabled={!isActive}
+                className={`w-full font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 ${
+                  isActive
+                    ? "bg-green-600 hover:bg-green-700 text-white cursor-pointer"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
+              >
+                {/* <Trash className="w-4 h-4" /> */}
+                Inactive
+              </button>
+            </div>
+          ) : (
+            <div className="mt-6">
+              <Link to={`/newinvestment/${id}`}>
+                <button className="w-full cursor-pointer bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+                  {/* <DollarSign className="w-4 h-4" /> */}
+                  Invest Now
+                </button>
               </Link>
             </div>
-          </button>
+          )}
         </div>
       </div>
     </div>

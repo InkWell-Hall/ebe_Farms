@@ -6,6 +6,7 @@ import { TrendingUp } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { toast } from "react-toastify";
+import SignatureCanvas from "../components/SignatureCanvas";
 
 export default function Investor() {
   const [address, setAddress] = useState("");
@@ -84,31 +85,34 @@ export default function Investor() {
                   required
                   name="address"
                   onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Enter Address"
+                  placeholder="eg: Accra, Ghana"
                   className="border border-white outline-none px-2 py-0.5 rounded flex w-[70%] mx-auto mb-7 text-white"
                 />
               </div>
               <div className="flex flex-col">
-                <label className="ml-13 mb-1 out">Address :</label>
+                <label className="ml-13 out">Account Number:</label>
                 <input
                   type="number"
                   required
                   name="accountNumber"
                   onChange={(e) => setAccountNumber(e.target.value)}
-                  placeholder="Enter Address"
+                  placeholder="eg: 9000339394049"
                   className="border border-white outline-none px-2 py-0.5 rounded flex w-[70%] mx-auto mb-7 text-white"
                 />
               </div>
               <div className="flex flex-col">
-                <label className="ml-13 mb-1 out">Address :</label>
-                <input
+                <label className="ml-13 out">Signature:</label>
+                {/* <input
                   type="text"
                   required
                   name="signature"
                   onChange={(e) => setSignature(e.target.value)}
                   placeholder="Enter Address"
                   className="border border-white outline-none px-2 py-0.5 rounded flex w-[70%] mx-auto mb-7 text-white"
-                />
+                /> */}
+                <div className="">
+                  <SignatureCanvas setSignature={setSignature} />
+                </div>
               </div>
 
               <button

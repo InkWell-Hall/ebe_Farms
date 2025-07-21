@@ -8,6 +8,12 @@ import Otp from "./pages/Otp";
 import SignUp from "./pages/SignUp";
 import { ToastContainer, toast } from "react-toastify";
 import FarmProjects from "./pages/FarmProjects";
+import AddNewProduct from "./pages/AddNewProduct";
+import EditProject from "./pages/EditProject";
+import FarmProducts from "./pages/FarmProducts";
+import EditProduct from "./pages/EditProduct";
+import Farmers from "./pages/Farmers";
+import Investors from "./pages/Investors";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +33,10 @@ const router = createBrowserRouter([
     element: <AdNewProject />,
   },
   {
+    path: "/add-product",
+    element: <AddNewProduct />,
+  },
+  {
     path: "/otp",
     element: <Otp />,
   },
@@ -35,8 +45,28 @@ const router = createBrowserRouter([
     element: <FarmProjects />,
   },
   {
+    path: "/farm-products",
+    element: <FarmProducts />,
+  },
+  {
     path: "sign-up",
     element: <SignUp />,
+  },
+  {
+    path: "/edit-project/:id",
+    element: <EditProject />,
+  },
+  {
+    path: "/edit-product/:id",
+    element: <EditProduct />,
+  },
+  {
+    path: "/farmers",
+    element: <Farmers />,
+  },
+  {
+    path: "/investors",
+    element: <Investors />,
   },
 ]);
 

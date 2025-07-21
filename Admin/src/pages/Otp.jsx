@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import mea from "../assets/meadow.mp4";
-// import { apiClient } from "../api/client";
+import { apiClient } from "../api/client";
 import { useNavigate } from "react-router";
 
 export default function OTP() {

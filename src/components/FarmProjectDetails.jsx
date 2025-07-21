@@ -20,6 +20,7 @@ import {
   Wheat,
   Leaf,
   BarChart3,
+  BadgeCent,
 } from "lucide-react";
 import RelatedProjects from "./RelatedProjects";
 
@@ -45,13 +46,13 @@ const FarmProjectDetails = ({ project, relatedProjects = [] }) => {
   };
 
   const fundingPercentage =
-    (project.receivedFunding / project.totalRequiredFunding) * 100;
+    (project?.receivedFunding / project?.totalRequiredFunding) * 100;
   const remainingFunding =
-    project.totalRequiredFunding - project.receivedFunding;
+    project?.totalRequiredFunding - project?.receivedFunding;
 
   const tabs = [
     { id: "overview", label: "Overview", icon: Target },
-    { id: "financials", label: "Financials", icon: DollarSign },
+    { id: "financials", label: "Financials", icon: BadgeCent },
     { id: "timeline", label: "Timeline", icon: Calendar },
     { id: "risks", label: "Risks & Returns", icon: BarChart3 },
   ];
@@ -82,7 +83,13 @@ const FarmProjectDetails = ({ project, relatedProjects = [] }) => {
     { date: "2026-06-01", title: "Harvest Season", status: "upcoming" },
     { date: "2026-08-01", title: "Project Completion", status: "upcoming" },
   ];
-
+  if (!project) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-red-500 text-lg font-semibold">
+        Project not found or still loading...
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}

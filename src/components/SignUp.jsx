@@ -14,6 +14,7 @@ import Footer from "./Footer";
 import mea from "../assets/images/meadow.mp4";
 import { Link, useNavigate } from "react-router";
 import { apiClient } from "../api/client";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,8 +28,11 @@ const SignUp = () => {
         },
       });
       console.log(response);
+      toast.success("Account Created Successfully");
       localStorage.setItem("TOKEN", response.data.token);
+      toast.success("Account Created Successfully");
       navigate("/otp");
+      toast.success("Enter Otp to Verify Accont");
     } catch (error) {}
   };
 
@@ -47,7 +51,7 @@ const SignUp = () => {
           <div className="text-center mb-6 md:mb-8">
             <div className="flex items-center justify-center space-x-2 mb-4">
               <Leaf className="h-6 w-6 md:h-8 md:w-8 text-green-600" />
-              <h1 className="text-xl md:text-2xl font-bold text-green-800">
+              <h1 className="text-xl md:text-2xl font-bold text-white swatson italic">
                 EBE FARMS
               </h1>
             </div>
@@ -141,13 +145,13 @@ const SignUp = () => {
                 />
                 <span className="ml-2 text-white">Remember me</span>
               </label>
-              <button
+              {/* <button
                 type="button"
                 onClick={() => setCurrentPage("forgot-password")}
                 className="text-green-600 hover:text-green-700 font-medium"
               >
                 Forgot password?
-              </button>
+              </button> */}
             </div>
 
             <button
@@ -163,7 +167,7 @@ const SignUp = () => {
               Already have an account?{" "}
               <button
                 // onClick={() => setCurrentPage("signup")}
-                className="text-green-600 font-bold hover:text-green-700 cursor-pointer"
+                className="text-gray-200 underline font-bold hover:text-green-700 cursor-pointer"
               >
                 <Link to={"/login"}>Login</Link>
               </button>

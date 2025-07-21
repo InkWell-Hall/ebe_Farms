@@ -93,6 +93,7 @@ const SingleProjectPage = () => {
   console.log(selectedProject);
   useEffect(() => {
     console.log(selectedProject);
+    window.scroll(0, 0);
   }, [id]);
   return (
     <>

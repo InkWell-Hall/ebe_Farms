@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   MapPin,
   Calendar,
@@ -7,10 +7,15 @@ import {
   Clock,
   Target,
   Trash,
+  Pencil,
+  PencilLine,
 } from "lucide-react";
-import { useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import { apiClient } from "../api/client";
+import { toast } from "react-toastify";
+import Modal from "../modal/DeleteProjectModal";
 
-const AdminFarmProjectCard = ({ project }) => {
+const AdminFarmProjectCard = ({ project, id }) => {
   const {
     projectName,
     location,
@@ -25,8 +30,14 @@ const AdminFarmProjectCard = ({ project }) => {
     isActive,
   } = project;
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   const fundingPercentage = (receivedFunding / totalRequiredFunding) * 100;
   const remainingFunding = totalRequiredFunding - receivedFunding;
+  const navigate = useNavigate();
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-US", {
@@ -48,6 +59,27 @@ const AdminFarmProjectCard = ({ project }) => {
   const here = useLocation();
   const farmProject = here.pathname === "/farm-projects";
   console.log(isActive);
+  const [loading, setLoading] = useState(false);
+
+  const deleteProject = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const response = await apiClient.delete(`/api/V1/farmProjects/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+        },
+      });
+      toast.success("Project Deleted Successfully");
+      console.log(response);
+      setTimeout(() => window.location.reload(), 2000);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to Delete Project Try Again");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group">
@@ -107,7 +139,6 @@ const AdminFarmProjectCard = ({ project }) => {
             {description}
           </p>
         </div>
-
         {/* Funding progress */}
         <div className="mb-4">
           <div className="flex justify-between items-center mb-2">
@@ -129,7 +160,6 @@ const AdminFarmProjectCard = ({ project }) => {
             <span>Goal: {formatCurrency(totalRequiredFunding)}</span>
           </div>
         </div>
-
         {/* Key metrics */}
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div className="bg-gray-50 rounded-lg p-3">
@@ -156,7 +186,6 @@ const AdminFarmProjectCard = ({ project }) => {
             </p>
           </div>
         </div>
-
         {/* Timeline */}
         <div className="border-t pt-4">
           <div className="flex items-center justify-between text-sm">
@@ -170,82 +199,53 @@ const AdminFarmProjectCard = ({ project }) => {
             </div>
           </div>
         </div>
-
         {/* Action button */}
-        {farmProject ? (
-          <div className="mt-6">
+        <div className="mt-6 flex items-center justify-between">
+          <div className="">
+            <Link to={`/edit-project/${id}`}>
+              <button className="w-full cursor-pointer bg-gray-400 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+                <PencilLine className="w-4 h-4" />
+                Edit Project
+              </button>
+            </Link>
+          </div>
+          <div className="">
             <button
-              disabled={!isActive}
-              className={`w-full font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 ${
-                isActive
-                  ? "bg-green-600 hover:bg-green-700 text-white cursor-pointer"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
+              // disabled={!isActive}
+              onClick={openModal}
+              className="w-full font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 bg-red-900 text-white cursor-pointer"
             >
               <Trash className="w-4 h-4" />
               Delete
             </button>
           </div>
-        ) : (
-          <div className="mt-6">
-            <button className="w-full cursor-pointer bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
-              <DollarSign className="w-4 h-4" />
-              Invest Now
-            </button>
-          </div>
-        )}
+        </div>
       </div>
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <h2 className="text-xl font-semibold mb-4 font-lead-font">
+          Delete Advert
+        </h2>
+        <p className="mb-3">
+          Are you sure you want to delete this Farm Project?
+        </p>
+        {/* <p>Please we beg reconsider oo!!</p> */}
+        <div className="flex justify-between gap-3 mt-2 ">
+          <button
+            className="bg-green-700 px-2 py-1 text-white cursor-pointer rounded"
+            onClick={closeModal}
+          >
+            Cancel
+          </button>
+          <button
+            className="bg-red-900 px-2 py-1 text-white cursor-pointer rounded"
+            onClick={deleteProject}
+          >
+            {loading ? "Deleting..." : "Delete"}
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 };
 
 export default AdminFarmProjectCard;
-//
-// Demo component with sample data
-// const Demo = () => {
-//   const sampleProject = {
-//     projectName: "Joi villa",
-//     location: "Kumasi, Ghana",
-//     description:
-//       "A sustainable maize farming project targeting export-quality grain production.",
-//     estimatedROI: 25,
-//     durationInMonths: 12,
-//     totalRequiredFunding: 80000,
-//     receivedFunding: 65580,
-//     images: [], // Empty array for demo
-//     startDate: "2025-08-01T00:00:00.000Z",
-//     endDate: "2026-08-01T00:00:00.000Z",
-//     isActive: true,
-//   };
-
-//   const sampleProject2 = {
-//     projectName: "Green Valley Rice Farm",
-//     location: "Tamale, Ghana",
-//     description:
-//       "Organic rice cultivation with modern irrigation systems for sustainable food production.",
-//     estimatedROI: 18,
-//     durationInMonths: 8,
-//     totalRequiredFunding: 45000,
-//     receivedFunding: 22500,
-//     images: [],
-//     startDate: "2025-09-01T00:00:00.000Z",
-//     endDate: "2026-05-01T00:00:00.000Z",
-//     isActive: true,
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gray-50 p-6">
-//       <div className="max-w-6xl mx-auto">
-//         <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-//           Farm Investment Projects
-//         </h1>
-//         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-//           <FarmProjectCard project={sampleProject} />
-//           <FarmProjectCard project={sampleProject2} />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Demo;

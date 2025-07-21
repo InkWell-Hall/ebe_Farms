@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Sidebar from "../components/SideBar";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { Leaf } from "lucide-react";
 import Navbar from "../components/Navbar";
 import { apiClient } from "../api/client";
 import { toast } from "react-toastify";
-import upload from "../assets/upload.jpeg";
+import { FarmContext } from "../context/FarmContext";
 
-const AdNewProject = () => {
+const EditProject = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { id } = useParams();
+  const { allFarmProject } = useContext(FarmContext);
+  let selectedProject = allFarmProject?.find((item) => String(item.id) === id);
   const closeSidebar = () => {
     setSidebarOpen(false);
   };
@@ -20,83 +23,121 @@ const AdNewProject = () => {
   const [image2, setImage2] = useState(false);
   const [image3, setImage3] = useState(false);
   const [image4, setImage4] = useState(false);
-  // const [image4, setImage4] = useState(false);
-  const [images, setImages] = useState("");
-  // const [name, setName] = useState("");
-  const [isActive, setIsActive] = useState(false);
-
-  const [description, setDescription] = useState("");
+  const [userId, setUserId] = useState("");
   const [projectName, setProjectName] = useState("");
-  const [startDate, setStartDate] = useState("");
+  const [description, setDescription] = useState("");
+  //   const [price, setPrice] = useState("");
   const [location, setLocation] = useState("");
-  const [endDate, setEndDate] = useState("");
   const [totalRequiredFunding, setTotalRequiredFunding] = useState("");
-  const [receivedFunding, setReceivedFunding] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [estimatedROI, setEstimatedROI] = useState("");
   const [durationInMonths, setDurationInMonths] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [receivedFunding, setReceivedFunding] = useState("");
+  const [images, setImages] = useState([null, null, null, null]);
 
+  const [isActive, setIsActive] = useState(false);
+  //   const [size, setSize] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const postproject = async (e) => {
+  //   const data = new FormData();
+  // Inside the component
+  //   useEffect(() => {
+  //     if (selectedProject) {
+  //       setProjectName(selectedProject.projectName || "");
+  //       setDescription(selectedProject.description || "");
+  //       setReceivedFunding(selectedProject.receivedFunding || "");
+  //       setLocation(selectedProject.location || "");
+  //       setStartDate(selectedProject.startDate?.slice(0, 10) || "");
+  //       setEndDate(selectedProject.endDate?.slice(0, 10) || "");
+  //       setRoi(selectedProject.estimatedROI || "");
+  //       setIsActive(selectedProject.isActive || false);
+  //       setReFunding(selectedProject.totalRequiredFunding || "");
+  //       setDuration(selectedProject.durationInMonths || "");
+  //       // etc...
+  //     }
+  //   }, []);
+  useEffect(() => {
+    if (id) {
+      apiClient
+        .get(`/api/V1/farmProjects/${id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          setProjectName(selectedProject.projectName || "");
+          setDescription(selectedProject.description || "");
+          setReceivedFunding(selectedProject.receivedFunding || "");
+          setLocation(selectedProject.location || "");
+          setStartDate(selectedProject.startDate?.slice(0, 10) || "");
+          setEndDate(selectedProject.endDate?.slice(0, 10) || "");
+          setEstimatedROI(selectedProject.estimatedROI || "");
+          setIsActive(selectedProject.isActive || false);
+          setTotalRequiredFunding(selectedProject.totalRequiredFunding || "");
+          setDurationInMonths(selectedProject.durationInMonths || "");
+        })
+        .catch((error) => error);
+    }
+  }, []);
+  const editProject = async (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading to true at start
-
-    const formData = new FormData();
-
-    // Append images with better validation
-    if (image1 && image1 instanceof File) formData.append("images", image1);
-    if (image2 && image2 instanceof File) formData.append("images", image2);
-    if (image3 && image3 instanceof File) formData.append("images", image3);
-    if (image4 && image4 instanceof File) formData.append("images", image4);
-
-    // Append other fields
-    formData.append("projectName", projectName);
-    formData.append("description", description);
-    formData.append("location", location);
-    formData.append("startDate", startDate);
-    formData.append("endDate", endDate);
-    formData.append("totalRequiredFunding", totalRequiredFunding);
-    formData.append("receivedFunding", receivedFunding);
-    formData.append("estimatedROI", estimatedROI);
-    formData.append("durationInMonths", durationInMonths);
-    formData.append("isActive", isActive);
+    setLoading(true);
 
     try {
-      const response = await apiClient.post("/api/V1/farmProjects", formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
-          "Content-Type": "multipart/form-data",
-        },
+      const formData = new FormData();
+
+      formData.append("projectName", projectName);
+      formData.append("description", description);
+      formData.append("location", location);
+      formData.append("startDate", startDate);
+      formData.append("endDate", endDate);
+      formData.append("totalRequiredFunding", totalRequiredFunding);
+      formData.append("receivedFunding", receivedFunding);
+      formData.append("estimatedROI", estimatedROI);
+      formData.append("durationInMonths", durationInMonths);
+      formData.append("isActive", isActive);
+
+      // Properly append images if they exist
+      images.forEach((image, index) => {
+        if (image) {
+          formData.append(`images`, image);
+        }
       });
 
-      toast.success(response.data.message);
+      // Debug: Log what's being sent
+      console.log("FormData contents:");
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
 
-      // Fix 3: Correct the state reset
-      setProjectName(""); // Instead of setName("")
-      setDescription("");
-      setLocation("");
-      setStartDate("");
-      setEndDate("");
-      setTotalRequiredFunding("");
-      setReceivedFunding("");
-      setEstimatedROI("");
-      setDurationInMonths("");
-      setIsActive(false);
-      setImage1(false);
-      setImage2(false);
-      setImage3(false);
-      setImage4(false);
+      const response = await apiClient.put(
+        `/api/V1/farmProjects/${id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Update response:", response);
+      toast.success(response.data?.message || "Project updated successfully");
       navigate("/farm-projects");
       window.location.reload();
     } catch (error) {
-      console.error("Upload error:", error);
-      toast.error(error.response?.data?.message || "Upload failed");
+      console.error("Error updating project:", error);
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Failed to update project";
+      toast.error(errorMessage);
     } finally {
-      setLoading(false); // Always set loading to false
+      setLoading(false);
     }
   };
-
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar on the left */}
@@ -115,15 +156,15 @@ const AdNewProject = () => {
 
           <form
             className="max-w-4xl mx-auto bg-white rounded-2xl shadow-md p-6 space-y-6 px-10 mt-27"
-            onSubmit={postproject}
+            onSubmit={editProject}
           >
             <h1 className="text-3xl font-bold text-center text-[#0F123F] mb-4 ">
-              Post New Farm Project
+              Edit Farm Project
             </h1>
 
             {/* Upload Image */}
-            <div className="flex justify-center items-center gap-10">
-              {/* <label className="block font-semibold mb-2 text-lg">
+            <div>
+              <label className="block font-semibold mb-2 text-lg">
                 Upload Images
               </label>
               <div className="flex flex-wrap gap-4">
@@ -145,72 +186,6 @@ const AdNewProject = () => {
                     />
                   </label>
                 ))}
-              </div> */}
-
-              <div className="flex gap-2">
-                <label htmlFor="image1">
-                  <img
-                    src={!image1 ? upload : URL.createObjectURL(image1)}
-                    alt=""
-                    className="w-40 h-30 cursor-pointer"
-                  />
-                  <input
-                    type="file"
-                    name="image1"
-                    onChange={(e) => setImage1(e.target.files[0])}
-                    id="image1"
-                    hidden
-                    required
-                  />
-                </label>
-              </div>
-              <div className="flex gap-2">
-                <label htmlFor="image2">
-                  <img
-                    src={!image2 ? upload : URL.createObjectURL(image2)}
-                    alt=""
-                    className="w-40 h-30 cursor-pointer"
-                  />
-                  <input
-                    type="file"
-                    name="image2"
-                    onChange={(e) => setImage2(e.target.files[0])}
-                    id="image2"
-                    hidden
-                  />
-                </label>
-              </div>
-              <div className="flex gap-2">
-                <label htmlFor="image3">
-                  <img
-                    src={!image3 ? upload : URL.createObjectURL(image3)}
-                    alt=""
-                    className="w-40 h-30 cursor-pointer"
-                  />
-                  <input
-                    type="file"
-                    onChange={(e) => setImage3(e.target.files[0])}
-                    id="image3"
-                    name="image3"
-                    hidden
-                  />
-                </label>
-              </div>
-              <div className="flex gap-2">
-                <label htmlFor="image4">
-                  <img
-                    src={!image4 ? upload : URL.createObjectURL(image4)}
-                    alt=""
-                    className="w-40 h-30 cursor-pointer"
-                  />
-                  <input
-                    type="file"
-                    onChange={(e) => setImage4(e.target.files[0])}
-                    id="image4"
-                    name="image4"
-                    hidden
-                  />
-                </label>
               </div>
             </div>
 
@@ -250,6 +225,7 @@ const AdNewProject = () => {
                 <label className="block font-semibold mb-1">Location</label>
                 <input
                   type="text"
+                  value={location}
                   name="location"
                   onChange={(e) => setLocation(e.target.value)}
                   placeholder="eg.Kumasi"
@@ -263,9 +239,9 @@ const AdNewProject = () => {
                 </label>
                 <input
                   type="number"
-                  name="estimatedROI"
                   value={estimatedROI}
                   onChange={(e) => setEstimatedROI(e.target.value)}
+                  name="estimatedROI"
                   placeholder="₵0.00"
                   className="w-full border border-gray-300 rounded px-4 py-2 outline-none"
                 />
@@ -279,7 +255,7 @@ const AdNewProject = () => {
                   type="number"
                   value={totalRequiredFunding}
                   name="totalRequiredFunding"
-                  onChange={(e) => setTotalRequiredFunding(e.target.value)}
+                  onChange={(e) => setReceivedFunding(e.target.value)}
                   className="w-full border border-gray-300 rounded px-4 py-2 outline-none"
                   placeholder="₵0.00"
                   required
@@ -294,8 +270,8 @@ const AdNewProject = () => {
                 <input
                   type="date"
                   value={startDate}
-                  name="startDate"
                   onChange={(e) => setStartDate(e.target.value)}
+                  name="startDate"
                   className="w-full border border-gray-300 rounded px-4 py-2 outline-none"
                 />
               </div>
@@ -304,9 +280,9 @@ const AdNewProject = () => {
                 <label className="block font-semibold mb-1">End Date</label>
                 <input
                   type="date"
-                  name="endDate"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
+                  name="endDate"
                   className="w-full border border-gray-300 rounded px-4 py-2 outline-none"
                 />
               </div>
@@ -317,7 +293,7 @@ const AdNewProject = () => {
                 </label>
                 <input
                   type="number"
-                  // value={price}
+                  value={durationInMonths}
                   name="durationInMonths"
                   onChange={(e) => setDurationInMonths(e.target.value)}
                   className="w-full border border-gray-300 rounded px-4 py-2 outline-none"
@@ -346,6 +322,7 @@ const AdNewProject = () => {
                 </label>
                 <input
                   type="number"
+                  value={receivedFunding}
                   name="receivedFunding"
                   onChange={(e) => setReceivedFunding(e.target.value)}
                   placeholder="₵0.00"
@@ -380,10 +357,10 @@ const AdNewProject = () => {
               </button>
               <button
                 type="submit"
-                className="bg-green-800 text-white px-6 py-2 rounded font-semibold"
+                className="bg-[#0F123F] text-white px-6 py-2 rounded font-semibold"
                 disabled={loading}
               >
-                {loading ? "Adding..." : "Add"}
+                {loading ? "Editting..." : "Edit"}
               </button>
             </div>
           </form>
@@ -393,4 +370,4 @@ const AdNewProject = () => {
   );
 };
 
-export default AdNewProject;
+export default EditProject;

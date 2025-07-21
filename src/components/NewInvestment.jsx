@@ -9,6 +9,7 @@ import { apiClient } from "../api/client";
 import { useParams, useNavigate } from "react-router";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import { all } from "axios";
 
 const NewInvestment = () => {
   const [units, setUnits] = useState(1);
@@ -21,10 +22,16 @@ const NewInvestment = () => {
   const method = "mobile_money";
   //  const investmentId = "12345678987654"
   const { allFarmProject } = useContext(EbeContext);
+  // const advert = allAdverts.find((item) => String(item.id) === id);
+
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // const currentFarm
+  // const selectedProject = allFarmProject
+  //   ? allFarmProject.find((item) => item._id === _id)
+  //   : null;
+
+  const selectedProject = allFarmProject.find((item) => String(item.id) === id);
 
   const createInvestment = async (e) => {
     e.preventDefault();
@@ -66,15 +73,29 @@ const NewInvestment = () => {
     } catch (error) {}
   };
 
-  const selectedProject = allFarmProject?.find((item) => item.id === id);
-
   useEffect(() => {
     if (selectedProject) {
       console.log("selected:", selectedProject);
     } else {
       console.log("selectedProject is not yet loaded or not found.");
     }
+    window.scroll(0, 0);
   }, [selectedProject]);
+
+  useEffect(() => {
+    console.log("All Projects:", allFarmProject);
+    console.log(id);
+    console.log(selectedProject);
+    // console.log("id from the params:", projectId);
+  }, [allFarmProject]);
+
+  if (!allFarmProject || allFarmProject.length === 0) {
+    return <div>Loading project data please calm down we beg...</div>;
+  }
+
+  if (!selectedProject) {
+    return <div>Project not found.</div>;
+  }
   return (
     <>
       <Navbar />
@@ -105,9 +126,9 @@ const NewInvestment = () => {
                 </label>
                 <input
                   type="text"
-                  value={selectedProject.description}
+                  value={selectedProject?.description || ""}
                   // readOnly
-                  className="w-full mt-1 px-3 py-2 rounded border bg-gray-200"
+                  className="w-full mt-1 px-3 py-2 text-black rounded border "
                 />
               </div>
 
@@ -121,11 +142,6 @@ const NewInvestment = () => {
                   min={1}
                 />
               </div>
-
-              {/* <input type="text" placeholder="Mobile number" className="w-full mt-1 px-3 py-2 rounded border mb-2" />
-               */}
-              {/* <label><input type="radio" name="pay" /> Share Card</label> */}
-              {/* <label><input type="radio" name="pay" /> Bank Deposit</label> */}
 
               <div className="mb-4 joseph">
                 <label className="font-medium text-m">Extra Note</label>

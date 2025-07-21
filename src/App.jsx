@@ -21,6 +21,9 @@ import EbeContextProvider from "./context/EbeContext";
 import Investor from "./pages/Investor";
 import { ToastContainer, toast } from "react-toastify";
 import SingleProjectPage from "./pages/SingleProjectPage";
+import Projects from "./pages/Projects";
+import SingleProduct from "./pages/SingleProduct";
+import UserProfile from "./pages/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "/products",
     element: <Products />,
+  },
+  {
+    path: "/single-products/:id",
+    element: <SingleProduct />,
   },
   {
     path: "/dashboard",
@@ -61,6 +68,10 @@ const router = createBrowserRouter([
     element: <UserAccountPage />,
   },
   {
+    path: "/user-profile",
+    element: <UserProfile />,
+  },
+  {
     path: "/forgetreset",
     element: <ForgotReset />,
   },
@@ -90,7 +101,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/farm-project",
-    element: <Products />,
+    element: <Projects />,
   },
   {
     path: "/investor",

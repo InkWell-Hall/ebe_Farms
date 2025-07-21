@@ -57,3 +57,4 @@ const Table = ({ data, columns }) => {
 };
 
 export default Table;
+ 

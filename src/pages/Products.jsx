@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Search,
   Filter,
@@ -11,28 +11,15 @@ import {
 import Navbar from "../components/Navbar";
 import Support from "../components/Support";
 import Title from "../components/Title";
-import { Link, useParams } from "react-router";
+import { Link } from "react-router";
 import Footer from "../components/Footer";
-import maize from "../assets/maize.jpg";
-import plantain from "../assets/plantain.jpg";
-import plant2 from "../assets/plant2.jpg";
-import cassava from "../assets/cassava.jpg";
-import maize2 from "../assets/maize2.jpg";
-import { useContext } from "react";
-import { EbeContext } from "../context/EbeContext";
-import FarmProjectCard from "../components/FarmProjectCard";
-// import maize from "../assets/maize.jpg"
-// import maize from "../assets/maize.jpg"
 
 const Products = () => {
-  const { allFarmProject } = useContext(EbeContext);
-  const id = useParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedLocation, setSelectedLocation] = useState("all");
   const [sortBy, setSortBy] = useState("newest");
   const [cartItems, setCartItems] = useState([]);
-  const [fundProject, setFundProject] = useState(null);
 
   // Sample products data
   const products = [
@@ -42,7 +29,8 @@ const Products = () => {
       category: "vegetables",
       price: 45.0,
       unit: "per basket",
-      image: maize,
+      image:
+        "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400&h=300&fit=crop",
       farmer: "Kofi Farms",
       location: "Ashanti Region",
       rating: 4.8,
@@ -58,7 +46,8 @@ const Products = () => {
       category: "vegetables",
       price: 25.0,
       unit: "per dozen",
-      image: maize2,
+      image:
+        "https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=400&h=300&fit=crop",
       farmer: "Ama's Garden",
       location: "Greater Accra",
       rating: 4.9,
@@ -74,7 +63,8 @@ const Products = () => {
       category: "vegetables",
       price: 15.0,
       unit: "per head",
-      image: maize,
+      image:
+        "https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=400&h=300&fit=crop",
       farmer: "Green Valley Farm",
       location: "Eastern Region",
       rating: 4.7,
@@ -89,7 +79,8 @@ const Products = () => {
       category: "fruits",
       price: 35.0,
       unit: "per bunch",
-      image: plantain,
+      image:
+        "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=300&fit=crop",
       farmer: "Tropical Farms",
       location: "Western Region",
       rating: 4.6,
@@ -104,7 +95,8 @@ const Products = () => {
       category: "fruits",
       price: 20.0,
       unit: "per piece",
-      image: plant2,
+      image:
+        "https://images.unsplash.com/photo-1589820296156-2454bb8a6ad1?w=400&h=300&fit=crop",
       farmer: "Sunshine Plantation",
       location: "Central Region",
       rating: 4.9,
@@ -167,6 +159,10 @@ const Products = () => {
     return "text-orange-600";
   };
 
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
+
   return (
     <>
       <div className="min-h-screen bg-gray-50">
@@ -179,7 +175,7 @@ const Products = () => {
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">
-                  <Title text1={"Farm"} text2={"Projects"} />
+                  <Title text1={"Farm"} text2={"Products"} />
                 </h1>
                 <p className="text-gray-600 mt-2">
                   Connecting you directly with local farmers through EBE-FARMS
@@ -190,7 +186,7 @@ const Products = () => {
         </div>
 
         {/* Main Content with Sidebar */}
-        <div className="max-w-8xl mx-auto px-2 py-6">
+        <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Sidebar Filters */}
             <div className="w-full lg:w-80">
@@ -281,28 +277,32 @@ const Products = () => {
 
             {/* Products Grid */}
             <div className="flex-1">
-              {/* <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {filteredProducts.map((product) => (
                   <div
                     key={product.id}
                     className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden"
                   >
                     <div className="relative">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-48 object-cover"
-                      />
+                      <Link to={`/single-products/${product.id}`}>
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="w-full h-48 object-cover cursor-pointer"
+                        />
+                      </Link>
                       <div className="absolute top-3 left-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
-                        Available
+                        New
                       </div>
                     </div>
 
                     <div className="p-5">
                       <div className="flex justify-between items-start mb-2">
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          {product.name}
-                        </h3>
+                        <Link to={`/single-products/${product.id}`}>
+                          <h3 className="text-lg font-semibold text-gray-900 hover:text-green-600 cursor-pointer">
+                            {product.name}
+                          </h3>
+                        </Link>
                         <span className="text-xl font-bold text-green-600">
                           ₵{product.price.toFixed(2)}
                         </span>
@@ -348,41 +348,15 @@ const Products = () => {
                         <span className="text-sm text-gray-500">
                           {product.unit}
                         </span>
-                        <button
-                          onClick={() => fundProject(product)}
-                          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors"
-                        >
-                          <Link to={"/newinvestment"}>
-                            <span>Fund Project</span>
+                        <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors">
+                          <Link to={"#"}>
+                            <span>Add To Cart</span>
                           </Link>
                         </button>
                       </div>
                     </div>
                   </div>
                 ))}
-              </div> */}
-              <div className="flex-1 mt-10 overflow-x-hidden px-3 pb-6 no-scrollbar">
-                <h1 className="mb-7 out text-3xl">ALL FARM PROJECTS</h1>
-                {allFarmProject.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {allFarmProject.map((project, n) => {
-                      return (
-                        <div>
-                          <Link to={`/single/${project.id}`} key={n}>
-                            <FarmProjectCard
-                              project={project}
-                              id={project.id}
-                            />
-                          </Link>
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <div className="translate-x-90 translate-y-36 w-190">
-                    <h1 className="">FAILED TO LOAD FARM PROJECTS ):</h1>
-                  </div>
-                )}
               </div>
 
               {filteredProducts.length === 0 && (
