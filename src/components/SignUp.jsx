@@ -30,6 +30,7 @@ const SignUp = () => {
       console.log(response);
       toast.success("Account Created Successfully");
       localStorage.setItem("TOKEN", response.data.token);
+      localStorage.setItem("Ebe_User_Id", response.data.user.id);
       toast.success("Account Created Successfully");
       navigate("/otp");
       toast.success("Enter Otp to Verify Accont");

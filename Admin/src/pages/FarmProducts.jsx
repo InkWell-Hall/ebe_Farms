@@ -1,5 +1,14 @@
-import React, { useContext, useState } from "react";
-import { Star, ShoppingCart, Heart, Eye, MapPin, Award } from "lucide-react";
+import React, { useContext, useState, useEffect } from "react";
+import {
+  Star,
+  ShoppingCart,
+  Heart,
+  Eye,
+  MapPin,
+  Award,
+  Clock,
+  Package,
+} from "lucide-react";
 import Sidebar from "../components/SideBar";
 import AdminNavbar from "../components/AdminNavbar";
 import Navbar from "../components/Navbar";
@@ -11,26 +20,26 @@ import { toast } from "react-toastify";
 
 const FarmProductCard = ({ product, onAddToCart, onViewDetails, id }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-  const [loading, setLoading] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isLiked, setIsLiked] = useState(false);
 
-  const { name, price, description, bestSeller, images = [] } = product;
-
-  const handleImageChange = (index) => {
-    setCurrentImageIndex(index);
-  };
-
-  const handlePrevImage = () => {
-    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-  };
-
-  const handleNextImage = () => {
-    setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-  };
+  const {
+    name,
+    price,
+    unit,
+    description,
+    image,
+    farmer,
+    location,
+    rating,
+    reviews,
+    freshness,
+    quantity,
+    category,
+  } = product;
 
   const deleteProduct = async (e) => {
     e.preventDefault();
@@ -44,8 +53,6 @@ const FarmProductCard = ({ product, onAddToCart, onViewDetails, id }) => {
 
       console.log(response);
       toast.success("Product Deleted Successfully");
-
-      // Navigate("/farm-products");
       setTimeout(() => window.location.reload(), 2000);
     } catch (error) {
       console.log(error);
@@ -59,47 +66,12 @@ const FarmProductCard = ({ product, onAddToCart, onViewDetails, id }) => {
       <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 max-w-sm mx-auto">
         {/* Image Section */}
         <div className="relative h-64 bg-gray-200">
-          {images.length > 0 ? (
-            <>
-              <img
-                src={images[currentImageIndex]}
-                alt={name}
-                className="w-full h-full object-cover"
-              />
-
-              {/* Image Navigation */}
-              {images.length > 1 && (
-                <>
-                  <button
-                    onClick={handlePrevImage}
-                    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-1 rounded-full hover:bg-opacity-75 transition-opacity"
-                  >
-                    ←
-                  </button>
-                  <button
-                    onClick={handleNextImage}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-1 rounded-full hover:bg-opacity-75 transition-opacity"
-                  >
-                    →
-                  </button>
-
-                  {/* Image Indicators */}
-                  <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
-                    {images.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleImageChange(index)}
-                        className={`w-2 h-2 rounded-full transition-colors ${
-                          index === currentImageIndex
-                            ? "bg-white"
-                            : "bg-white bg-opacity-50"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </>
-              )}
-            </>
+          {image ? (
+            <img
+              src={image}
+              alt={name}
+              className="w-full h-full object-cover"
+            />
           ) : (
             <div className="flex items-center justify-center h-full text-gray-400">
               <div className="text-center">
@@ -111,14 +83,11 @@ const FarmProductCard = ({ product, onAddToCart, onViewDetails, id }) => {
             </div>
           )}
 
-          {/* Badges */}
-          <div className="absolute top-3 left-3 flex flex-col space-y-2">
-            {bestSeller && (
-              <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center shadow-lg">
-                <Award className="w-3 h-3 mr-1" />
-                Best Seller
-              </span>
-            )}
+          {/* Category Badge */}
+          <div className="absolute top-3 left-3">
+            <span className="bg-gradient-to-r from-green-400 to-green-600 text-white px-3 py-1 rounded-full text-xs font-semibold capitalize shadow-lg">
+              {category}
+            </span>
           </div>
 
           {/* Action Buttons */}
@@ -150,10 +119,53 @@ const FarmProductCard = ({ product, onAddToCart, onViewDetails, id }) => {
             {name}
           </h3>
 
+          {/* Farmer and Location */}
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-sm text-gray-600 font-medium">{farmer}</p>
+            <div className="flex items-center text-xs text-gray-500">
+              <MapPin className="w-3 h-3 mr-1" />
+              {location}
+            </div>
+          </div>
+
+          {/* Rating */}
+          <div className="flex items-center space-x-1 mb-3">
+            <div className="flex items-center">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className={`w-4 h-4 ${
+                    i < Math.floor(rating || 0)
+                      ? "fill-yellow-400 text-yellow-400"
+                      : "text-gray-300"
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-sm font-medium text-gray-700">
+              {rating || 0}
+            </span>
+            <span className="text-xs text-gray-500">
+              ({reviews || 0} reviews)
+            </span>
+          </div>
+
           {/* Description */}
           <p className="text-gray-600 text-sm mb-3 line-clamp-2 leading-relaxed">
             {description}
           </p>
+
+          {/* Freshness and Quantity */}
+          <div className="space-y-2 mb-3">
+            <div className="flex items-center text-xs text-gray-600">
+              <Clock className="w-3 h-3 mr-2 text-green-500" />
+              {freshness}
+            </div>
+            <div className="flex items-center text-xs text-gray-600">
+              <Package className="w-3 h-3 mr-2 text-blue-500" />
+              {quantity}
+            </div>
+          </div>
 
           {/* Price */}
           <div className="flex items-center justify-between mb-4">
@@ -161,16 +173,7 @@ const FarmProductCard = ({ product, onAddToCart, onViewDetails, id }) => {
               <span className="text-2xl font-bold text-green-600">
                 ₵{price?.toLocaleString()}
               </span>
-            </div>
-
-            {/* Rating (placeholder - can be added to schema later) */}
-            <div className="flex items-center space-x-1">
-              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-              <Star className="w-4 h-4 text-gray-300" />
-              <span className="text-xs text-gray-500 ml-1">(4.0)</span>
+              <span className="text-sm text-gray-500">{unit}</span>
             </div>
           </div>
 
@@ -185,22 +188,22 @@ const FarmProductCard = ({ product, onAddToCart, onViewDetails, id }) => {
 
             <button
               onClick={openModal}
-              className="bg-red-800 flex flex-1 items-center justify-center text-white py-2 px-4 rounded-lg hover:bg-gray-400 cursor-pointer transition-colors font-medium"
+              className="bg-red-800 flex flex-1 items-center justify-center text-white py-2 px-4 rounded-lg hover:bg-red-900 cursor-pointer transition-colors font-medium"
             >
               Delete
             </button>
           </div>
         </div>
       </div>
+
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <h2 className="text-xl font-semibold mb-4 font-lead-font">
-          Delete Advert
+          Delete Product
         </h2>
         <p className="mb-3">
           Are you sure you want to delete this Farm Product?
         </p>
-        {/* <p>Please we beg reconsider oo!!</p> */}
-        <div className="flex justify-between gap-3 mt-2 ">
+        <div className="flex justify-between gap-3 mt-2">
           <button
             className="bg-green-700 px-2 py-1 text-white cursor-pointer rounded"
             onClick={closeModal}
@@ -220,7 +223,7 @@ const FarmProductCard = ({ product, onAddToCart, onViewDetails, id }) => {
 };
 
 // Container component to display multiple product cards
-const FarmProductGrid = ({ products = [] }) => {
+const FarmProductGrid = ({ products = [], isLoading = false }) => {
   const handleAddToCart = (product) => {
     console.log("Adding to cart:", product);
     // Implement cart logic here
@@ -231,7 +234,24 @@ const FarmProductGrid = ({ products = [] }) => {
     // Implement navigation to product details page
   };
 
-  if (products.length === 0) {
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="text-center py-12">
+        <div className="text-gray-400 mb-4">
+          <span className="text-6xl">⏳</span>
+        </div>
+        <h3 className="text-xl font-semibold text-gray-600 mb-2">
+          Loading Products...
+        </h3>
+        <p className="text-gray-500">
+          Please wait while we fetch the products.
+        </p>
+      </div>
+    );
+  }
+
+  if (!products || products.length === 0) {
     return (
       <div className="text-center py-12">
         <div className="text-gray-400 mb-4">
@@ -260,46 +280,20 @@ const FarmProductGrid = ({ products = [] }) => {
   );
 };
 
-// Demo component with sample data
+// Demo component with sample data and debugging
 const FarmProducts = () => {
-  //   const sampleProducts = [
-  //     {
-  //       id: "1",
-  //       name: "Joi Villa",
-  //       price: 10000,
-  //       description:
-  //         "A sustainable maize farming project targeting export-quality grain production.",
-  //       bestSeller: true,
-  //       images: [
-  //         "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&h=300&fit=crop",
-  //         "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=400&h=300&fit=crop",
-  //       ],
-  //     },
-  //     {
-  //       id: "2",
-  //       name: "Green Valley Organic",
-  //       price: 7500,
-  //       description:
-  //         "Premium organic vegetables grown with sustainable farming practices.",
-  //       bestSeller: false,
-  //       images: [
-  //         "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=300&fit=crop",
-  //       ],
-  //     },
-  //     {
-  //       id: "3",
-  //       name: "Golden Harvest Rice",
-  //       price: 12000,
-  //       description:
-  //         "High-quality rice production with modern irrigation systems.",
-  //       bestSeller: true,
-  //       images: [
-  //         "https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=400&h=300&fit=crop",
-  //         "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&h=300&fit=crop",
-  //       ],
-  //     },
-  //   ];
   const { allProducts } = useContext(FarmContext);
+
+  // Add debugging logs
+  useEffect(() => {
+    console.log("=== FarmProducts Debug Info ===");
+    console.log("allProducts:", allProducts);
+    console.log("allProducts type:", typeof allProducts);
+    console.log("allProducts length:", allProducts?.length);
+    // console.log("loading:", loading);
+    // console.log("error:", error);
+    console.log("===============================");
+  }, [allProducts]);
 
   return (
     <>
@@ -314,10 +308,12 @@ const FarmProducts = () => {
             <h1 className="text-4xl font-bold text-gray-900 mb-2">
               Farm Products
             </h1>
-            {/* <p className="text-gray-600 max-w-2xl mx-auto">
-            Discover our premium selection of sustainable farm products and
-            investment opportunities.
-          </p> */}
+            {/* Add debug info for development */}
+            {process.env.NODE_ENV === "development" && (
+              <div className="text-sm text-gray-500 mt-2">
+                Debug: Products count: {allProducts?.length || 0}
+              </div>
+            )}
           </div>
 
           <FarmProductGrid products={allProducts} />

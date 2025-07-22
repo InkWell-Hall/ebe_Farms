@@ -14,6 +14,7 @@ import FarmProducts from "./pages/FarmProducts";
 import EditProduct from "./pages/EditProduct";
 import Farmers from "./pages/Farmers";
 import Investors from "./pages/Investors";
+import InvestorInvestmentTable from "./pages/InvestorInvestmentTable";
 
 const router = createBrowserRouter([
   {
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
   {
     path: "/investors",
     element: <Investors />,
+  },
+  {
+    path: "/investors-2",
+    element: <InvestorInvestmentTable />,
   },
 ]);
 

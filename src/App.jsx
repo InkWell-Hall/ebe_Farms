@@ -26,6 +26,9 @@ import SingleProduct from "./pages/SingleProduct";
 import UserProfile from "./pages/UserProfile";
 import Cart from "./pages/Cart";
 import PlaceOrder from "./pages/PlaceOrder";
+import InitializePayment from "./pages/InitializePayment";
+import VerifyInvesmentPayment from "./pages/VerifyInvesmentPayment";
+import Sign from "./pages/SignBoot";
 
 const router = createBrowserRouter([
   {
@@ -66,8 +69,20 @@ const router = createBrowserRouter([
     element: <Otp />,
   },
   {
+    path: "/verify-investment-payment",
+    element: <VerifyInvesmentPayment />,
+  },
+  {
+    path: "/initialize-payment/:id",
+    element: <InitializePayment />,
+  },
+  {
     path: "/useraccount",
     element: <UserAccountPage />,
+  },
+  {
+    path: "/sign",
+    element: <Sign />,
   },
   {
     path: "/user-profile",

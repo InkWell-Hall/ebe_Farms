@@ -27,6 +27,7 @@ const Login = () => {
       });
       console.log(response);
       localStorage.setItem("TOKEN", response.data.token);
+      localStorage.setItem("Ebe_User_Id", response.data.user.id);
       toast.success("Login Successfull");
       navigate("/");
     } catch (error) {

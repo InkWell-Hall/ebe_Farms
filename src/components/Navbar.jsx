@@ -21,6 +21,8 @@ import {
   Wheat,
   Leaf,
 } from "lucide-react";
+import { useContext } from "react";
+import { EbeContext } from "../context/EbeContext";
 
 const Navbar = () => {
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
@@ -28,6 +30,7 @@ const Navbar = () => {
   const profileDropdownRef = useRef(null);
   const token = localStorage.getItem("TOKEN");
   const navigate = useNavigate();
+  const { getCartCount } = useContext(EbeContext);
 
   const signOut = () => {
     localStorage.removeItem("TOKEN");
@@ -121,10 +124,13 @@ const Navbar = () => {
             {/* Right Side Actions */}
             <div className="flex items-center gap-4">
               {/* Shopping Cart */}
-              <button className="relative text-white hover:text-green-100 transition-colors">
+              <button
+                onClick={() => navigate("/cart")}
+                className="relative text-white hover:text-green-100 transition-colors cursor-pointer"
+              >
                 <ShoppingBag size={20} />
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  2
+                  {getCartCount()}
                 </span>
               </button>
 

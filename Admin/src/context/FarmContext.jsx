@@ -85,6 +85,17 @@ const FarmContextProvider = (props) => {
         },
       });
       console.log(response);
+      setAllProducts(response?.data?.products);
+    } catch (error) {}
+  };
+  const getMyInvestments = async (id) => {
+    try {
+      const response = await apiClient.get(`/api/V1/investment/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+        },
+      });
+      console.log(response);
       setAllProducts(response.data.products);
     } catch (error) {}
   };
@@ -97,6 +108,7 @@ const FarmContextProvider = (props) => {
     getAllProfiles();
     getAllPayments();
     getAllProducts();
+    // getMyInvestments("6877bc49c4371394924acd23");
   }, []);
 
   const value = {

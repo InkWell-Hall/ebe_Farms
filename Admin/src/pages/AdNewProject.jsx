@@ -29,6 +29,7 @@ const AdNewProject = () => {
   const [projectName, setProjectName] = useState("");
   const [startDate, setStartDate] = useState("");
   const [location, setLocation] = useState("");
+  const [numberOfInvestors, setNumberOfInvestors] = useState("");
   const [endDate, setEndDate] = useState("");
   const [totalRequiredFunding, setTotalRequiredFunding] = useState("");
   const [receivedFunding, setReceivedFunding] = useState("");
@@ -53,6 +54,7 @@ const AdNewProject = () => {
     // Append other fields
     formData.append("projectName", projectName);
     formData.append("description", description);
+    formData.append("numberOfInvestors", numberOfInvestors);
     formData.append("location", location);
     formData.append("startDate", startDate);
     formData.append("endDate", endDate);
@@ -349,6 +351,19 @@ const AdNewProject = () => {
                   name="receivedFunding"
                   onChange={(e) => setReceivedFunding(e.target.value)}
                   placeholder="₵0.00"
+                  className="w-full border border-gray-300 rounded px-4 py-2 outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block font-semibold mb-1">
+                  Number of Investors
+                </label>
+                <input
+                  type="number"
+                  name="numberOfInvestors"
+                  onChange={(e) => setNumberOfInvestors(e.target.value)}
+                  placeholder="eg.3"
                   className="w-full border border-gray-300 rounded px-4 py-2 outline-none"
                 />
               </div>

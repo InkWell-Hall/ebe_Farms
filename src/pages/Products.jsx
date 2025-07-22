@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Search,
   Filter,
@@ -13,13 +13,20 @@ import Support from "../components/Support";
 import Title from "../components/Title";
 import { Link } from "react-router";
 import Footer from "../components/Footer";
+import { EbeContext } from "../context/EbeContext";
+import { apiClient } from "../api/client";
 
 const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  // const { allProducts, addToCart } = useContext(EbeContext);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedLocation, setSelectedLocation] = useState("all");
   const [sortBy, setSortBy] = useState("newest");
   const [cartItems, setCartItems] = useState([]);
+  // const userId = localStorage.getItem("USER_ID");
+  const size = ["M", "S"];
+
+  const quant = 20;
 
   // Sample products data
   const products = [
@@ -158,10 +165,52 @@ const Products = () => {
     if (freshness.includes("yesterday")) return "text-yellow-600";
     return "text-orange-600";
   };
-
+  const productId = "687e69859ada743e7cf51203";
+  const userId = "687576976f8566ed423c89ba";
   useEffect(() => {
     window.scroll(0, 0);
+    console.log(userId);
+    // console.log("hey there");
   }, []);
+
+  const addToCart = async (itemId, userId, quantity) => {
+    // if (!size) {
+    //   toast.error("Select Product Size");
+    //   return;
+    // }
+    // const storedUserId = localStorage.getItem("USER_ID");
+
+    // let cartData = structuredClone(cartItems);
+
+    // if (cartData[itemId]) {
+    //   if (cartData[itemId][size]) {
+    //     cartData[itemId][size] += 1;
+    //   } else {
+    //     cartData[itemId][size] = 1;
+    //   }
+    // } else {
+    //   cartData[itemId] = {};
+    //   cartData[itemId][size] = 1;
+    // }
+
+    // setCartItems(cartData);
+
+    try {
+      await apiClient.post(
+        "api/V1/cart/add",
+        { itemId, userId, quantity },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+          },
+        }
+      );
+      toast.success("Product Added to Cart");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
 
   return (
     <>
@@ -348,7 +397,10 @@ const Products = () => {
                         <span className="text-sm text-gray-500">
                           {product.unit}
                         </span>
-                        <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors">
+                        <button
+                          onClick={() => addToCart(productId, userId, quant)}
+                          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors"
+                        >
                           <Link to={"#"}>
                             <span>Add To Cart</span>
                           </Link>

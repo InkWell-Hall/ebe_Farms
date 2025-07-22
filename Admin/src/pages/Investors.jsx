@@ -3,6 +3,7 @@ import Table from "../components/Table";
 import Sidebar from "../components/SideBar";
 import Navbar from "../components/Navbar";
 import { FarmContext } from "../context/FarmContext";
+import { Link } from "react-router";
 
 const Investors = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -12,14 +13,31 @@ const Investors = () => {
   const columns = [
     { header: "Investor's Name", accessorKey: "name" },
     { header: "Email", accessorKey: "mail" },
-    { header: "Projects Invested", accessorKey: "project" },
     { header: "Contact", accessorKey: "contact" },
+    {
+      header: "Projects Invested",
+      accessorKey: "project",
+      cell: ({ row }) => {
+        const investorId = row.original.id; // assuming you include this in your data
+        const label = row.original.project;
+
+        return (
+          <Link
+            to={`/investor/${investorId}/projects`}
+            className="text-green-600 hover:underline"
+          >
+            {label}
+          </Link>
+        );
+      },
+    },
   ];
 
   useEffect(() => {
     console.log(allInvestors);
     if (Array.isArray(allInvestors)) {
       const formattedData = allInvestors.map((inv) => ({
+        id: inv.user?._id || inv._id, // Unique ID used for the route
         name: inv.user?.userName || "N/A",
         mail: inv.user?.email || "N/A",
         contact: inv.user?.phoneNumber || "N/A",

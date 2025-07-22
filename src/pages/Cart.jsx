@@ -194,7 +194,7 @@ export default function Cart() {
                   </div>
                 </div>
 
-                <Link to="/checkout">
+                <Link to="/place-order">
                   <button className="w-full bg-green-600 text-white cursor-pointer py-3 rounded-lg font-medium hover:bg-green-800 transition-colors">
                     Proceed to Checkout
                   </button>

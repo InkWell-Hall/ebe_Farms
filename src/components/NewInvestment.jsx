@@ -12,16 +12,14 @@ import { toast } from "react-toastify";
 import { all } from "axios";
 
 const NewInvestment = () => {
+  const { allFarmProject } = useContext(EbeContext);
   const [units, setUnits] = useState(1);
-  const unitCost = 1550;
-  const operationalCharge = 0.05;
-  const totalPayable = unitCost * units + unitCost * units * operationalCharge;
-  const profitMin = totalPayable * 0.0893;
-  const profitMax = totalPayable * 0.1525;
+  const [investmentId, setInvestmentId] = useState();
+  // const profitMin = totalPayable * 0.0893;
+  // const profitMax = totalPayable * 0.1525;
   const amount = 2000;
   const method = "mobile_money";
   //  const investmentId = "12345678987654"
-  const { allFarmProject } = useContext(EbeContext);
   // const advert = allAdverts.find((item) => String(item.id) === id);
 
   const { id } = useParams();
@@ -32,7 +30,13 @@ const NewInvestment = () => {
   //   : null;
 
   const selectedProject = allFarmProject.find((item) => String(item.id) === id);
+  const operationalCharge = 0.05;
 
+  const unitCost = selectedProject?.unitPrice;
+  const totalPayable = unitCost * units + unitCost * units * operationalCharge;
+
+  const profitMin = totalPayable * selectedProject?.estimatedROI;
+  const profitMax = totalPayable * selectedProject?.estimatedROI;
   const createInvestment = async (e) => {
     e.preventDefault();
 
@@ -47,30 +51,28 @@ const NewInvestment = () => {
           Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
         },
       });
-    } catch (error) {}
-  };
-  const initializePayment = async (e) => {
-    e.preventDefault();
-
-    const payload = {
-      // amountInvested: totalPayable,
-      amount,
-      method,
-      investmentId: `687a51189f353f2ca85cbbc5`,
-    };
-    try {
-      const response = await apiClient.post("api/V1/init-payment", payload, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
-        },
-      });
       console.log(response);
-      toast.success(response.data.message);
-      window.location.href = response.data.authorization_url;
-      // window.open(response.data.authorization_url, "_blank");
-      navigate("/board");
-    } catch (error) {}
+      // setInvestment(response.data.investment);
+      setInvestmentId(response.data.investment.id);
+      navigate(`/initialize-payment/${response.data.investment.id}`);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const getSingleInvestment = async () => {
+    try {
+      const response = await apiClient.get(
+        `/api/V1/investment/${investmentId}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("TOKEN")}` },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -88,6 +90,9 @@ const NewInvestment = () => {
     console.log(selectedProject);
     // console.log("id from the params:", projectId);
   }, [allFarmProject]);
+  useEffect(() => {
+    getSingleInvestment();
+  }, []);
 
   if (!allFarmProject || allFarmProject.length === 0) {
     return <div>Loading project data please calm down we beg...</div>;
@@ -105,7 +110,7 @@ const NewInvestment = () => {
         </h1>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left Side: Form */}
-          <form onSubmit={initializePayment}>
+          <form onSubmit={createInvestment}>
             <div className="bg-white rounded-lg p-6  shadow-md border border-gray-300">
               <div className="mb-4 joseph">
                 <label className="font-medium  text-m">
@@ -149,7 +154,7 @@ const NewInvestment = () => {
                   placeholder="Anything we should know?"
                   className="w-full mt-1 px-3 py-2 rounded border"
                 />
-                <div className="mt-4 joseph">
+                {/* <div className="mt-4 joseph">
                   <label className="font-medium text-m">Payment Method</label>
                 </div>
                 <div className="flex gap-3 border py-2 px-2 rounded w-45">
@@ -157,7 +162,7 @@ const NewInvestment = () => {
                   <label>
                     <img src={paylogo1} alt="" className="w-55 h-10" />
                   </label>
-                </div>
+                </div> */}
               </div>
 
               <div className="flex items-center joseph mb-4 text-m">
@@ -175,11 +180,13 @@ const NewInvestment = () => {
                   type="submit"
                   className="bg-[#1F1E17] cursor-pointer text-white px-6 py-2 rounded hover:bg-green-700"
                 >
-                  Pay Now
+                  Create Investment
                 </button>
-                <button className="bg-red-500 cursor-pointer text-white px-6 py-2 rounded hover:bg-red-600">
-                  Cancel
-                </button>
+                <Link to={"/farm-project"}>
+                  <button className="bg-red-500 cursor-pointer text-white px-6 py-2 rounded hover:bg-red-600">
+                    Cancel
+                  </button>
+                </Link>
               </div>
             </div>
           </form>
@@ -200,38 +207,42 @@ const NewInvestment = () => {
                   <td className="py-2 font-medium">
                     Cost of Production per Unit
                   </td>
-                  <td>₵{unitCost.toFixed(2)}</td>
+                  <td>₵{unitCost}</td>
                 </tr>
                 <tr>
                   <td className="py-2 font-medium">Operational Charge (5%)</td>
-                  <td>₵{(unitCost * units * operationalCharge).toFixed(2)}</td>
+                  <td>₵{(unitCost * units * operationalCharge)?.toFixed(2)}</td>
                 </tr>
                 <tr className="bg-green-50 font-semibold">
                   <td className="py-2 text-lg text-black font-bold">
                     Grand Total Payable
                   </td>
                   <td className="text-[#0A6534] text-xl">
-                    ₵{totalPayable.toFixed(2)}
+                    ₵{totalPayable?.toFixed(2)}
                   </td>
                 </tr>
                 <tr>
                   <td className="py-2 font-medium">Your Profit Margin</td>
-                  <td>8.93% - 15.25%</td>
+                  <td>
+                    {" "}
+                    {selectedProject.estimatedROI / 2}% -
+                    {selectedProject.estimatedROI}%{" "}
+                  </td>
                 </tr>
                 <tr>
                   <td className="py-2 font-bold text-black text-lg">
                     Potential ROI (₵)
                   </td>
                   <td className="text-[#0A6534] text-xl">
-                    {profitMin.toFixed(2)} - {profitMax.toFixed(2)}
+                    {profitMin?.toFixed(2)} - {profitMax?.toFixed(2)}
                   </td>
                 </tr>
               </tbody>
             </table>
 
-            <button className="mt-6 px-4 py-2 text-sm bg-red-500 text-white rounded hover:bg-red-600">
+            {/* <button className="mt-6 px-4 py-2 text-sm bg-red-500 text-white rounded hover:bg-red-600">
               Show Your Investment Calculator
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
