@@ -196,6 +196,7 @@ const EbeContextProvider = (props) => {
     getAllInvestments();
     getAllProfiles();
     getAllPayments();
+    getAllProducts();
     console.log(getCartAmount());
 
     // addToCart()
@@ -208,6 +209,7 @@ const EbeContextProvider = (props) => {
     allInvestments,
     allProfiles,
     allPayments,
+    allProducts,
     cartItems,
     amountInvested,
     selectedInvestment,

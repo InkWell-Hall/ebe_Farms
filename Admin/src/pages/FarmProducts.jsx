@@ -31,7 +31,7 @@ const FarmProductCard = ({ product, onAddToCart, onViewDetails, id }) => {
     price,
     unit,
     description,
-    image,
+    images,
     farmer,
     location,
     rating,
@@ -66,9 +66,9 @@ const FarmProductCard = ({ product, onAddToCart, onViewDetails, id }) => {
       <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 max-w-sm mx-auto">
         {/* Image Section */}
         <div className="relative h-64 bg-gray-200">
-          {image ? (
+          {images ? (
             <img
-              src={image}
+              src={images[0]}
               alt={name}
               className="w-full h-full object-cover"
             />
@@ -308,12 +308,6 @@ const FarmProducts = () => {
             <h1 className="text-4xl font-bold text-gray-900 mb-2">
               Farm Products
             </h1>
-            {/* Add debug info for development */}
-            {process.env.NODE_ENV === "development" && (
-              <div className="text-sm text-gray-500 mt-2">
-                Debug: Products count: {allProducts?.length || 0}
-              </div>
-            )}
           </div>
 
           <FarmProductGrid products={allProducts} />

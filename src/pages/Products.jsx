@@ -18,7 +18,7 @@ import { apiClient } from "../api/client";
 
 const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  // const { allProducts, addToCart } = useContext(EbeContext);
+  const { allProducts } = useContext(EbeContext);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedLocation, setSelectedLocation] = useState("all");
   const [sortBy, setSortBy] = useState("newest");
@@ -148,7 +148,7 @@ const Products = () => {
     { value: "Central Region", label: "Central Region" },
   ];
 
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = allProducts.filter((product) => {
     const matchesSearch =
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.farmer.toLowerCase().includes(searchTerm.toLowerCase());
@@ -161,6 +161,7 @@ const Products = () => {
   });
 
   const getFreshnessColor = (freshness) => {
+    if (!freshness || typeof freshness !== "string") return "text-gray-400"; // fallback color
     if (freshness.includes("today")) return "text-green-600";
     if (freshness.includes("yesterday")) return "text-yellow-600";
     return "text-orange-600";
@@ -214,7 +215,7 @@ const Products = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen">
         <div className="sticky top-0 z-50">
           <Navbar />
         </div>
@@ -335,7 +336,7 @@ const Products = () => {
                     <div className="relative">
                       <Link to={`/single-products/${product.id}`}>
                         <img
-                          src={product.image}
+                          src={product.images[0]}
                           alt={product.name}
                           className="w-full h-48 object-cover cursor-pointer"
                         />
@@ -380,7 +381,7 @@ const Products = () => {
 
                         <div className="flex items-center text-sm text-gray-600">
                           <Truck className="w-4 h-4 mr-1" />
-                          <span>{product.quantity}</span>
+                          <span>{product.quantity}per basket</span>
                         </div>
 
                         <div className="flex items-center">
@@ -395,7 +396,7 @@ const Products = () => {
 
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-gray-500">
-                          {product.unit}
+                          {product.unit} in stock
                         </span>
                         <button
                           onClick={() => addToCart(productId, userId, quant)}
