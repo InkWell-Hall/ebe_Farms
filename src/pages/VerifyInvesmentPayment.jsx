@@ -1,8 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { apiClient } from "../api/client";
 
 const VerifyInvesmentPayment = () => {
+  const [loading, setLoading] = useState(false);
+  const [reference, setReference] = useState(false);
+ const VerifyInvesmentPayment =async (event) => {
+    event.preventDefault();
+        setLoading(true);
+        data = { email, password };
+        try {
+          const response = await apiClient.post("/api/V1/verify-order-payment", data, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          console.log(response);
+          localStorage.setItem("TOKEN", response.data.token);
+          localStorage.setItem("Ebe_User_Id", response.data.user.id);
+          toast.success("Login Successfull");
+          navigate("/");
+        } catch (error) {
+          console.log(error);
+          toast.error(error.response.data.message);
+        }
+  }
+
   return (
     <>
       <Navbar />

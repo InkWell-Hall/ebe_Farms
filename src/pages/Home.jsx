@@ -34,7 +34,7 @@ const Home = () => {
           >
             <SwiperSlide className="w-screen h-[70vh] bg-[url('./assets/landpic2.jpeg')] bg-no-repeat bg-cover bg-center flex items-center justify-center">
               <div className="bg-black/40 backdrop:blur-2xl absolute w-screen h-[100vh]"></div>
-              <h1 className="text-4xl text-center out absolute top-70 left-70 text-white font-bold italic">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-4xl xl:text-5xl text-center absolute top-[40%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-white font-bold italic px-4">
                 {/* Welcome to EBE Farms — <br /> */}
                 "your go-to destination for wholesome <br /> produce and
                 growth-driven farm investments."
@@ -43,7 +43,7 @@ const Home = () => {
 
             <SwiperSlide className="w-screen h-[70vh] bg-[url('./assets/landpic3.jpeg')] bg-no-repeat bg-cover bg-center flex items-center justify-center">
               <div className="bg-black/40 backdrop:blur-2xl absolute w-screen h-[100vh]"></div>
-              <h1 className="text-4xl absolute top-80 left-70 text-white font-bold out italic">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-4xl xl:text-5xl text-center absolute top-[40%] left-[50%] transform -translate-x-1/2  text-white font-bold out italic px-4">
                 {" "}
                 "Investing in Agriculture, Securing Tomorrow"{" "}
               </h1>
@@ -52,7 +52,7 @@ const Home = () => {
             <SwiperSlide className="w-screen h-[70vh] bg-[url('./assets/landpic1.jpeg')] bg-no-repeat bg-cover bg-center flex items-center justify-center">
               {" "}
               <div className="bg-black/40 backdrop:blur-2xl absolute w-screen h-[100vh]"></div>
-              <h1 className="text-4xl absolute top-90 left-70 text-white out font-bold italic">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-4xl xl:text-5xl text-center absolute top-[30%] left-[50%] transform -translate-x-1/2 text-white out font-bold italic px-4">
                 "Empowering Farmers, Growing Communities"
               </h1>
             </SwiperSlide>
@@ -60,7 +60,7 @@ const Home = () => {
             <SwiperSlide className="w-screen h-[50vh] bg-[url('./assets/farmpic1.jpeg')] bg-no-repeat bg-cover bg-center flex items-center justify-center">
               {" "}
               <div className="bg-black/40 backdrop:blur-2xl absolute w-screen h-[100vh]"></div>
-              <h1 className="text-4xl absolute top-90 left-90 text-white out font-bold italic">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-4xl xl:text-5xl text-center absolute top-[30%] left-[50%] transform -translate-x-1/2 text-white out font-bold italic px-4"> 
                 "Green Returns: Profits with Purpose"
               </h1>
             </SwiperSlide>
