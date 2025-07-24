@@ -13,9 +13,11 @@ import {
   LeafyGreen,
   CirclePlus,
   ListPlus,
-  Wallet,
+  SignalZero,
+  LogOut,
 } from "lucide-react";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink , useNavigate} from "react-router";
+import { toast } from "react-toastify";
 
 // Reusable Sidebar Component
 const Sidebar = ({ isOpen, onClose, className = "" }) => {
@@ -24,12 +26,18 @@ const Sidebar = ({ isOpen, onClose, className = "" }) => {
     { icon: Users, label: "Farmers", href: "/farmers" },
     { icon: BarChart3, label: "Investors", href: "/investors" },
     { icon: Tractor, label: "Farm Projects", href: "/farm-projects" },
-    { icon: Wallet, label: "All Payments", href: "/verify/:id" },
     { icon: LeafyGreen, label: "Farm Products", href: "/farm-products" },
     { icon: CirclePlus, label: "Add Farm Projects", href: "/adproject" },
     { icon: ListPlus, label: "Add Farm Product", href: "/add-product" },
-    { icon: Settings, label: "Settings", href: "/" },
+    { icon: Settings, label: "Settings", href: "/" }
+    
   ];
+  const navigate = useNavigate();
+   const signOut = () => {
+    localStorage.removeItem("TOKEN");
+    navigate("/");
+    toast.success("Successfully logged out");
+  };
 
   return (
     <>
@@ -71,6 +79,11 @@ const Sidebar = ({ isOpen, onClose, className = "" }) => {
               {item.label}
             </NavLink>
           ))}
+          <div className="flex w-30 mt-23 ml-5  rounded-2xl bg-white mx-auto ">
+            <button onClick={signOut} className="font-bold items-center ml-2 flex gap-2 cursor-pointer px-2 py-2 text-black">
+              <LogOut className="w-5 h-8" />SignOut
+            </button>
+          </div>
         </nav>
       </div>
     </>

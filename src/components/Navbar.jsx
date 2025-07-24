@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
-import logo from "../assets/gogo.png";
+import logo from "../assets/logo.png";
 import {
   ChevronDown,
   DollarSign,
@@ -96,15 +96,17 @@ const Navbar = () => {
                 to="/"
                 className="flex items-center gap-2 hover:opacity-90 transition-opacity"
               >
-                <div className="bg-white p-2 rounded-lg">
-                  <Leaf className="w-6 h-6 text-green-600" />
-                  {/* <img src={logo} alt="" className="w-20" /> */}
+                <div className="flex overflow-hidden">
+                <div className=" rounded-lg">
+                  {/* <Leaf className="w-6 h-6 text-green-600" /> */}
+                  <img src={logo} alt="" className="w-19 h-18" />
                 </div>
-                <div className="text-white">
+                <div className="text-white flex flex-col mt-5">
                   <h1 className="text-xl font-bold out">Ebe_Farms</h1>
                   <p className="text-xs text-green-100 out">
                     Your Farm Investment Platform
                   </p>
+                </div>
                 </div>
               </Link>
             </div>
