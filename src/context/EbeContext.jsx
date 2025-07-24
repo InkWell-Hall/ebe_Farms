@@ -10,32 +10,64 @@ const EbeContextProvider = (props) => {
   const [allProducts, setAllProducts] = useState([]);
   const [allInvestments, setAllInvestment] = useState([]);
   const [selectedInvestment, setSelectedInvestment] = useState([]);
-
+  //  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
   const [allProfiles, setAllProfiles] = useState([]);
   const [allPayments, setAllPayments] = useState([]);
   const [amountInvested, setAmountedInvested] = useState("");
+  const userId = localStorage.getItem("Ebe_User_Id");
+  const currency = "₵";
+  const delivery_fee = 20;
 
-  const addToCart = async (itemId, userId, quantity) => {
+  // const getAllProducts = async () => {
+  //   setIsLoadingProducts(true);
+  //   try {
+  //     console.log("Fetching products...");
+  //     const response = await apiClient.get("/api/V1/list", {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+  //       },
+  //     });
+
+  //     console.log("Products API response:", response);
+
+  //     if (response.data && response.data.products) {
+  //       setAllProducts(response.data.products);
+  //       console.log("Products set successfully:", response.data.products.length);
+  //     } else {
+  //       console.warn("No products in response:", response.data);
+  //       setAllProducts([]);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching products:", error);
+  //     // Don't reset products on error, keep existing state
+  //     if (error.response) {
+  //       console.error("API Error Response:", error.response.data);
+  //     }
+  //   } finally {
+  //     setIsLoadingProducts(false);
+  //   }
+  // };
+  const addToCart = async (itemId, size) => {
     // if (!size) {
     //   toast.error("Select Product Size");
     //   return;
     // }
     // const storedUserId = localStorage.getItem("USER_ID");
 
-    // let cartData = structuredClone(cartItems);
+    let cartData = structuredClone(cartItems);
 
-    // if (cartData[itemId]) {
-    //   if (cartData[itemId][size]) {
-    //     cartData[itemId][size] += 1;
-    //   } else {
-    //     cartData[itemId][size] = 1;
-    //   }
-    // } else {
-    //   cartData[itemId] = {};
-    //   cartData[itemId][size] = 1;
-    // }
+    if (cartData[itemId]) {
+      if (cartData[itemId][size]) {
+        cartData[itemId][size] += 1;
+      } else {
+        cartData[itemId][size] = 1;
+      }
+    } else {
+      cartData[itemId] = {};
+      cartData[itemId][size] = 1;
+    }
 
-    // setCartItems(cartData);
+    setCartItems(cartData);
 
     try {
       await apiClient.post(
@@ -138,15 +170,19 @@ const EbeContextProvider = (props) => {
 
   const getCartCount = () => {
     let totalCount = 0;
-    for (const items in cartItems) {
-      for (const item in cartItems[items]) {
-        try {
-          if (cartItems[items][item] > 0) {
-            totalCount += cartItems[items][item];
-          }
-        } catch (error) {}
+
+    // Simple cart structure: { itemId: quantity, itemId2: quantity }
+    for (const itemId in cartItems) {
+      try {
+        if (cartItems[itemId] > 0) {
+          totalCount += cartItems[itemId];
+        }
+      } catch (error) {
+        console.error("Error calculating cart count for item:", itemId, error);
       }
     }
+
+    console.log("Cart count calculated:", totalCount, "from cart:", cartItems);
     return totalCount;
   };
 
@@ -164,16 +200,19 @@ const EbeContextProvider = (props) => {
 
   const getCartAmount = () => {
     let totalAmount = 0;
-    for (const items in cartItems) {
-      let itemInfo = allProducts.find((ad) => ad.id === items);
-      for (const item in cartItems[items]) {
-        try {
-          if (cartItems[items][item] > 0) {
-            totalAmount += itemInfo.price * cartItems[items][item];
-          }
-        } catch (error) {}
+
+    for (const itemId in cartItems) {
+      try {
+        const itemInfo = allProducts.find((product) => product.id === itemId);
+        if (itemInfo && cartItems[itemId] > 0) {
+          totalAmount += itemInfo.price * cartItems[itemId];
+        }
+      } catch (error) {
+        console.error("Error calculating cart amount for item:", itemId, error);
       }
     }
+
+    console.log("Cart amount calculated:", totalAmount);
     return totalAmount;
   };
 
@@ -188,6 +227,86 @@ const EbeContextProvider = (props) => {
       setSelectedInvestment(response.data.investment);
     } catch (error) {}
   };
+  const getSingleInvestor = async (id) => {
+    try {
+      const response = await apiClient.get(`/api/V1/investors/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+        },
+      });
+      console.log(response);
+      // setSelectedInvestment(response.data.investment);
+    } catch (error) {}
+  };
+
+  const getMyInvestments = async (id) => {
+    try {
+      const response = await apiClient.get(`/api/V1/investment/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+        },
+      });
+      console.log(response);
+      setAllProducts(response.data.products);
+    } catch (error) {}
+  };
+
+  const getSingleProfile = async (id) => {
+    try {
+      const response = await apiClient.get(`/api/V1/user/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+        },
+      });
+      console.log(response);
+      setAllProducts(response.data.products);
+    } catch (error) {}
+  };
+
+  const getSingleCart = async (id) => {
+    try {
+      const response = await apiClient.get(`/api/V1/get/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+        },
+      });
+      console.log(response);
+      setAllProducts(response.data.products);
+    } catch (error) {}
+  };
+
+  const getAllOrders = async () => {
+    try {
+      const response = await apiClient.get(`/api/V1/order/list/`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+        },
+      });
+      console.log(response);
+      setAllProducts(response.data.products);
+    } catch (error) {}
+  };
+
+  const getMyOrder = async (id) => {
+    try {
+      const response = await apiClient.get(`/api/V1/order-user`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+        },
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateQuantity = async (itemId, size, quantity) => {
+    let cartData = structuredClone(cartItems);
+
+    cartData[itemId][size] = quantity;
+
+    setCartItems(cartData);
+  };
 
   useEffect(() => {
     getAllFarmProject();
@@ -197,8 +316,13 @@ const EbeContextProvider = (props) => {
     getAllProfiles();
     getAllPayments();
     getAllProducts();
+    getMyOrder();
     console.log(getCartAmount());
-
+    getSingleProfile("687be6a216d71c2e07ed9aeb");
+    getAllOrders();
+    getSingleInvestment("687be6a216d71c2e07ed9aeb");
+    getSingleInvestor("68811a4e99d2292e4bce9134");
+    // getSingleCart("687be6a216d71c2e07ed9aeb");
     // addToCart()
   }, []);
 
@@ -211,10 +335,13 @@ const EbeContextProvider = (props) => {
     allPayments,
     allProducts,
     cartItems,
+    delivery_fee,
+    currency,
     amountInvested,
     selectedInvestment,
     setAmountedInvested,
     getCartCount,
+    getMyInvestments,
     getAllProducts,
     getCartAmount,
     setCartItems,
@@ -222,6 +349,10 @@ const EbeContextProvider = (props) => {
     verifyInvestmentPayment,
     getSingleInvestment,
   };
+
+  useEffect(() => {
+    console.log(cartItems);
+  }, [cartItems]);
   return (
     <EbeContext.Provider value={value}>{props.children}</EbeContext.Provider>
   );

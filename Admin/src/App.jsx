@@ -15,6 +15,8 @@ import EditProduct from "./pages/EditProduct";
 import Farmers from "./pages/Farmers";
 import Investors from "./pages/Investors";
 import InvestorInvestmentTable from "./pages/InvestorInvestmentTable";
+import UserInvestments from "./pages/UserInvestments";
+import VerifyInvestment from "./pages/VerifyInvestment";
 
 const router = createBrowserRouter([
   {
@@ -72,6 +74,14 @@ const router = createBrowserRouter([
   {
     path: "/investors-2",
     element: <InvestorInvestmentTable />,
+  },
+  {
+    path: "/investor-projects/:id",
+    element: <UserInvestments />,
+  },
+  {
+    path: "/verify/:id",
+    element: <VerifyInvestment />,
   },
 ]);
 

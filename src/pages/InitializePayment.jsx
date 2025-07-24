@@ -19,7 +19,7 @@ const InitializePayment = () => {
   const [units, setUnits] = useState(1);
   const [investment, setInvestment] = useState();
 
-  const amount = amountedInvested;
+  const amount = selectedInvestment?.amountInvested;
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -46,7 +46,7 @@ const InitializePayment = () => {
     }
 
     const payload = {
-      amount,
+      // amount,
       method,
       investmentId: id,
     };
@@ -63,8 +63,8 @@ const InitializePayment = () => {
       window.location.href = response.data.authorization_url;
       navigate("/board");
     } catch (error) {
-      toast.error("Payment initialization failed");
       console.error(error);
+      toast.error("Payment initialization failed");
     }
   };
 
@@ -119,6 +119,7 @@ const InitializePayment = () => {
                   </span>
                   <div className="mt-1 p-2 bg-white rounded border font-semibold text-green-600">
                     ₵{selectedInvestment?.amountInvested?.toFixed(2) || "0.00"}
+                    {/* {setAmount} */}
                   </div>
                 </div>
                 <div>

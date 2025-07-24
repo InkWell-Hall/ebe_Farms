@@ -23,8 +23,9 @@ import {
   BadgeCent,
 } from "lucide-react";
 import RelatedProjects from "./RelatedProjects";
+import { Link } from "react-router";
 
-const FarmProjectDetails = ({ project, relatedProjects = [] }) => {
+const FarmProjectDetails = ({ project, relatedProjects = [], id }) => {
   const [activeTab, setActiveTab] = useState("overview");
   const [isLiked, setIsLiked] = useState(false);
 
@@ -98,7 +99,9 @@ const FarmProjectDetails = ({ project, relatedProjects = [] }) => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                <ArrowLeft size={20} />
+                <Link to={"/farm-project"}>
+                  <ArrowLeft size={20} />
+                </Link>
               </button>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
@@ -435,10 +438,10 @@ const FarmProjectDetails = ({ project, relatedProjects = [] }) => {
 
               <div className="mt-6 space-y-3">
                 <button className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors">
-                  Invest Now
+                  <Link to={`/newinvestment/${id}`}>Invest Now</Link>
                 </button>
                 <button className="w-full border border-green-600 text-green-600 hover:bg-green-50 font-semibold py-3 px-4 rounded-lg transition-colors">
-                  Request More Info
+                  <Link to={"/contact"}>Request More Info</Link>
                 </button>
               </div>
             </div>

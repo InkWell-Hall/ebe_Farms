@@ -35,7 +35,7 @@ const NewInvestment = () => {
   const unitCost = selectedProject?.unitPrice;
   const totalPayable = unitCost * units + unitCost * units * operationalCharge;
 
-  const profitMin = totalPayable * selectedProject?.estimatedROI;
+  const profitMin = totalPayable * (selectedProject?.estimatedROI / 2);
   const profitMax = totalPayable * selectedProject?.estimatedROI;
   const createInvestment = async (e) => {
     e.preventDefault();
@@ -207,7 +207,7 @@ const NewInvestment = () => {
                   <td className="py-2 font-medium">
                     Cost of Production per Unit
                   </td>
-                  <td>₵{unitCost}</td>
+                  <td>₵{unitCost.toFixed(2)}</td>
                 </tr>
                 <tr>
                   <td className="py-2 font-medium">Operational Charge (5%)</td>

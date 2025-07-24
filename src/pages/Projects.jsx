@@ -34,16 +34,20 @@ const Projects = () => {
   const [cartItems, setCartItems] = useState([]);
   const [fundProject, setFundProject] = useState(null);
 
-  const categories = [
-    { value: "all", label: "All Products" },
-    { value: "vegetables", label: "Vegetables" },
-    { value: "fruits", label: "Fruits" },
-    { value: "grains", label: "Grains & Cereals" },
-    { value: "herbs", label: "Herbs & Spices" },
-  ];
+  // const categories = [
+  //   { value: "all", label: "All Products" },
+  //   { value: "vegetables", label: "Vegetables" },
+  //   { value: "fruits", label: "Fruits" },
+  //   { value: "grains", label: "Grains & Cereals" },
+  //   { value: "herbs", label: "Herbs & Spices" },
+  // ];
 
   const uniqueLocations = Array.from(
     new Set(allFarmProject.map((item) => item.location))
+  );
+
+  const uniqueCategories = Array.from(
+    new Set(allFarmProject.map((item) => item.projectName))
   );
 
   const locations = [
@@ -51,6 +55,13 @@ const Projects = () => {
     ...uniqueLocations.map((loc) => ({
       value: loc,
       label: loc,
+    })),
+  ];
+  const categories = [
+    { value: "all", label: "All Categories" },
+    ...uniqueCategories.map((cat) => ({
+      value: cat,
+      label: cat,
     })),
   ];
 
@@ -61,7 +72,7 @@ const Projects = () => {
 
     const matchesCategory =
       selectedCategory === "all" ||
-      project.category?.toLowerCase() === selectedCategory;
+      project.projectName?.toLowerCase() === selectedCategory;
 
     const matchesLocation =
       selectedLocation === "all" ||

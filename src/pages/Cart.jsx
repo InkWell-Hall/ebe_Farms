@@ -1,215 +1,196 @@
-import React, { useState } from "react";
-import { ArrowLeft, Minus, Plus, Trash, Truck } from "lucide-react";
-import image4 from "../assets/fruits.jpeg";
-import image7 from "../assets/cassava.jpg";
-import image9 from "../assets/green.jpeg";
-import { Link } from "react-router";
+import React, { useContext, useEffect, useState } from "react";
+// import { AdContext } from "../context/AdContext";
 import Navbar from "../components/Navbar";
+import { Trash, Trash2, ArrowLeft } from "lucide-react";
+import CartTotal from "../components/CartTotal";
 import Footer from "../components/Footer";
+import { Link, useNavigate } from "react-router";
+import { toast } from "react-toastify";
+import empty from "../assets/emptytCart.jpg";
+import { apiClient } from "../api/client";
+import Title from "../components/Title";
+import Card from "../components/Card";
+import { EbeContext } from "../context/EbeContext";
 
-const initialCartItems = [
-  {
-    id: 1,
-    name: "Cassava",
-    description: "Freshly harvested cassava tubers",
-    price: 65.0,
-    quantity: 1,
-    total: 65.0,
-    image: image4,
-    alt: "Cassava",
-  },
-  {
-    id: 2,
-    name: "Mazie",
-    description: "Freshly harvested maize",
-    price: 70.0,
-    quantity: 1,
-    total: 70.0,
-    image: image7,
-    alt: "Mazie",
-  },
-  {
-    id: 3,
-    name: "Mangoes",
-    description: "Freshly harvested mangoes",
-    price: 80.0,
-    quantity: 1,
-    total: 80.0,
-    image: image9,
-    alt: "Mangoes",
-  },
-];
+const Cart = () => {
+  const { currency, cartItems, updateQuantity, getCartAmount, allProducts } =
+    useContext(EbeContext);
 
-export default function Cart() {
-  const [cartItems, setCartItems] = useState(initialCartItems);
+  const [cartData, setCartData] = useState([]);
+  const [productsData, setProductsData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [cartId, setCartId] = useState();
+  const navigate = useNavigate();
 
-  const handleQuantityChange = (id, delta) => {
-    setCartItems((items) =>
-      items.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              quantity: Math.max(1, item.quantity + delta),
-              total: Math.max(1, item.quantity + delta) * item.price,
-            }
-          : item
-      )
-    );
-  };
-  const handleDelete = (id) => {
-    setCartItems((items) => items.filter((item) => item.id !== id));
+  const verifyOrder = () => {
+    if (getCartAmount() <= 0) {
+      toast.error("Add Product to Cart");
+    } else {
+      navigate("/place-order");
+    }
   };
 
-  return (
-    <>
-      <Navbar />
-      <div className="min-h-screen bg-white">
-        <div className="bg-[#F5FBF2]  px-4 py-8">
-          <div className="max-w-6xl mx-auto">
-            <Link to="/products">
-              <button className="flex items-center text-black font-mono hover:bg-[#EADAC8] hover:rounded-full hover:px-3 cursor-pointer mb-2">
-                <ArrowLeft className="w-5 h-5 mr-2" />
-                Continue Shopping
-              </button>
-            </Link>
-            <h1 className="text-4xl font-bold text-black">Shopping Cart</h1>
-          </div>
-        </div>
+  useEffect(() => {
+    if (allProducts?.length > 0) {
+      const tempData = [];
+      for (const items in cartItems) {
+        for (const item in cartItems[items]) {
+          if (cartItems[items][item] > 0) {
+            tempData.push({
+              id: items,
+              size: item,
+              quantity: cartItems[items][item],
+            });
+          }
+        }
+      }
+      setCartData(tempData);
+    }
+  }, [cartItems, allProducts]);
+  console.log(cartData);
+  useEffect(() => {
+    getCartAmount();
+    setCartId(cartData.map((item) => item.id));
+  }, []);
 
-        <div className="max-w-6xl mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 space-y-4">
-              {cartItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="bg-white rounded-lg p-7 shadow-md"
-                >
-                  <div className="flex items-center space-x-4">
-                    <div className="w-24 h-24 bg-gray-100 rounded-lg overflow-hidden">
-                      <img
-                        src={item.image}
-                        alt={item.alt}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
+  const deleteUserCart = async () => {
+    try {
+      const response = await apiClient.delete(`/delete/${cartData[0].id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`,
+        },
+      });
+      console.log(response);
+      window.location.reload(); // only runs after the response is logged
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
-                    <div className="flex-1">
-                      <h3 className="font-medium text-black mb-2">
-                        {item.name}
-                      </h3>
-                      <p className="text-gray-500 text-sm mb-2">
-                        {item.description}
-                      </p>{" "}
-                      {/* Add this line */}
-                      <div className="flex items-center space-x-2">
-                        <span className="text-black font-mono text-m">
-                          Qty: {item.quantity}
-                        </span>
-                      </div>
-                    </div>
+  useEffect(() => {
+    console.log("Cart Items:", cartItems);
+    console.log("Cart Data:", cartData);
+    console.log("Products Data:", productsData);
+  }, [cartItems, cartData, productsData]);
 
-                    <div className="flex-1">
-                      <h3 className="font-medium text-black mb-2">
-                        {item.name}
-                      </h3>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-black font-mono text-m">
-                          Qty: {item.quantity}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center space-x-3">
-                      <button
-                        className="w-8 h-8 rounded-full cursor-pointer border border-[#FC9A13] flex items-center justify-center hover:bg-[#d6d8d5]"
-                        onClick={() => handleQuantityChange(item.id, -1)}
-                      >
-                        <Minus className="w-4 h-4" />
-                      </button>
-                      <span className="w-8 text-center font-medium">
-                        {item.quantity}
-                      </span>
-                      <button
-                        className="w-8 h-8 rounded-full cursor-pointer border border-[#FC9A13] flex items-center justify-center hover:bg-[#d6d8d5]"
-                        onClick={() => handleQuantityChange(item.id, 1)}
-                      >
-                        <Plus className="w-4 h-4" />
-                      </button>
-                    </div>
-
-                    <div className="text-right">
-                      <div className="font-bold text-lg  rounded-xl px-2 py-2 bg-[#d6d8d5] text-black">
-                        GH₵{item.total}
-                      </div>
-                    </div>
-
-                    <button
-                      className="text-black hover:text-amber-800 hover:bg-[#d6d8d5] hover:rounded-lg hover:py-2 px-3 cursor-pointer p-1"
-                      onClick={() => handleDelete(item.id)}
-                    >
-                      <Trash className="w-5 h-5 text-green-600" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg p-6 shadow-md sticky top-8">
-                <h2 className="text-xl font-mono font-bold text-black mb-6">
-                  Order Summary
-                </h2>
-
-                <div className="space-y-4 mb-6">
-                  <div className="flex justify-between">
-                    <span className="text-black">Subtotal</span>
-                    <span className="text-black">
-                      GH₵
-                      {cartItems
-                        .reduce((sum, item) => sum + item.total, 0)
-                        .toFixed(2)}
-                    </span>
-                  </div>
-
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center space-x-2">
-                      <Truck className="w-4 h-4 text-green-600 " />
-                      <span className="text-black">Shipping</span>
-                    </div>
-                    <span className="font-medium text-green-600">FREE</span>
-                  </div>
-
-                  <div className="border-t border-black pt-4">
-                    <div className="flex justify-between">
-                      <span className="text-lg font-bold text-black">
-                        Total
-                      </span>
-                      <span className="text-xl font-bold text-black">
-                        GH₵
-                        {cartItems
-                          .reduce((sum, item) => sum + item.total, 0)
-                          .toFixed(2)}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <Link to="/place-order">
-                  <button className="w-full bg-green-600 text-white cursor-pointer py-3 rounded-lg font-medium hover:bg-green-800 transition-colors">
-                    Proceed to Checkout
-                  </button>
-                </Link>
-
-                <div className="mt-4 text-center text-sm text-black">
-                  <p>Secure checkout with 256-bit SSL encryption</p>
-                  <p>Free returns within 30 days</p>
-                </div>
-              </div>
-            </div>
-          </div>
+  if (loading) {
+    return (
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+        <div className="text-center text-lead-text font-lead-font flex flex-col justify-center items-center mt-5">
+          <h1>Loading cart...</h1>
         </div>
       </div>
-      <Footer />
+    );
+  }
+
+  return getCartAmount() === 0 ? (
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <div className="text-center text-lead-text font-lead-font flex flex-col justify-center items-center mt-5 mb-20">
+        <img src={empty} alt="" className="w-80" />
+        <h1 className="text-2xl mb-7">Your cart is empty</h1>
+
+        <Link to={"/products"}>
+          <button className="text-[20px] flex items-center bg-green-900 text-white py-3 px-2 rounded cursor-pointer">
+            <ArrowLeft className="mr-2" />
+            Go Shopping
+          </button>
+        </Link>
+      </div>
+      <div className="mt-auto">
+        <Footer />
+      </div>
+    </div>
+  ) : (
+    <>
+      <div className="flex flex-col bg-rebecca min-h-screen">
+        <Navbar />
+        <div className="border-t pt-14 w-[80%] mx-auto mt-4">
+          <div className="text-2xl mb-3">
+            <h1 className="font-lead-font text-lead-text font-light">
+              <Title text1={"YOUR"} text2={"CART"} />
+            </h1>
+          </div>
+          <div>
+            {cartData?.map((item, index) => {
+              const adData = allAds?.find((ad) => ad.id === item.id);
+              return (
+                <div
+                  key={index}
+                  className="py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
+                >
+                  <div className="flex items-start gap-6">
+                    <img
+                      src={adData.image[0]}
+                      className="w-16 sm:w-20"
+                      alt=""
+                    />
+                    <div className="flex flex-col justify-between gap-10">
+                      <p className="text-xs sm:text-lg font-medium ">
+                        {adData.name}
+                      </p>
+                      <div className="flex items-center gap-5 mt-2">
+                        <p>
+                          {currency}
+                          {adData.price}
+                        </p>
+                        <p className="px-2 sm:px-3 sm:py-1 border bg-slate-50">
+                          {item.size}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <input
+                    onChange={(e) =>
+                      e.target.value === " " || e.target.value === "0"
+                        ? null
+                        : updateQuantity(
+                            item.id,
+                            item.size,
+                            Number(e.target.value)
+                          )
+                    }
+                    type="number"
+                    min={1}
+                    defaultValue={item.quantity}
+                    className=" border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1 "
+                  />
+                  {/* <img
+                    onClick={() => updateQuantity(item.id, item.size, 0)}
+                    src={assets.bin_icon}
+                    className="w-4 mr-4 sm:w-5 cursor-pointer"
+                    alt=""
+                  /> */}
+                  <Trash
+                    // onClick={() => updateQuantity(item.id, item.size, 0)}
+                    className="w-4 mr-4 sm:w-5 cursor-pointer"
+                    onClick={deleteUserCart}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div className="flex justify-end my-20 w-[80%] mx-auto">
+          <div className="w-full sm:w-[450px]">
+            <CartTotal />
+            <div className="w-full text-end">
+              <button
+                onClick={() => verifyOrder()}
+                className="bg-black cursor-pointer text-white text-sm my-8 px-8 py-3 active:bg-gray-700"
+              >
+                PROCEED TO CHECKOUT
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="mt-auto">
+          <Footer />
+        </div>
+      </div>
     </>
   );
-}
+};
+
+export default Cart;

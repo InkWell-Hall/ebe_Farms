@@ -50,7 +50,7 @@ const FarmContextProvider = (props) => {
         },
       });
       console.log(response);
-      setAllInvestment(response.data.investments);
+      setAllInvestment(response.data.investment);
     } catch (error) {}
   };
 
@@ -96,8 +96,23 @@ const FarmContextProvider = (props) => {
         },
       });
       console.log(response);
+      return response.data;
       setAllProducts(response.data.products);
     } catch (error) {}
+  };
+  const verifyInvestmentPayment = async (id) => {
+    try {
+      const response = await apiClient.get(`/api/V1/verify-payment/`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+        },
+      });
+      console.log(response);
+      // return response.data;
+      // setAllProducts(response.data.products);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -108,7 +123,7 @@ const FarmContextProvider = (props) => {
     getAllProfiles();
     getAllPayments();
     getAllProducts();
-    // getMyInvestments("6877bc49c4371394924acd23");
+    getMyInvestments("686fd229f8675b911da11a13");
   }, []);
 
   const value = {
@@ -119,6 +134,8 @@ const FarmContextProvider = (props) => {
     allProfiles,
     allPayments,
     allProducts,
+    getMyInvestments,
+    verifyInvestmentPayment,
   };
   return (
     <FarmContext.Provider value={value}>{props.children}</FarmContext.Provider>

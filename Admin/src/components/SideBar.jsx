@@ -13,6 +13,7 @@ import {
   LeafyGreen,
   CirclePlus,
   ListPlus,
+  Wallet,
 } from "lucide-react";
 import { Link, NavLink } from "react-router";
 
@@ -23,6 +24,7 @@ const Sidebar = ({ isOpen, onClose, className = "" }) => {
     { icon: Users, label: "Farmers", href: "/farmers" },
     { icon: BarChart3, label: "Investors", href: "/investors" },
     { icon: Tractor, label: "Farm Projects", href: "/farm-projects" },
+    { icon: Wallet, label: "All Payments", href: "/verify/:id" },
     { icon: LeafyGreen, label: "Farm Products", href: "/farm-products" },
     { icon: CirclePlus, label: "Add Farm Projects", href: "/adproject" },
     { icon: ListPlus, label: "Add Farm Product", href: "/add-product" },

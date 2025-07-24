@@ -10,17 +10,18 @@ const Sign = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
-  // const role = "recruiter";
+  // const [role, setRole] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [companyCode, setCompanyCode] = useState("");
+  const [description, setDescription] = useState("");
+  const [website, setWebsite] = useState("");
+  const role = "recruiter";
+  const companyEmail = "hfufuf";
   const navigate = useNavigate();
-  const signUp = async (e) => {
-    e.preventDefault();
-
-    const data = { userName, password, email };
-
+  const signUp = async (data) => {
     try {
       const response = await axios.post(
-        "https://job-simulation-backend-3e6w.onrender.com/api/auth/login",
+        "https://job-simulation-backend-3e6w.onrender.com/api/auth/signup",
         data,
         { headers: { "Content-Type": "application/json" } }
       );
@@ -35,13 +36,12 @@ const Sign = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
     }
   };
 
   return (
     <div className="w-[80%] mx-auto mt-20">
-      <form onSubmit={signUp}>
+      <form action={signUp}>
         <div className="flex flex-col mb-4">
           <label htmlFor="firstName">First</label>
           <input
@@ -89,6 +89,56 @@ const Sign = () => {
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="border"
+          />
+        </div>
+        <div className="flex flex-col mb-4">
+          <label htmlFor="email">companyName</label>
+          <input
+            type="text"
+            name="companyName"
+            value={companyName}
+            onChange={(e) => setCompanyName(e.target.value)}
+            className="border"
+          />
+        </div>
+        <div className="flex flex-col mb-4">
+          <label htmlFor="email">companycode</label>
+          <input
+            type="text"
+            name="companyCode"
+            value={companyCode}
+            onChange={(e) => setCompanyCode(e.target.value)}
+            className="border"
+          />
+        </div>
+        <div className="flex flex-col mb-4">
+          <label htmlFor="email">website</label>
+          <input
+            type="text"
+            name="website"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+            className="border"
+          />
+        </div>
+        <div className="flex flex-col mb-4">
+          <label htmlFor="email">description</label>
+          <input
+            type="text"
+            name="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="border"
+          />
+        </div>
+        <div className="flex flex-col mb-4">
+          <label htmlFor="email">logo</label>
+          <input
+            type="file"
+            name="logo"
+            // value={logo}
+            onChange={(e) => setLogo(e.target.files[0])}
             className="border"
           />
         </div>

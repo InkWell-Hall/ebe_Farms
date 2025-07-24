@@ -23,7 +23,7 @@ const Investors = () => {
 
         return (
           <Link
-            to={`/investor/${investorId}/projects`}
+            to={`/investor-projects/${investorId}`}
             className="text-green-600 hover:underline"
           >
             {label}
@@ -34,10 +34,10 @@ const Investors = () => {
   ];
 
   useEffect(() => {
-    console.log(allInvestors);
+    console.log("allivest:", allInvestors);
     if (Array.isArray(allInvestors)) {
       const formattedData = allInvestors.map((inv) => ({
-        id: inv.user?._id || inv._id, // Unique ID used for the route
+        id: inv.user?.id || inv.id, // Unique ID used for the route
         name: inv.user?.userName || "N/A",
         mail: inv.user?.email || "N/A",
         contact: inv.user?.phoneNumber || "N/A",

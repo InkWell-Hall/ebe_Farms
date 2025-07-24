@@ -20,12 +20,15 @@ import { Link, useParams } from "react-router";
 import Navbar from "../components/Navbar";
 import Support from "../components/Support";
 import Footer from "../components/Footer";
+import { useContext } from "react";
+import { EbeContext } from "../context/EbeContext";
 
 const SingleProduct = () => {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState("details");
   const [isFavorite, setIsFavorite] = useState(false);
+  const { allProducts } = useContext(EbeContext);
 
   // Sample products data (you can move this to a context or fetch from API)
   const products = [
@@ -157,7 +160,7 @@ const SingleProduct = () => {
     },
   ];
 
-  const product = products.find((p) => p.id === 1);
+  const product = allProducts.find((p) => p.id === id);
   const [selectedImage, setSelectedImage] = useState(0);
 
   if (!product) {
@@ -184,6 +187,7 @@ const SingleProduct = () => {
     .slice(0, 4);
 
   const getFreshnessColor = (freshness) => {
+    if (!freshness || typeof freshness !== "string") return "text-gray-400"; // fallback color
     if (freshness.includes("today")) return "text-green-600";
     if (freshness.includes("yesterday")) return "text-yellow-600";
     return "text-orange-600";
@@ -341,7 +345,7 @@ const SingleProduct = () => {
 
                   <div className="flex space-x-4">
                     <Link
-                      to="/newinvestment"
+                      // to="/newinvestment"
                       className="flex-1 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center"
                     >
                       <ShoppingCart className="w-5 h-5 mr-2" />

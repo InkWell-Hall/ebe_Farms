@@ -31,18 +31,18 @@ const Footer = () => {
             <h4 className="font-semibold">About Us</h4>
             <ul className="mt-2 space-y-2">
               <li>
-                <a href="#membership" className="hover:text-blue-400">
-                  Membership
+                <a href="/farm-project" className="hover:text-blue-400">
+                  Invest
                 </a>
               </li>
               <li>
-                <a href="#directory" className="hover:text-blue-400">
-                  Business Directory
+                <a href="/farm-product" className="hover:text-blue-400">
+                  MarketPlace
                 </a>
               </li>
               <li>
                 <a href="#events" className="hover:text-blue-400">
-                  Events
+                  FAQs
                 </a>
               </li>
               <li>
@@ -57,22 +57,22 @@ const Footer = () => {
             <ul className="mt-2 space-y-2">
               <li>
                 <a href="#" className="hover:text-blue-400">
-                  Regular Member
+                  Farm Products
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:text-blue-400">
-                  Corporate Member
+                  Farm Projects
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:text-blue-400">
-                  Associate Corporate Member
+                  Investments
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:text-blue-400">
-                  Associate Member
+                  Events
                 </a>
               </li>
             </ul>
@@ -89,7 +89,7 @@ const Footer = () => {
               +233 (0)598 551 301
             </p>
             <Link
-              to={"/products"}
+              to={"/farm-project"}
               className="inline-block mt-4 px-4 py-2 bg-[#EECE38] text-black font-bold rounded-lg cursor-pointer"
             >
               Fund a project

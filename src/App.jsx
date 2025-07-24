@@ -29,6 +29,7 @@ import PlaceOrder from "./pages/PlaceOrder";
 import InitializePayment from "./pages/InitializePayment";
 import VerifyInvesmentPayment from "./pages/VerifyInvesmentPayment";
 import Sign from "./pages/SignBoot";
+import UserInvestments from "./pages/UserInvestments";
 
 const router = createBrowserRouter([
   {
@@ -48,12 +49,24 @@ const router = createBrowserRouter([
     element: <Dashboard />,
   },
   {
+    path: "/boot",
+    element: <Sign />,
+  },
+  {
     path: "/newinvestment/:id",
     element: <NewInvestment />,
   },
   {
     path: "/total-investment",
     element: <TotalInvestment />,
+  },
+  {
+    path: "/investor-projects/:id",
+    element: <UserInvestments />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
   {
     path: "/login",

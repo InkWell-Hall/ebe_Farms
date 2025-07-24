@@ -10,22 +10,6 @@ import { useEffect } from "react";
 const SingleProjectPage = () => {
   const { allFarmProject } = useContext(EbeContext);
 
-  const currentProject = {
-    id: 1,
-    projectName: "Joi villa",
-    location: "Kumasi, Ghana",
-    description:
-      "A sustainable maize farming project targeting export-quality grain production.",
-    estimatedROI: 25,
-    durationInMonths: 12,
-    totalRequiredFunding: 80000,
-    receivedFunding: 0,
-    images: [],
-    startDate: "2025-08-01T00:00:00.000Z",
-    endDate: "2026-08-01T00:00:00.000Z",
-    isActive: true,
-  };
-
   const relatedProjects = [
     {
       id: 2,
@@ -100,6 +84,7 @@ const SingleProjectPage = () => {
       <Navbar />
       <div className="mt-7">
         <FarmProjectDetails
+          id={selectedProject.id}
           project={selectedProject}
           relatedProjects={relatedProjects}
         />

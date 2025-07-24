@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
-import { AdContext } from "../context/AdContext";
+import { EbeContext } from "../context/EbeContext";
+// import { AdContext } from "../context/AdContext";
 
 const CartTotal = () => {
-  const { currency, getCartAmount, delivery_fee } = useContext(AdContext);
+  // const { currency, getCartAmount, delivery_fee } = useContext(AdContext);
+  const { getCartAmount, currency, delivery_fee } = useContext(EbeContext);
   return (
     <div className="w-full">
       <div className="text-2xl">
@@ -15,7 +17,8 @@ const CartTotal = () => {
           <p>Subtotal</p>
           <p>
             {currency}
-            {getCartAmount()}.00
+            {getCartAmount()}
+            
           </p>
         </div>
         <hr />
@@ -30,8 +33,7 @@ const CartTotal = () => {
         <div className="flex justify-between">
           <b>Total</b>
           <b>
-            {currency}{" "}
-            {getCartAmount() === 0 ? 0 : getCartAmount() + delivery_fee}
+            {currency} {getCartAmount() === 0 ? 0 : getCartAmount() + 30}
           </b>
         </div>
       </div>

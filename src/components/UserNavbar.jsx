@@ -50,7 +50,7 @@ const UserNavbar = ({ onToggleSidebar, className = "" }) => {
               <User size={16} />
             </div>
             <span className="text-sm font-medium text-gray-700">
-              Swatson_Jnr
+              {localStorage.getItem("Ebe_User_name")}
             </span>
           </div>
         </div>

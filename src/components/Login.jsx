@@ -15,10 +15,10 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const loginUser = async (event, data) => {
-    event.preventDefault();
+  const loginUser = async (e) => {
+    e.preventDefault();
     setLoading(true);
-    data = { email, password };
+    const data = { email, password };
     try {
       const response = await apiClient.post("/api/V1/user/login", data, {
         headers: {
@@ -28,11 +28,14 @@ const Login = () => {
       console.log(response);
       localStorage.setItem("TOKEN", response.data.token);
       localStorage.setItem("Ebe_User_Id", response.data.user.id);
+      localStorage.setItem("Ebe_User_name", response.data.user.userName);
       toast.success("Login Successfull");
       navigate("/");
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -129,9 +132,10 @@ const Login = () => {
 
             <button
               type="submit"
+              disabled={loading}
               className="w-full bg-green-600 cursor-pointer text-white py-2 md:py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors text-sm md:text-base"
             >
-              Sign In
+              {loading ? "  Signing In...." : "  Sign In"}
             </button>
           </form>
 
