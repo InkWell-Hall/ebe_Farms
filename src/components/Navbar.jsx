@@ -97,16 +97,16 @@ const Navbar = () => {
                 className="flex items-center gap-2 hover:opacity-90 transition-opacity"
               >
                 <div className="flex overflow-hidden">
-                <div className=" rounded-lg">
-                  {/* <Leaf className="w-6 h-6 text-green-600" /> */}
-                  <img src={logo} alt="" className="w-19 h-18" />
-                </div>
-                <div className="text-white flex flex-col mt-5">
-                  <h1 className="text-xl font-bold out">Ebe_Farms</h1>
-                  <p className="text-xs text-green-100 out">
-                    Your Farm Investment Platform
-                  </p>
-                </div>
+                  <div className=" rounded-lg">
+                    {/* <Leaf className="w-6 h-6 text-green-600" /> */}
+                    <img src={logo} alt="" className="w-19 h-18" />
+                  </div>
+                  <div className="text-white flex flex-col md:mt-5">
+                    <h1 className="text-xl font-bold out">Ebe_Farms</h1>
+                    <p className="text-xs text-green-100 out">
+                      Your Farm Investment Platform
+                    </p>
+                  </div>
                 </div>
               </Link>
             </div>

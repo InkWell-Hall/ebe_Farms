@@ -13,8 +13,15 @@ import Card from "../components/Card";
 import { EbeContext } from "../context/EbeContext";
 
 const Cart = () => {
-  const { currency, cartItems, updateQuantity, getCartAmount, allProducts } =
-    useContext(EbeContext);
+  const {
+    currency,
+    cartItems,
+    updateQuantity,
+    getCartAmount,
+    allProducts,
+
+    cart,
+  } = useContext(EbeContext);
 
   const [cartData, setCartData] = useState([]);
   const [productsData, setProductsData] = useState([]);
@@ -71,6 +78,7 @@ const Cart = () => {
     console.log("Cart Items:", cartItems);
     console.log("Cart Data:", cartData);
     console.log("Products Data:", productsData);
+    console.log("Products cart:", cart);
   }, [cartItems, cartData, productsData]);
 
   if (loading) {
@@ -113,63 +121,46 @@ const Cart = () => {
             </h1>
           </div>
           <div>
-            {cartData?.map((item, index) => {
-              const adData = allAds?.find((ad) => ad.id === item.id);
-              return (
-                <div
-                  key={index}
-                  className="py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
-                >
-                  <div className="flex items-start gap-6">
-                    <img
-                      src={adData.image[0]}
-                      className="w-16 sm:w-20"
-                      alt=""
-                    />
-                    <div className="flex flex-col justify-between gap-10">
-                      <p className="text-xs sm:text-lg font-medium ">
-                        {adData.name}
-                      </p>
-                      <div className="flex items-center gap-5 mt-2">
-                        <p>
-                          {currency}
-                          {adData.price}
+            {cart?.items?.length > 0 ? (
+              cart.items.map((item, index) => {
+                const advert = item.advert;
+                return (
+                  <div
+                    key={index}
+                    className="py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
+                  >
+                    <div className="flex items-start gap-6">
+                      <img
+                        src={advert.images[0]}
+                        className="w-16 sm:w-20"
+                        alt={advert.name}
+                      />
+                      <div className="flex flex-col justify-between gap-10">
+                        <p className="text-xs sm:text-lg font-medium ">
+                          {advert.name}
                         </p>
-                        <p className="px-2 sm:px-3 sm:py-1 border bg-slate-50">
-                          {item.size}
-                        </p>
+                        <div className="flex items-center gap-5 mt-2">
+                          <p>
+                            {currency}
+                            {advert.price}
+                          </p>
+                          <p className="px-2 sm:px-3 sm:py-1 border bg-slate-50">
+                            Qty: {item.quantity}
+                          </p>
+                        </div>
                       </div>
                     </div>
+
+                    <Trash2
+                      className="w-4 mr-4 sm:w-5 cursor-pointer"
+                      onClick={() => handleRemove(item._id)}
+                    />
                   </div>
-                  <input
-                    onChange={(e) =>
-                      e.target.value === " " || e.target.value === "0"
-                        ? null
-                        : updateQuantity(
-                            item.id,
-                            item.size,
-                            Number(e.target.value)
-                          )
-                    }
-                    type="number"
-                    min={1}
-                    defaultValue={item.quantity}
-                    className=" border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1 "
-                  />
-                  {/* <img
-                    onClick={() => updateQuantity(item.id, item.size, 0)}
-                    src={assets.bin_icon}
-                    className="w-4 mr-4 sm:w-5 cursor-pointer"
-                    alt=""
-                  /> */}
-                  <Trash
-                    // onClick={() => updateQuantity(item.id, item.size, 0)}
-                    className="w-4 mr-4 sm:w-5 cursor-pointer"
-                    onClick={deleteUserCart}
-                  />
-                </div>
-              );
-            })}
+                );
+              })
+            ) : (
+              <div className="text-center py-10">Cart is empty.</div>
+            )}
           </div>
         </div>
         <div className="flex justify-end my-20 w-[80%] mx-auto">

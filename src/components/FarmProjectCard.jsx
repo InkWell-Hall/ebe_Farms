@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
   MapPin,
   Calendar,
@@ -8,6 +8,7 @@ import {
   Clock,
   Target,
 } from "lucide-react";
+import { toast } from "react-toastify";
 
 const FarmProjectCard = ({ project, id }) => {
   const {
@@ -26,6 +27,7 @@ const FarmProjectCard = ({ project, id }) => {
 
   const fundingPercentage = (receivedFunding / totalRequiredFunding) * 100;
   const remainingFunding = totalRequiredFunding - receivedFunding;
+  const navigate = useNavigate();
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-US", {
@@ -34,6 +36,14 @@ const FarmProjectCard = ({ project, id }) => {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(amount);
+  };
+
+  const verifyLogin = () => {
+    if (!localStorage.getItem("TOKEN")) {
+      navigate(`/newinvestment/${id}`);
+    } else {
+      toast.error("Login In to Invest");
+    }
   };
 
   const formatDate = (dateString) => {
@@ -185,7 +195,10 @@ const FarmProjectCard = ({ project, id }) => {
           ) : (
             <div className="mt-6">
               <Link to={`/newinvestment/${id}`}>
-                <button className="w-full cursor-pointer bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+                <button
+                  // onClick={verifyLogin}
+                  className="w-full cursor-pointer bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
+                >
                   {/* <DollarSign className="w-4 h-4" /> */}
                   Invest Now
                 </button>

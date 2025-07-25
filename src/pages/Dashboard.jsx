@@ -1,4 +1,4 @@
-import React from "react";
+import { useContext, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import {
   BanknoteArrowUp,
@@ -13,8 +13,11 @@ import ChartBox from "../components/ChartBox";
 import Table from "../components/Table";
 import { Link } from "react-router";
 import Footer from "../components/Footer";
+import { EbeContext } from "../context/EbeContext";
 
 const Dashboard = () => {
+  const { getAllUserInvestment, allUserInvestment } = useContext(EbeContext);
+
   const columns = [
     {
       header: "Activity",
@@ -38,6 +41,10 @@ const Dashboard = () => {
     { activity: "Deposit", amount: "$40,000", date: "28-23-2025" },
     { activity: "Deposit", amount: "$40,000", date: "28-23-2025" },
   ];
+
+  useEffect(() => {
+    console.log(allUserInvestment);
+  }, []);
   return (
     <div>
       <Navbar />
@@ -85,7 +92,7 @@ const Dashboard = () => {
               <Tile
                 title={"Total Investment"}
                 icon={<ChartSpline />}
-                amount={"$34,900"}
+                amount={allUserInvestment}
               />
               <Tile
                 title={"Current Investment"}

@@ -26,7 +26,7 @@ const Products = () => {
   const [sortBy, setSortBy] = useState("newest");
   const [isLoading, setIsLoading] = useState(true);
   const quant = 20;
-  const itemId = "687fd108b3a4e5df17502cb1";
+  const advert = "687fd108b3a4e5df17502cb1";
   const categories = [
     { value: "all", label: "All Products" },
     { value: "vegetables", label: "Vegetables" },
@@ -83,37 +83,37 @@ const Products = () => {
     }
   }, [allProducts]);
 
-  // Monitor cart changes and count
+ 
   useEffect(() => {
     console.log("Cart items changed:", cartItems);
     console.log("Cart count:", getCartCount());
   }, [cartItems, getCartCount]);
 
-  // FIXED: Simplified addToCart function
-  const addToCart = async (itemId, quantity) => {
+
+  const addToCart = async (advert, quantity) => {
     if (!userId) {
       toast.error("Please log in to add items to cart");
       return;
     }
 
-    // Create a copy of current cart items
+   
     let cartData = structuredClone(cartItems);
 
-    // Simple cart structure - just store quantity per item
-    if (cartData[itemId]) {
-      cartData[itemId] += quantity;
+
+    if (cartData[advert]) {
+      cartData[advert] += quantity;
     } else {
-      cartData[itemId] = quantity;
+      cartData[advert] = quantity;
     }
 
-    // Update local state immediately
+   
     setCartItems(cartData);
     console.log("Updated cart data:", cartData);
 
     try {
       const response = await apiClient.post(
         "api/V1/cart/add",
-        { itemId, quantity: quant },
+        { advert, quantity},
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
@@ -335,7 +335,7 @@ const Products = () => {
                           </span>
                           {/* FIXED: Use actual product.id and remove Link wrapper */}
                           <button
-                            onClick={() => addToCart(itemId, quant)}
+                            onClick={() => addToCart(product.id, quant)}
                             className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors"
                           >
                             Add To Cart

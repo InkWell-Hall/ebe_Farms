@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Menu,
   X,
@@ -19,15 +19,25 @@ import ChartBox from "../components/ChartBox";
 import Table from "../components/Table";
 import Tile from "../components/Tile";
 import { Link } from "react-router";
+import { EbeContext } from "../context/EbeContext";
 
 // Main Dashboard Component
 const UserDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const {
+    getAllUserInvestment,
+    allUserInvestment,
+    userDetail,
+    // allProfiles,
+    // getSingleProfile,
+  } = useContext(EbeContext);
+  const id = localStorage.getItem("Ebe_User_Id");
+  // const userDetails = getSingleProfile(id);
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
+  const wallet = userDetail?.wallet;
   const closeSidebar = () => {
     setSidebarOpen(false);
   };
@@ -55,6 +65,8 @@ const UserDashboard = () => {
     { activity: "Deposit", amount: "$40,000", date: "28-23-2025" },
     { activity: "Deposit", amount: "$40,000", date: "28-23-2025" },
   ];
+
+  console.log(userDetail);
   return (
     <div className="flex h-screen bg-green-50">
       {/* Sidebar */}
@@ -97,18 +109,18 @@ const UserDashboard = () => {
                 <Tile
                   title={"Total Withdrawals"}
                   icon={<Wallet />}
-                  amount={"$23,000"}
+                  amount={userDetail?.wallet ?? "Loading..."}
                 />
                 <Tile
                   title={"Total Deposits"}
                   icon={<BanknoteArrowUp />}
-                  amount={"$13,000"}
+                  // amount={"$13,000"}
                 />
                 <Link to={"/total-investment"}>
                   <Tile
                     title={"Total Investment"}
                     icon={<ChartSpline />}
-                    amount={"$34,900"}
+                    amount={`$${allUserInvestment}`}
                   />
                 </Link>
                 <Tile

@@ -371,7 +371,7 @@ const UserInvestments = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

@@ -9,6 +9,7 @@ const FarmContextProvider = (props) => {
   const [allProfiles, setAllProfiles] = useState([]);
   const [allPayments, setAllPayments] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
+  const userId = localStorage.getItem("Ebe_User_Id");
 
   const getAllFarmProject = async () => {
     try {
@@ -114,6 +115,20 @@ const FarmContextProvider = (props) => {
       console.log(error);
     }
   };
+  const getAllUserInvestment = async (id) => {
+    try {
+      const response = await apiClient.get(`/api/V1/user-investment/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+        },
+      });
+      console.log(response);
+      // return response.data;
+      // setAllProducts(response.data.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     getAllFarmProject();
@@ -124,6 +139,7 @@ const FarmContextProvider = (props) => {
     getAllPayments();
     getAllProducts();
     getMyInvestments("686fd229f8675b911da11a13");
+    getAllUserInvestment("687be6a216d71c2e07ed9aeb");
   }, []);
 
   const value = {
@@ -135,6 +151,7 @@ const FarmContextProvider = (props) => {
     allPayments,
     allProducts,
     getMyInvestments,
+    getAllUserInvestment,
     verifyInvestmentPayment,
   };
   return (

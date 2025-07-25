@@ -17,7 +17,7 @@ const PlaceOrder = () => {
   const [method, setMethod] = useState("COD");
   const userId = localStorage.getItem("USER_ID");
   const [loading, setLoading] = useState(false);
-  const cartId = "68814e8cc8a64a2d93c25932";
+  const cart = "6882e7b23e15aa27d7916fe1";
   const navigate = useNavigate();
 
   // console.log(cartItems);
@@ -27,78 +27,10 @@ const PlaceOrder = () => {
 
     setFormData((data) => ({ ...data, [name]: value }));
   };
-
-  // const onSubmitHandler = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     let orderItems = [];
-
-  //     for (const items in cartItems) {
-  //       for (const item in cartItems[items]) {
-  //         if (cartItems[items][item] > 0) {
-  //           const itemInfo = structuredClone(
-  //             allAds.find((product) => product.id === items)
-  //           );
-  //           if (itemInfo) {
-  //             itemInfo.size = item;
-  //             itemInfo.quantity = cartItems[items][item];
-  //             orderItems.push(itemInfo);
-  //           }
-  //         }
-  //       }
-  //     }
-  //     console.log(orderItems);
-  //     let orderData = {
-  //       address: formData,
-  //       items: cartItems,
-  //       amount: getCartAmount() + delivery_fee,
-  //       userId,
-  //     };
-
-  //     switch (method) {
-  //       //API CA;;S FOR COD
-  //       case "COD":
-  //         const response = await apiClient.post("/place", orderData, {
-  //           headers: { token },
-  //         });
-  //         console.log(response.data);
-  //         if (response.data.success) {
-  //           setCartItems({});
-  //           navigate("/orders");
-  //           toast.success("Order Placed Succesfully");
-  //         } else {
-  //           toast.error(response.data.message);
-  //         }
-  //         break;
-
-  //       case "Stripe":
-  //         const responseStripe = await apiClient.post("/stripe", orderData, {
-  //           headers: { token },
-  //         });
-  //         if (responseStripe.data.success) {
-  //           const { session_url } = responseStripe.data;
-  //           window.location.replace(session_url);
-  //         } else {
-  //           toast.error(responseStripe.data.message);
-  //         }
-  //       default:
-  //         break;
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error(error.message);
-  //   }
-  // };
-
-  // const confirmPlaceOrder = () => {
-  //   if
-  // }
   const paymentMethod = "mobile_money";
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
-    street: "",
     address: "",
     city: "",
     state: "",
@@ -106,7 +38,6 @@ const PlaceOrder = () => {
     country: "",
     phone: "",
     paymentMethod,
-    cartId,
   });
 
   // "cartId": "68813857f2bcc0afe2ee5300",
@@ -120,18 +51,18 @@ const PlaceOrder = () => {
   // "phone": "+233500000000",
   // "state": "Greater Accra",
   // "paymentMethod": "mobile_money"
-  const PlaceOrder = async (e) => {
+  const handlePlaceOrder = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     let orderData = {
-      formData,
-      cartId,
+      ...formData,
+      cart,
       paymentMethod,
-      // amount: getCartAmount() + delivery_fee,
     };
+
     try {
-      const response = await apiClient.post("/api/V1/order", formData, {
+      const response = await apiClient.post("/api/V1/order", orderData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
@@ -142,7 +73,7 @@ const PlaceOrder = () => {
       navigate("/user-profile");
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Failed to place order");
     } finally {
       setLoading(false);
     }
@@ -151,7 +82,7 @@ const PlaceOrder = () => {
     <>
       <Navbar />
 
-      <form onSubmit={PlaceOrder}>
+      <form onSubmit={handlePlaceOrder}>
         <div>
           <div className="bg-[#F5FBF2]  px-4 py-8">
             <div className="max-w-6xl mx-auto">
@@ -199,14 +130,14 @@ const PlaceOrder = () => {
               name="address"
               value={formData.address}
             />
-            <input
+            {/* <input
               type="text"
               className="outline-none border border-gray-300 rounded py-1.5 px-3.5 w-full"
               placeholder="Street"
               onChange={onChangeHandler}
               name="street"
               value={formData.street}
-            />
+            /> */}
             <div className="flex gap-3">
               <input
                 type="text"

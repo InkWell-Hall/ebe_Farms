@@ -3,7 +3,7 @@ import { Eye, EyeOff, Mail, Lock, Leaf } from "lucide-react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import mea from "../assets/images/meadow.mp4";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { apiClient } from "../api/client";
 import { toast } from "react-toastify";
 // import { apiClient } from "../../Admin/src/api/client";
@@ -14,6 +14,10 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  // const navigate = useNavigate();
+
+  const from = location.state?.from?.pathname || "/";
 
   const loginUser = async (e) => {
     e.preventDefault();
@@ -30,7 +34,7 @@ const Login = () => {
       localStorage.setItem("Ebe_User_Id", response.data.user.id);
       localStorage.setItem("Ebe_User_name", response.data.user.userName);
       toast.success("Login Successfull");
-      navigate("/");
+      navigate(-1);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);

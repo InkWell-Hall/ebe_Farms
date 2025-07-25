@@ -29,10 +29,10 @@ const SignUp = () => {
       });
       console.log(response);
       toast.success("Account Created Successfully");
+      navigate("/otp");
       localStorage.setItem("TOKEN", response.data.token);
       localStorage.setItem("Ebe_User_Id", response.data.user.id);
-      toast.success("Account Created Successfully");
-      navigate("/otp");
+      // toast.success("Account Created Successfully");
       toast.success("Enter Otp to Verify Accont");
     } catch (error) {}
   };

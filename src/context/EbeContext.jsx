@@ -12,9 +12,12 @@ const EbeContextProvider = (props) => {
   const [selectedInvestment, setSelectedInvestment] = useState([]);
   //  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
   const [allProfiles, setAllProfiles] = useState([]);
+  const [allUserInvestment, setAllUserInvestment] = useState("");
   const [allPayments, setAllPayments] = useState([]);
   const [amountInvested, setAmountedInvested] = useState("");
   const userId = localStorage.getItem("Ebe_User_Id");
+  const [userDetail, setUserDetail] = useState([]);
+  const [cart, setCart] = useState([]);
   const currency = "₵";
   const delivery_fee = 20;
 
@@ -258,8 +261,8 @@ const EbeContextProvider = (props) => {
           Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
         },
       });
-      console.log(response);
-      setAllProducts(response.data.products);
+      console.log("hshsh:", response);
+      setUserDetail(response.data.user);
     } catch (error) {}
   };
 
@@ -270,8 +273,8 @@ const EbeContextProvider = (props) => {
           Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
         },
       });
-      console.log(response);
-      setAllProducts(response.data.products);
+      console.log("cart:", response);
+      setCart(response.data.cart);
     } catch (error) {}
   };
 
@@ -307,6 +310,74 @@ const EbeContextProvider = (props) => {
 
     setCartItems(cartData);
   };
+  // const updateQuantity = async (cartItemId, quantity) => {
+  //   if (cart?.items) {
+  //     const updatedCart = { ...cart };
+  //     const itemIndex = updatedCart.items.findIndex(
+  //       (item) => item._id === cartItemId
+  //     );
+  //     if (itemIndex !== -1) {
+  //       updatedCart.items[itemIndex].quantity = quantity;
+  //       // Update cart in context
+  //       updateCart(updatedCart);
+
+  //       // Also sync with cartItems if needed
+  //       const item = updatedCart.items[itemIndex];
+  //       let cartData = structuredClone(cartItems);
+  //       if (!cartData[item.advert._id]) {
+  //         cartData[item.advert._id] = {};
+  //       }
+  //       cartData[item.advert._id][item.size] = quantity;
+  //       setCartItems(cartData);
+  //     }
+  //   }
+  // };
+
+  const getAllUserInvestment = async (id) => {
+    try {
+      const response = await apiClient.get(`/api/V1/user-investment/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+        },
+      });
+      console.log("userin:", response);
+      setAllUserInvestment(response.data.totalInvested);
+      // return response.data;
+      // setAllProducts(response.data.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getSingleUser = async (id) => {
+    try {
+      const response = await apiClient.get(`/api/V1/user/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+        },
+      });
+      console.log("userin:", response);
+      // setAllUserInvestment(response.data.totalInvested);
+      // return response.data;
+      // setAllProducts(response.data.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getUserCart = async (id) => {
+    try {
+      const response = await apiClient.get(`/api/V1/get/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+        },
+      });
+      console.log("userin:", response);
+      // setAllUserInvestment(response.data.totalInvested);
+      // return response.data;
+      // setAllProducts(response.data.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     getAllFarmProject();
@@ -317,14 +388,19 @@ const EbeContextProvider = (props) => {
     getAllPayments();
     getAllProducts();
     getMyOrder();
-    console.log(getCartAmount());
+    getSingleProfile(userId), console.log(getCartAmount());
     getSingleProfile("687be6a216d71c2e07ed9aeb");
     getAllOrders();
-    getSingleInvestment("687be6a216d71c2e07ed9aeb");
-    getSingleInvestor("68811a4e99d2292e4bce9134");
-    // getSingleCart("687be6a216d71c2e07ed9aeb");
+    // getSingleInvestment("687be6a216d71c2e07ed9aeb");
+    // getSingleInvestor("68811a4e99d2292e4bce9134");
+    getAllUserInvestment(userId);
+    getUserCart(userId);
+    getSingleCart("6882e7b23e15aa27d7916fe1");
     // addToCart()
   }, []);
+  useEffect(() => {
+    getUserCart(userId);
+  }, [allProducts]);
 
   const value = {
     getAllFarmProject,
@@ -334,17 +410,23 @@ const EbeContextProvider = (props) => {
     allProfiles,
     allPayments,
     allProducts,
+    cart,
     cartItems,
     delivery_fee,
     currency,
+    allUserInvestment,
+    userDetail,
     amountInvested,
     selectedInvestment,
+    updateQuantity,
+    getAllUserInvestment,
     setAmountedInvested,
     getCartCount,
     getMyInvestments,
     getAllProducts,
     getCartAmount,
     setCartItems,
+    getSingleProfile,
     addToCart,
     verifyInvestmentPayment,
     getSingleInvestment,

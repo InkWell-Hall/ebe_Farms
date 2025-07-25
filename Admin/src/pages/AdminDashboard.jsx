@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Tractor,
   Users,
@@ -12,10 +12,28 @@ import BarChart from "../components/BarChart";
 import Sidebar from "../components/SideBar";
 import { FarmContext } from "../context/FarmContext";
 import Navbar from "../components/Navbar";
+import { apiClient } from "../api/client";
 
 const AdminDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true); // Sidebar is open by default
-  const { allFarmProjects } = useContext(FarmContext);
+  const { allFarmProjects, getAllUserInvestment } = useContext(FarmContext);
+  const data = localStorage.getItem("Ebe_User_Id");
+  const [userID, setUserID] = useState("");
+
+  // const getAllUserInvestment = async (id) => {
+
+  //   try {
+  //     const response = await apiClient.post(`/api/V1/user-investment/${id}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+  //       },
+  //     });
+  //     console.log(response);
+
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const stats = [
     {
@@ -40,6 +58,9 @@ const AdminDashboard = () => {
     },
   ];
 
+  useEffect(() => {
+    getAllUserInvestment(data);
+  }, []);
   return (
     <div className="h-screen flex overflow-hidden">
       {/* Sidebar wrapper with transition */}
@@ -127,6 +148,19 @@ const AdminDashboard = () => {
               </div>
             </div>
           </div>
+          {/* 
+          <div>
+            <form onSubmit={getAllUserInvestment}>
+              <input
+                type="text"
+                name="userID"
+                value={userID}
+                onChange={(e) => setUserID(e.target.value)}
+                className="border bg-gray-200"
+              />
+              <button type="submit">submit</button>
+            </form>
+          </div> */}
 
           {/* Recent Activities */}
           <div className="bg-white shadow rounded-xl p-6">

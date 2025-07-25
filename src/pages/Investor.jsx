@@ -40,7 +40,7 @@ export default function Investor() {
       });
       toast.success("Congratulations You are an Investor Now");
       console.log(response);
-      navigate("/");
+      navigate(-1);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
