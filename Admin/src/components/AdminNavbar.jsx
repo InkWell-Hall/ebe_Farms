@@ -9,7 +9,7 @@ import { Link, NavLink, useNavigate } from "react-router";
 import {
   ChevronDown,
   DollarSign,
-  Home,
+  Home, 
   Phone,
   ShoppingBag,
   ShoppingCart,
